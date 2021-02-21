@@ -1,0 +1,49 @@
+body {
+    background-color: #264653;
+    font-family: Calibri, sans-serif;
+  }
+
+.title-background {
+    background-color: #f4a261;
+    width: 20%;
+    padding: 1em; 
+    
+    text-align: center;
+    margin-top: 1em;
+    /* margin-left: 5em; */
+    
+  }
+
+h1 {
+    text-transform: uppercase; 
+    color: white;
+ }
+
+.search-bar {
+    
+    padding: 1em; 
+    width: 20%;
+    /* margin-left: 5em; */
+    margin-top: 1em;
+}
+
+.plot-summary {
+    width: 20%;
+    margin-top: 1em;
+    /* margin-left: 5em; */
+    text-align: left;
+    color: white;
+
+}
+
+.movie-stats {
+  margin-top: 1em;
+  /* margin-left: 5em; */
+  text-align: left;
+  color: white;
+}
+
+main {
+  width:95%;
+  margin: auto;
+}
