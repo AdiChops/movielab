@@ -1,0 +1,21 @@
+html
+    head
+        <meta charset="UTF-8">
+        meta(http-equiv="X-UA-Compatible",content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="./styles/styles.css")
+        link(rel="stylesheet", href="./styles/index.css")
+        title Profile
+    body
+        div(id="user_div")
+            div(id="user_img")
+                img(src="./images/user.png" alt="Image for User" width="90" height="90")
+            div(id="user_info")
+                h2 #{currentUser["username"]}
+                p Member since #{currentUser["dateAccountCreated"].substr(0, 4)}
+                p #{(currentUser["contributingUser"]=="true")?"Contributing User":"Non-contributing User"}
+                p Wrote #{(reviews==null)?"no": reviews.length} reviews
+                button Followed by #{currentUser["usersFollowedBy"].length} User#{(currentUser["usersFollowedBy"].length > 1 || currentUser["usersFollowing"].length == 0)?"s":""}
+                button Following #{currentUser["usersFollowing"].length} User#{(currentUser["usersFollowing"].length > 1 || currentUser["usersFollowing"].length == 0)?"s":""}
+                button Following #{currentUser["peopleFollowing"].length} #{(currentUser["usersFollowing"].length > 1 || currentUser["usersFollowing"].length == 0)?"People":"Person"}
+        script(src="./scripts/index.js")
