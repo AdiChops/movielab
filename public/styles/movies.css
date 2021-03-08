@@ -1,10 +1,11 @@
 .title-background {
     background-color: #f4a261;
-    width: 40%;
+    width: 100%;
     padding: 1em; 
     
     text-align: center;
     margin-top: 1em;
+    border-radius: 25px;
     /* margin-left: 5em; */
     
   }
@@ -15,7 +16,6 @@ h1 {
  }
 
 .search-bar {
-    
     padding: 1em; 
     width: 40%;
     /* margin-left: 5em; */
@@ -23,7 +23,7 @@ h1 {
 }
 
 .plot-summary {
-    width: 40%;
+    width: 100%;
     margin-top: 1em;
     /* margin-left: 5em; */
     text-align: left;
@@ -43,19 +43,74 @@ h1 {
   content: ""; 
   clear: both; 
   display: table;
+  
+  /* display: flex;
+  justify-content: space-evenly; */
 }
 
 .reviews-background {
   background-color: #e76f51;
-  width: 18%;
-  /* padding: 1em; */
+  width: 100%;
+  padding: 1em; 
   float: left;
   text-align: center;
-
+  border-radius: 25px;
   /* margin-top: 1em; */
   /* margin: 0.5em; */
-  padding: 1em;
+  
     /* margin-left: 5em; */
+}
+
+.reviews{
+  padding: 1em;
+  margin-top: 5em;
+  width:100%;
+  overflow-y: scroll; 
+  height:400px;
+  background-color: white;
+}
+
+.column {
+  float: left; 
+  width: 41%; 
+  margin-right: 4em;
+  
+  /* padding: 1em; */
+  /* margin: 1em; */
+  
+}
+
+.main-column{
+  float: left; 
+  width: 40%; 
+  margin-right: 4em;
+}
+.white-header{
+  background-color: white;
+  margin: 1em;
+  padding: 1em;
+  text-align: center;
+  border-radius: 25px;
+}
+
+.people-header{
+  background-color: #f4a261;
+  margin: 1em;
+  padding: 1em;
+  text-align: center;
+  border-radius: 25px;
+  width: 50%;
+  float: center;
+  
+}
+
+#addToWatched{
+  background-color: #2a9d8f;
+  color: white;
+  padding: 1em;
+  margin: 1em;
+  width: 50%;
+  border-radius: 25px;
 }
 
 main {
