@@ -1,0 +1,11 @@
+#user_div{
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 0.5em;
+    background-color:white;
+}
+@media all and (min-width: 768px){
+    #user_div{
+        width:35%;
+    }
+}

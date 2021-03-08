@@ -1,0 +1,22 @@
+{
+  "name": "achopra_eli_2406finalproject",
+  "version": "1.0.0",
+  "description": "Packages required for movie database 2406 project.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdiChops/achopra_eli_2406FinalProject.git"
+  },
+  "author": "Aaditya Chopra and Erica Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdiChops/achopra_eli_2406FinalProject/issues"
+  },
+  "homepage": "https://github.com/AdiChops/achopra_eli_2406FinalProject#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
