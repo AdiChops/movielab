@@ -18,7 +18,7 @@
                     <h1>MOVIE NAME</h1>
                 </div>
                 <div class="movie-stats">
-                    <h3> YEAR | rating &#47; 10 | DURATION </h3>
+                    <h3> YEAR | RATING | DURATION </h3>
                 </div>
                 
                 <div class="plot-summary">
@@ -48,32 +48,37 @@
             </div>
             
             <div class = "main-column">
-                <button type="button" id="addToWatched">   
+                <button type="button">   
                     Watch +
                 </button>
                 <div class= "people-header">
                     DIRECTOR
                 </div>
-                <div class= "white-header">
+                <div class= "white-textbox">
                     DIRECTOR NAME
                 </div>
                 <div class= "people-header">
                     WRITER
                 </div>
-                <div class= "white-header">
+                <div class= "white-textbox">
                     WRITER NAME(S)
                 </div>
                 <div class= "people-header">
                     ACTORS
                 </div>
-                <div class= "white-header">
+                <div class= "white-textbox">
                     ACTOR NAMES
                 </div>                   
                 
             </div>
-        </div>
-        
-        
+
+            <div class = "main-column">
+                <label for="rating">Rating (/10):</label>
+                <input type="number" step = "0.1" min="0" max="10" id="rating" placeholder="/10"><br/>
+                <label for="review">Review: </label>
+                <input type="text" id="review" placeholder="Write your review...">
+                <button type="button" id="submitButton">SUBMIT</button>
+            </div>
         
     </main>
 
