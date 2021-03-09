@@ -1,11 +1,38 @@
+main{
+    width:90%;
+    margin:auto;
+}
 #user_div{
     display: grid;
     grid-template-columns: auto auto;
     padding: 0.5em;
     background-color:white;
 }
-@media all and (min-width: 768px){
+#manage_account{
+    float:right;
+}
+h2{
+    display:inline
+}
+#tab-info{
+    margin-top: 3em;
+}
+#user-tabs{
+    background-color: white;
+    padding:1em;
+}
+.nav-item{
+    border:1px solid black;
+    outline:none;
+}
+@media all and (min-width: 1200px){
     #user_div{
-        width:35%;
+        width:50%;
+    }
+}
+@media all and (hover:hover){
+    #manage_account:hover{
+        opacity: 0.75;
+        cursor: pointer;
     }
 }

@@ -3,19 +3,43 @@ html
         <meta charset="UTF-8">
         meta(http-equiv="X-UA-Compatible",content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
         link(rel="stylesheet", href="./styles/styles.css")
         link(rel="stylesheet", href="./styles/index.css")
         title #{currentUser["username"]} · Profile
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js", integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0", crossorigin="anonymous")
+        script(src="https://kit.fontawesome.com/6827f74f93.js", crossorigin="anonymous")
     body
-        div(id="user_div")
-            div(id="user_img")
-                img(src="./images/user.png" alt="Image for User" width="90" height="90")
-            div(id="user_info")
-                h2 #{currentUser["username"]}
-                p Member since #{currentUser["dateAccountCreated"].substr(0, 4)}
-                p #{(currentUser["contributingUser"]=="true")?"Contributing User":"Non-contributing User"}
-                p Wrote #{(currentUser["reviews"]==null)?"no": currentUser["reviews"].length} reviews
-                button Followed by #{currentUser["usersFollowedBy"].length} User#{(currentUser["usersFollowedBy"].length > 1 || currentUser["usersFollowing"].length == 0)?"s":""}
-                button Following #{currentUser["usersFollowing"].length} User#{(currentUser["usersFollowing"].length > 1 || currentUser["usersFollowing"].length == 0)?"s":""}
-                button Following #{currentUser["peopleFollowing"].length} #{(currentUser["usersFollowing"].length > 1 || currentUser["usersFollowing"].length == 0)?"People":"Person"}
+        main
+            div(id="user_div")
+                div(id="user_img")
+                    img(src="./images/user.png", alt="Image for User", width="90", height="90")
+                div(id="user_info")
+                    div
+                        h2 #{currentUser["username"]}
+                        div(id="manage_account")
+                            i(class="fas fa-cog")
+                            span Manage Account
+                    p Member since #{currentUser["dateAccountCreated"].substr(0, 4)}
+                    p #{(currentUser["contributingUser"]=="true")?"Contributing User":"Non-contributing User"}
+                    p Wrote #{(currentUser["reviews"]==null)?"no": currentUser["reviews"].length} reviews
+                    button(class="btn btn-outline-primary") Followed by #{currentUser["usersFollowedBy"].length} User#{(currentUser["usersFollowedBy"].length > 1 || currentUser["usersFollowing"].length == 0)?"s":""}
+                    button(class="btn btn-outline-info") Following #{currentUser["usersFollowing"].length} User#{(currentUser["usersFollowing"].length > 1 || currentUser["usersFollowing"].length == 0)?"s":""}
+                    button(class="btn btn-outline-secondary") Following #{currentUser["peopleFollowing"].length} #{(currentUser["usersFollowing"].length > 1 || currentUser["usersFollowing"].length == 0)?"People":"Person"}
+            div(id="tab-info")
+                ul(class="nav nav-tabs",id="myTab", role="tablist")
+                    li(class="nav-item", role="presentation")
+                        button(class="nav-link active", id="feed-tab", data-bs-toggle="tab", data-bs-target="#feed", type="button", role="tab", aria-controls="feed", aria-selected="true") Feed
+                    li(class="nav-item" role="presentation")
+                        button(class="nav-link", id="watchlist-tab", data-bs-toggle="tab", data-bs-target="#watchlist", type="button", role="tab", aria-controls="watchlist", aria-selected="false") Your Watchlist
+                    li(class="nav-item" role="presentation")
+                        button(class="nav-link", id="recommended-tab", data-bs-toggle="tab", data-bs-target="#recommended", type="button", role="tab", aria-controls="recommended", aria-selected="false") Recommended Movies
+                    li(class="nav-item" role="presentation")
+                        button(class="nav-link", id="reviews-tab", data-bs-toggle="tab", data-bs-target="#reviews", type="button", role="tab", aria-controls="reviews", aria-selected="false") Your Reviews
+                    
+                div(class="tab-content", id="user-tabs")
+                    div(class="tab-pane fade show active", id="feed", role="tabpanel", aria-labelledby="feed-tab") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    div(class="tab-pane fade", id="watchlist", role="tabpanel", aria-labelledby="watchlist-tab") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ipsum a arcu cursus vitae congue. Vitae et leo duis ut diam quam nulla porttitor massa. Aliquet risus feugiat in ante metus dictum. Fames ac turpis egestas sed tempus urna et pharetra. Adipiscing commodo elit at imperdiet. Morbi non arcu risus quis. Amet risus nullam eget felis eget nunc. Quam adipiscing vitae proin sagittis nisl rhoncus mattis. A iaculis at erat pellentesque adipiscing. Nunc vel risus commodo viverra maecenas accumsan lacus. Orci ac auctor augue mauris augue neque. Consectetur purus ut faucibus pulvinar elementum. Venenatis urna cursus eget nunc. Neque sodales ut etiam sit. Egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam. Ornare arcu odio ut sem. Laoreet id donec ultrices tincidunt arcu non sodales. Cras pulvinar mattis nunc sed blandit libero volutpat sed cras. Id donec ultrices tincidunt arcu non sodales neque sodales ut. Sollicitudin aliquam ultrices sagittis orci a scelerisque. Viverra justo nec ultrices dui. Velit scelerisque in dictum non consectetur a.
+                    div(class="tab-pane fade", id="recommended", role="tabpanel", aria-labelledby="recommended-tab") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In massa tempor nec feugiat nisl. Vitae purus faucibus ornare suspendisse sed nisi lacus sed. Augue ut lectus arcu bibendum at varius vel pharetra vel. Placerat orci nulla pellentesque dignissim enim. Arcu felis bibendum ut tristique et. Proin libero nunc consequat interdum varius sit. Justo eget magna fermentum iaculis eu non diam phasellus. Integer vitae justo eget magna fermentum. Non nisi est sit amet facilisis. Cras ornare arcu dui vivamus arcu felis. Tellus integer feugiat scelerisque varius morbi enim nunc faucibus. Nec nam aliquam sem et tortor consequat id porta. Lectus vestibulum mattis ullamcorper velit sed. Pretium fusce id velit ut tortor pretium viverra suspendisse potenti. Enim sit amet venenatis urna cursus eget nunc. Lacus sed viverra tellus in hac habitasse platea. Posuere urna nec tincidunt praesent semper feugiat. Amet consectetur adipiscing elit pellentesque. Nisi porta lorem mollis aliquam ut porttitor leo a. Est sit amet facilisis magna. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Turpis massa tincidunt dui ut ornare lectus sit amet est. Lacinia at quis risus sed. A diam maecenas sed enim ut sem viverra aliquet. Arcu cursus vitae congue mauris rhoncus aenean vel elit. In egestas erat imperdiet sed euismod.
+                    div(class="tab-pane fade", id="reviews", role="tabpanel", aria-labelledby="reviews-tab") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae et leo duis ut diam quam. In fermentum et sollicitudin ac orci phasellus. Neque egestas congue quisque egestas diam in arcu. Eget mi proin sed libero enim sed faucibus turpis in. Eu lobortis elementum nibh tellus molestie nunc. Enim nunc faucibus a pellentesque sit amet. Sollicitudin tempor id eu nisl. Aliquet risus feugiat in ante. In fermentum posuere urna nec tincidunt praesent. Egestas integer eget aliquet nibh. Aenean sed adipiscing diam donec adipiscing tristique risus nec. Aliquet enim tortor at auctor. Risus quis varius quam quisque id diam vel quam elementum. Risus pretium quam vulputate dignissim suspendisse. Pellentesque pulvinar pellentesque habitant morbi tristique. Varius morbi enim nunc faucibus a. Ac placerat vestibulum lectus mauris ultrices. At varius vel pharetra vel turpis nunc eget lorem dolor. Luctus venenatis lectus magna fringilla. Purus sit amet volutpat consequat. Donec massa sapien faucibus et molestie ac feugiat sed. Sit amet commodo nulla facilisi nullam vehicula ipsum a. Nibh venenatis cras sed felis eget velit aliquet sagittis id. Tristique magna sit amet purus gravida. Pretium aenean pharetra magna ac placerat.
         script(src="./scripts/index.js")
