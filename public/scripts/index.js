@@ -11,8 +11,10 @@ let loadFeed = ()=>{
                 }
                 // code snippet inspired from W3Schools: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_timeline
                 document.getElementById('timelineDiv').innerHTML += `<div class="subtime ${c}">
-                    <h3>${feedPosts[i].date}</h3>
-                    <p>${feedPosts[i].message}</p>
+                    <div class="content">
+                        <h3>${feedPosts[i].date}</h3>
+                        <p>${feedPosts[i].message}</p>
+                    </div>
                 </div>`;
                 // end of code snippet
             }
