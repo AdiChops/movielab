@@ -1,16 +1,23 @@
 const express = require('express');
 const pug = require('pug');
 const currentUser = require('./data/loggedInUser.json')
-const movies = require('./data/movies.json')
+const movieData = require('./data/movies.json')
 const users = require('./data/users.json')
 const persons = require('./data/persons.json')
 const app = express();
 const port = 3000;
 
+let movies = {};
+movieData.forEach(movie => {
+	movies[movie["id"]] = movie.movie;
+});
+
+
 let getMessage = (post) =>{
-    let messages = {"review": `${users[post["subjectId"]]["username"]} reviewed ${movies[post["subjectMovieId"]]["title"]}`, "starring":`${movies[post["subjectMovieId"]]["title"]} was added, and it stars ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`, "directing":`${movies[post["subjectMovieId"]]["title"]} was added, directed by ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`};
+    let messages = {"review": `${users[post["subjectId"]]["username"]} reviewed ${movies[post["subjectMovieId"]]["Title"]}`, "starring":`${movies[post["subjectMovieId"]]["Title"]} was added, and it stars ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`, "directing":`${movies[post["subjectMovieId"]]["Title"]} was added, directed by ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`};
     return messages[post["postType"]];
 };
+
 
 app.use(express.static('public'));
 
@@ -33,6 +40,20 @@ app.get(['/index/feed'], (req,res)=>{
         return v1.date < v2.date;
     }));
     res.send(feed);
+});
+
+app.get(['/movies/'], (req,res)=>{
+    let id;
+    let movie;
+    while(movie==undefined){
+        
+        id = Math.floor(Math.random() * 10).toString();
+        movie = movies[id];
+        console.log(movie);
+    }
+    // randomMovie = movies[id];
+    res.send(pug.renderFile('./templates/movieTemplate.pug', {movie}));
+
 });
 
 app.use(function (req, res, next) {
