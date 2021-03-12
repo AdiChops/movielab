@@ -4,9 +4,8 @@
     padding: 1em; 
     
     text-align: center;
-    margin-top: 1em;
+    margin: 1em;
     border-radius: 25px;
-    /* margin-left: 5em; */
     
   }
 
@@ -18,14 +17,12 @@ h1 {
 .search-bar {
     padding: 1em; 
     width: 33.33%;
-    /* margin-left: 5em; */
-    margin-top: 1em;
+    margin: 1em;
 }
 
 .plot-summary {
     width: 100%;
-    margin-top: 1em;
-    /* margin-left: 5em; */
+    margin: 1em;
     text-align: left;
     color: white;
 
@@ -33,7 +30,6 @@ h1 {
 
 .movie-stats {
   margin-top: 1em;
-  /* margin-left: 5em; */
   text-align: center;
   width: 100%;
   color: white;
@@ -43,9 +39,6 @@ h1 {
   content: ""; 
   clear: both; 
   display: table;
-  
-  /* display: flex;
-  justify-content: space-evenly; */
 }
 
 .reviews-background {
@@ -56,13 +49,10 @@ h1 {
   text-align: center;
   border-radius: 25px;
   color: white;
-  /* margin-top: 1em; */
   margin-bottom: 1em; 
-  
-    /* margin-left: 5em; */
 }
 
-.reviews{
+.scrollable-div{
   padding: 1em; 
   margin-right: 5em;
   width:100%;
@@ -74,9 +64,7 @@ h1 {
 .column {
   float: left; 
   width: 40%; 
-  /* margin-right: 3em; */
   margin: auto;
-  /* padding: auto; */
   padding: 1em; 
   margin: 1em; 
   
@@ -100,7 +88,6 @@ h1 {
 
 .people-header{
   background-color: #e76f51;
-  /* margin: 1em; */
   margin: auto; 
   margin-top: 1em;
   padding: 1em;
@@ -127,7 +114,6 @@ main {
 
 input {
   width: 100%;
-  
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;

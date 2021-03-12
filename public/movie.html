@@ -22,7 +22,7 @@
                 </div>
                 
                 <div class="plot-summary">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> 
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
                 </div>
                 
                 <div class="row">
@@ -31,7 +31,7 @@
                             REVIEWS
                         
                         </div>
-                        <div class="reviews">
+                        <div class="scrollable-div">
                             This movie is poggers...
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                             SIMILAR MOVIES
                         
                         </div>
-                        <div class="reviews">
+                        <div class="scrollable-div">
                             Lord of the Rings
                         </div>
                     </div>
@@ -74,10 +74,12 @@
 
             <div class = "main-column">
                 <label for="rating">Rating (/10):</label>
-                <input type="number" step = "0.1" min="0" max="10" id="rating" placeholder="/10"><br/>
+                <input type="number" step = "0.1" min="0" max="10" id="rating" placeholder="/10">
+                <br/>
                 <label for="reviewSummary">Review Summary: </label>
                 <input type="text" id="reviewSummary" placeholder="Write your review summary...">
                 <button type="button" id="submitBasicReview">SUBMIT BASIC REVIEW</button>
+                <br/>
                 <label for="fullReview">Full Review Text:</label>
                 <input type="text" id="fullReview" placeholder="Write your full review...">
                 <button type="button" id="submitFullReview">SUBMIT FULL REVIEW</button>

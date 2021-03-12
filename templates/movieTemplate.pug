@@ -24,25 +24,25 @@ body
           .column
             .reviews-background
               | REVIEWS
-            .reviews
+            .scrollable-div
               each review in movie.Reviews
                 li=review
           .column
             .reviews-background
               | SIMILAR MOVIES
-            .reviews
+            .scrollable-div
               each similarMovie in movie.SimilarMovies
                   li=similarMovie
       .main-column
         button(type='button')
           | Watch +
         .people-header
-          | DIRECTOR
+          | DIRECTORS
         .white-textbox
           each director in movie.Director
               li=director
         .people-header
-          | WRITER
+          | WRITERS
         .white-textbox
           each writer in movie.Writer
               li=writer
