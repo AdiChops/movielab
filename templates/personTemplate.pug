@@ -1,0 +1,44 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  title Person Page
+  style
+    include ../public/styles/styles.css
+    include ../public/styles/person.css
+  
+main
+  input.search-bar(type='text' placeholder='Search...')
+  .row
+    .left-div
+      .row
+        .name-background
+          h1
+            | PERSON NAME
+        button(type='button')
+          | FOLLOW +
+      .row
+        .column
+          .orange-background
+            | DIRECTED
+          .scrollable-div
+        .column
+          .orange-background
+            | WRITTEN
+          .scrollable-div
+        .column
+          .orange-background
+            | ACTED IN
+          .scrollable-div
+    .right-div
+      .orange-background
+        | TOP 5 COLLABORATORS
+      .white-background
+        | PERSON 1
+      .white-background
+        | PERSON 2
+      .white-background
+        | PERSON 3
+      .white-background
+        | PERSON 4
+      .white-background
+        | PERSON 5
