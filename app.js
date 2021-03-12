@@ -6,8 +6,8 @@ const users = require('./data/users.json')
 const persons = require('./data/persons.json')
 const app = express();
 const port = 3000;
-
 let movies = {};
+
 movieData.forEach(movie => {
 	movies[movie["id"]] = movie.movie;
 });
@@ -42,17 +42,23 @@ app.get(['/index/feed'], (req,res)=>{
     res.send(feed);
 });
 
-app.get(['/movies/'], (req,res)=>{
-    let id;
+app.get(['/movies/'], (req, res) => {
+    res.send(pug.renderFile('./templates/moviesTemplate.pug', {movieData}));
+});
+
+app.get(['/movies/:movieId'], (req,res, next)=>{
+    let id = req.params["movieId"];
     let movie;
-    while(movie==undefined){
-        
-        id = Math.floor(Math.random() * 10).toString();
-        movie = movies[id];
-        console.log(movie);
+    
+    console.log(id);
+    movie = movies[id];
+    console.log(movie);
+    if(movie != undefined){
+        res.send(pug.renderFile('./templates/movieTemplate.pug', {movie}));
     }
-    // randomMovie = movies[id];
-    res.send(pug.renderFile('./templates/movieTemplate.pug', {movie}));
+   else{
+       next();
+   }
 
 });
 

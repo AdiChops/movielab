@@ -1,0 +1,18 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  title Movies Page
+  style
+    include ../public/styles/styles.css
+    include ../public/styles/movies.css
+
+body
+    main
+        input.search-bar(type='text' placeholder='Search...')
+        .column
+            .title-background
+                h1 MOVIES
+            each movieObj in movieData
+                .white-background
+                    a(href="/movies/" + movieObj.id) #{movieObj.movie.Title}
+    

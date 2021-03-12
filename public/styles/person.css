@@ -5,7 +5,7 @@
     float: left;
     text-align: center;
     margin: 1em;
-    border-radius: 25px;
+    border-radius: 15px;
     
   }
 
@@ -44,7 +44,7 @@ button{
     padding: 1em;
     margin: 1em;
     width: 20%;
-    border-radius: 25px;
+    border-radius: 15px;
     float: left;
   }
 
@@ -54,7 +54,7 @@ button{
     padding: 1em; 
     float: left;
     text-align: center;
-    border-radius: 25px;
+    border-radius: 15px;
     color: white;
     margin-bottom: 1em;
     
@@ -100,7 +100,7 @@ label {
     padding: 1em; 
     float: left;
     text-align: center;
-    border-radius: 25px;
+    border-radius: 15px;
     color: black;
     margin-bottom: 1em; 
     margin-top: 1em;

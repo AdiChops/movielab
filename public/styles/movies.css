@@ -1,0 +1,47 @@
+.search-bar {
+    padding: 1em; 
+    width: 33.33%;
+    margin: 1em;
+}
+
+.title-background {
+    background-color: #f4a261;
+    margin: auto; 
+    margin-top: 1em;
+    padding: 1em;
+    text-align: center;
+    width: 50%;
+    border-radius: 15px;
+  }
+
+.white-background{
+    background-color: white;
+    margin: auto; 
+    margin-top: 1em;
+    padding: 1em;
+    text-align: center;
+    width: 50%;
+    color: black;    
+  }
+
+.row::after {
+    content: ""; 
+    clear: both; 
+    display: table;
+    text-align: center;
+    align-content: center;
+
+  }
+
+.column {
+    float: left; 
+    width: 100%; 
+    margin: auto;
+    padding: 1em; 
+    
+    
+  }
+
+main{
+    text-align: center;
+}

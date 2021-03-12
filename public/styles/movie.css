@@ -5,7 +5,7 @@
     
     text-align: center;
     margin: 1em;
-    border-radius: 25px;
+    border-radius: 15px;
     
   }
 
@@ -47,7 +47,7 @@ h1 {
   padding: 1em; 
   float: left;
   text-align: center;
-  border-radius: 25px;
+  border-radius: 15px;
   color: white;
   margin-bottom: 1em; 
 }
@@ -92,7 +92,7 @@ h1 {
   margin-top: 1em;
   padding: 1em;
   text-align: center;
-  border-radius: 25px;
+  border-radius: 15px;
   width: 50%;
   float: center;
   color: white;
@@ -104,7 +104,7 @@ button{
   padding: 1em;
   margin: 1em;
   width: 50%;
-  border-radius: 25px;
+  border-radius: 15px;
 }
 
 main {
