@@ -5,7 +5,7 @@
         "usersFollowedBy":[2, 3, 4, 5],
         "usersFollowing":[2, 3, 4],
         "peopleFollowing":[0, 3,4],
-        "dateAccountCreated":"2018-04-06",
+        "dateAccountCreated":"2018-04-06T09:27:13.14Z",
         "contributingUser": "true",
         "reviews": [0, 1, 2],
         "feedPosts": [0, 1, 2, 3, 4]
