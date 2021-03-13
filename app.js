@@ -9,7 +9,7 @@ const port = 3000;
 let movies = {};
 
 movieData.forEach(movie => {
-	movies[movie["id"]] = movie.movie;
+	movies[movie["id"]] = movie.info;
 });
 
 

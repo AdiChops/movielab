@@ -1,7 +1,7 @@
 [
     {
         "id": "0",
-        "movie": {
+        "info": {
             "Title": "The Ballad of Cable Hogue",
             "Year": "1970",
             "Rated": "R",
@@ -36,7 +36,7 @@
     },
     {
         "id": "1",
-        "movie": {
+        "info": {
             "Title": "An American Tail: Fievel Goes West",
             "Year": "1991",
             "Rated": "G",
@@ -73,7 +73,7 @@
     },
     {
         "id": "2",
-        "movie": {
+        "info": {
             "Title": "House of Games",
             "Year": "1987",
             "Rated": "R",
@@ -105,7 +105,7 @@
     },
     {
         "id": "3",
-        "movie": {
+        "info": {
             "Title": "The Out-of-Towners",
             "Year": "1999",
             "Rated": "PG-13",
@@ -136,7 +136,7 @@
     },
     {
         "id": "4",
-        "movie": {
+        "info": {
             "Title": "The Godfather: Part II",
             "Year": "1974",
             "Rated": "R",
@@ -168,7 +168,7 @@
     },
     {
         "id": "5",
-        "movie": {
+        "info": {
             "Title": "Woman on Top",
             "Year": "2000",
             "Rated": "R",
@@ -200,7 +200,7 @@
     },
     {
         "id": "6",
-        "movie": {
+        "info": {
             "Title": "Dead Poets Society",
             "Year": "1989",
             "Rated": "PG",
@@ -231,7 +231,7 @@
     },
     {
         "id": "7",
-        "movie": {
+        "info": {
             "Title": "Little Women",
             "Year": "1933",
             "Rated": "Not Rated",
@@ -265,7 +265,7 @@
     },
     {
         "id": "8",
-        "movie": {
+        "info": {
             "Title": "The Incredible Mr. Limpet",
             "Year": "1964",
             "Rated": "G",
@@ -306,7 +306,7 @@
     },
     {
         "id": "9",
-        "movie": {
+        "info": {
             "Title": "The Champ",
             "Year": "1979",
             "Rated": "PG",

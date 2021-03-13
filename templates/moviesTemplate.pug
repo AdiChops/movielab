@@ -12,5 +12,5 @@ body
         h1 MOVIES
         .column
             each movieObj in movieData
-                a(class="white-background", href="/movies/" + movieObj.id) #{movieObj.movie.Title} (#{movieObj.movie.Year})
+                a(class="white-background", href="/movies/" + movieObj.id) #{movieObj.info.Title} (#{movieObj.info.Year})
     
