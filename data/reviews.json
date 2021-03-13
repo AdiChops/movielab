@@ -1,0 +1,24 @@
+[
+    {
+        "id": 0,
+        "movieId":1,
+        "reviewerId": 1, 
+        "rating":7,
+        "review":"This movie was alright!",
+        "dateReviewed":"2020-10-01"
+    },
+    {
+        "id":1, 
+        "movieId":2,
+        "rating":8.5, 
+        "review":"Pretty good movie!", 
+        "dateReviewed":"2020-09-24"
+    },
+    {
+        "id":2,
+        "movieId":3, 
+        "rating":5, 
+        "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", 
+        "dateReviewed":"2020-08-06"
+    }
+]

@@ -1,61 +1,60 @@
-{"1":{
-    "userId":"1",
-    "username":"poggerUser20",
-    "usersFollowedBy":["2", "3", "4", "5"],
-    "usersFollowing":["2", "3", "4"],
-    "peopleFollowing":["1", "3","4"],
-    "dateAccountCreated":"2018-04-06",
-    "contributingUser": "true",
-    "reviews":[{"movieId":"1", "rating":"7", "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
-        {"movieId":"2", "rating":"8.5", "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
-        {"movieId":"3", "rating":"5", "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
-},
-"2":{
-    "userId":"2",
-    "username":"user1",
-    "usersFollowedBy":["1", "3", "4", "5"],
-    "usersFollowing":["1", "3", "4", "5"],
-    "peopleFollowing":["0", "3","4"],
-    "dateAccountCreated":"2019-04-06",
-    "contributingUser": "true",
-    "reviews":[{"movieId":"0", "rating":"7", "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
-        {"movieId":"1", "rating":"8.5", "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
-        {"movieId":"2", "rating":"5", "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
-},
-"3":{
-    "userId":"3",
-    "username":"userPogging",
-    "usersFollowedBy":["1", "2", "4"],
-    "usersFollowing":["1", "2", "4", "5"],
-    "peopleFollowing":["0", "3","4"],
-    "dateAccountCreated":"2017-04-06",
-    "contributingUser": "true",
-    "reviews":[{"movieId":"0", "rating":"7", "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
-        {"movieId":"1", "rating":"8.5", "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
-        {"movieId":"2", "rating":"5", "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
-},
-"4":{
-    "userId":"4",
-    "username":"reviewerPerson",
-    "usersFollowedBy":["1", "2", "3", "5"],
-    "usersFollowing":["1", "2", "3", "5"],
-    "peopleFollowing":["0", "3","4"],
-    "dateAccountCreated":"2017-04-06",
-    "contributingUser": "true",
-    "reviews":[{"movieId":"0", "rating":"7", "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
-        {"movieId":"1", "rating":"8.5", "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
-        {"movieId":"2", "rating":"5", "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
-},
-"5":{
-    "userId":"5",
-    "username":"reviewerPerson",
-    "usersFollowedBy":["1", "2", "3"],
-    "usersFollowing":["1", "2", "3", "4"],
-    "peopleFollowing":["1", "3","4"],
-    "dateAccountCreated":"2020-04-06",
-    "contributingUser": "true",
-    "reviews":[{"movieId":"0", "rating":"7", "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
-        {"movieId":"1", "rating":"8.5", "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
-        {"movieId":"2", "rating":"5", "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
-}
-}
+[
+    {
+        "userId":"1",
+        "username":"poggerUser20",
+        "usersFollowedBy":["2", "3", "4", "5"],
+        "usersFollowing":["2", "3", "4"],
+        "peopleFollowing":["1", "3","4"],
+        "dateAccountCreated":"2018-04-06",
+        "contributingUser": "true",
+        "reviews":[0, 1, 2]
+    },
+    {
+        "userId":2,
+        "username":"user1",
+        "usersFollowedBy":["1", "3", "4", "5"],
+        "usersFollowing":["1", "3", "4", "5"],
+        "peopleFollowing":["0", "3","4"],
+        "dateAccountCreated":"2019-04-06",
+        "contributingUser": "true",
+        "reviews":[{"movieId":"0", "rating":"7", "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
+            {"movieId":"1", "rating":"8.5", "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
+            {"movieId":"2", "rating":"5", "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
+    },
+    {
+        "userId":3,
+        "username":"userPogging",
+        "usersFollowedBy":[1, 2, 4],
+        "usersFollowing":[1, 2, 4, 5],
+        "peopleFollowing":[0, 3, 4],
+        "dateAccountCreated":"2017-04-06",
+        "contributingUser": "true",
+        "reviews":[{"movieId":0, "rating":7, "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
+            {"movieId":1, "rating":8.5, "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
+            {"movieId":2, "rating":5, "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
+    },
+    {
+        "userId":4,
+        "username":"reviewerPerson",
+        "usersFollowedBy":[1, 2, 3, 5],
+        "usersFollowing":[1, 2, 3, 5],
+        "peopleFollowing":[0, 3, 4],
+        "dateAccountCreated":"2017-04-06",
+        "contributingUser": "true",
+        "reviews":[{"movieId":0, "rating":7, "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
+            {"movieId":1, "rating":8.5, "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
+            {"movieId":2, "rating":5, "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
+    },
+    {
+        "userId":5,
+        "username":"reviewerPerson",
+        "usersFollowedBy":[1, 2, 3],
+        "usersFollowing":[1, 2, 3, 4],
+        "peopleFollowing":[1, 3, 4],
+        "dateAccountCreated":"2020-04-06",
+        "contributingUser": "true",
+        "reviews":[{"movieId":0, "rating":7, "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
+            {"movieId":1, "rating":8.5, "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
+            {"movieId":2, "rating":5, "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}]
+    }
+]

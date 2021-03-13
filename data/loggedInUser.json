@@ -1,52 +1,13 @@
 {
-    "userId":"1",
-    "username":"poggerUser20",
-    "usersFollowedBy":["2", "3", "4", "5"],
-    "usersFollowing":["2", "3", "4"],
-    "peopleFollowing":["0", "3","4"],
-    "dateAccountCreated":"2018-04-06",
-    "contributingUser": "true",
-    "reviews":[{"movieId":"0", "rating":"7", "review":"This movie was alright!", "dateReviewed":"2020-10-01"},
-        {"movieId":"1", "rating":"8.5", "review":"Pretty good movie!", "dateReviewed":"2020-09-24"},
-        {"movieId":"2", "rating":"5", "review":"It needed some improvment. The characters tend to overreact to certain things that were said during the movie.", "dateReviewed":"2020-08-06"}],
-    "feedPosts":[{
-            "id":"1",
-            "userType":"user",
-            "subjectId":"2",
-            "postType":"review",
-            "subjectMovieId":"1",
-            "date": "2021-02-27T14:51:19.14Z"
-        },
-        {
-            "id":"2",
-            "userType":"user",
-            "subjectId":"3",
-            "postType":"review",
-            "subjectMovieId":"2",
-            "date": "2021-02-27T11:24:49.14Z"
-        },
-        {
-            "id":"3",
-            "userType":"person",
-            "subjectId": "1",
-            "postType":"starring",
-            "subjectMovieId":"3",
-            "date": "2021-01-18T09:27:13.14Z"
-        },
-        {
-            "id":"4",
-            "userType":"person",
-            "subjectId": "2",
-            "postType":"directing",
-            "subjectMovieId":"4",
-            "date": "2020-12-27T15:21:39.14Z"
-        },
-        {
-            "id":"5",
-            "userType":"person",
-            "subjectId":"4",
-            "postType":"review",
-            "subjectMovieId":"1",
-            "date": "2020-10-18T14:51:31.14Z"
-        }]
+    "id":1,
+    "info":{ 
+        "username":"poggerUser20",
+        "usersFollowedBy":[2, 3, 4, 5],
+        "usersFollowing":[2, 3, 4],
+        "peopleFollowing":[0, 3,4],
+        "dateAccountCreated":"2018-04-06",
+        "contributingUser": "true",
+        "reviews": [0, 1, 2],
+        "feedPosts": [0, 1, 2, 3, 4]
+    }
 }
