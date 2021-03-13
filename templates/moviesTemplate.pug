@@ -9,10 +9,8 @@ head
 body
     main
         input.search-bar(type='text' placeholder='Search...')
+        h1 MOVIES
         .column
-            .title-background
-                h1 MOVIES
             each movieObj in movieData
-                .white-background
-                    a(href="/movies/" + movieObj.id) #{movieObj.movie.Title}
+                a(class="white-background", href="/movies/" + movieObj.id) #{movieObj.movie.Title} (#{movieObj.movie.Year})
     

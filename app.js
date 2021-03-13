@@ -42,7 +42,7 @@ app.get(['/index/feed'], (req,res)=>{
     res.send(feed);
 });
 
-app.get(['/movies/'], (req, res) => {
+app.get(['/movies'], (req, res) => {
     res.send(pug.renderFile('./templates/moviesTemplate.pug', {movieData}));
 });
 
