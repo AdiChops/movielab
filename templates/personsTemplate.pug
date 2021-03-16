@@ -1,0 +1,15 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  title Persons Page
+  style
+    include ../public/styles/styles.css
+    include ../public/styles/movies.css
+
+body
+    main
+        input.search-bar(type='text' placeholder='Search...')
+        h1 PERSONS
+        .column
+            each personObj in personData
+                a(class="white-background", href="/persons/" + personObj.id) #{personObj.firstName} #{personObj.lastName}

@@ -3,11 +3,12 @@ const pug = require('pug');
 const currentUserData = require('./data/loggedInUser.json')
 const movieData = require('./data/movies.json')
 const userData = require('./data/users.json')
-const persons = require('./data/persons.json')
+const personData = require('./data/persons.json')
 const app = express();
 const port = 3000;
 let movies = {};
 let users = {};
+let persons = {};
 let currentUser = currentUserData.info;
 currentUser.dateAccountCreated = new Date(currentUserData.info.dateAccountCreated);
 
@@ -17,6 +18,10 @@ movieData.forEach(movie => {
 
 userData.forEach(user => {
 	users[user["id"]] = user.info;
+});
+
+personData.forEach(person => {
+    persons[person["id"]] = person;
 });
 
 let getMessage = (post) =>{
@@ -66,6 +71,21 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
        next();
    }
 
+});
+
+app.get(['/persons'], (req, res) => {
+    res.send(pug.renderFile('./templates/personsTemplate.pug', {personData}));
+});
+
+app.get(['/persons/:personId'], (req, res, next)=> {
+    let id = req.params["personId"];
+    let person = persons[id];
+    if (person != undefined){
+        res.send(pug.renderFile('./templates/personTemplate.pug', {person}));
+    }
+    else{
+        next();
+    }
 });
 
 app.use(function (req, res, next) {

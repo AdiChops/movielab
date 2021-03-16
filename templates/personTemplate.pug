@@ -13,7 +13,7 @@ main
       .row
         .name-background
           h1
-            | PERSON NAME
+            | #{person.firstName} #{person.lastName} 
         button(type='button')
           | FOLLOW +
       .row
@@ -21,24 +21,24 @@ main
           .orange-background
             | DIRECTED
           .scrollable-div
+            each movie in person.directed
+              li=movie
         .column
           .orange-background
             | WRITTEN
           .scrollable-div
+            each movie in person.written
+              li=movie
         .column
           .orange-background
             | ACTED IN
           .scrollable-div
+            each movie in person.actedIn
+              li=movie
     .right-div
       .orange-background
         | TOP 5 COLLABORATORS
-      .white-background
-        | PERSON 1
-      .white-background
-        | PERSON 2
-      .white-background
-        | PERSON 3
-      .white-background
-        | PERSON 4
-      .white-background
-        | PERSON 5
+      each collaborator in person.top5
+        .white-background
+          | #{collaborator}
+      
