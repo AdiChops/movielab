@@ -36,6 +36,15 @@ app.get('/login', (req,res)=>{
     res.sendFile('login.html', {root: './public'});
 });
 
+app.get('/createMovie', (req,res)=>{
+    res.sendFile('createMovie.html', {root: './public'});
+});
+
+app.get('/createPerson', (req,res)=>{
+    res.sendFile('createPerson.html', {root: './public'});
+});
+
+
 app.get(['/', '/index'], (req,res)=>{
     res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser}));
 });
