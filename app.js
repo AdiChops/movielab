@@ -1,17 +1,23 @@
 const express = require('express');
 const pug = require('pug');
-const currentUser = require('./data/loggedInUser.json')
+const currentUserData = require('./data/loggedInUser.json')
 const movieData = require('./data/movies.json')
-const users = require('./data/users.json')
+const userData = require('./data/users.json')
 const persons = require('./data/persons.json')
 const app = express();
 const port = 3000;
 let movies = {};
+let users = {};
+let currentUser = currentUserData.info;
+currentUser.dateAccountCreated = new Date(currentUserData.info.dateAccountCreated);
 
 movieData.forEach(movie => {
 	movies[movie["id"]] = movie.info;
 });
 
+userData.forEach(user => {
+	users[user["id"]] = user.info;
+});
 
 let getMessage = (post) =>{
     let messages = {"review": `${users[post["subjectId"]]["username"]} reviewed ${movies[post["subjectMovieId"]]["Title"]}`, "starring":`${movies[post["subjectMovieId"]]["Title"]} was added, and it stars ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`, "directing":`${movies[post["subjectMovieId"]]["Title"]} was added, directed by ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`};
