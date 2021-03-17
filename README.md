@@ -30,5 +30,5 @@ Many of the pages also have functional links.**
 “/users/{userID}” - page for a specific user. userID is an integer in [1, 5]  
 
 
-The object outline and RESTful design documents can be found under the achopra_eli_2406FinalProject/docs directory.
+The object outline and RESTful design documents can be found under the ```docs``` directory.
 
