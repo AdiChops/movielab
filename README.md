@@ -3,10 +3,10 @@ Erica Li and Aaditya Chopra
 
 Winter 2021
 
-## How to run
+### How to run
 Go to the project directory on the command line, and enter ```npm install```. Once you have installed the node_modules directory, enter ```npm start``` into your command line, and open http://localhost:3000/ in your web browser. This will open the logged-in user's profile page.
 
-## How to test
+### How to test
 
 **Enter the appropriate URL route into your browser (i.e. http://localhost:3000/movies) to display the corresponding page. All routes are listed below. 
 Many of the pages also have functional links.**
@@ -30,5 +30,5 @@ Many of the pages also have functional links.**
 “/users/{userID}” - page for a specific user. userID is an integer in [1, 5]  
 
 
-The object outline and RESTful design documents can be found under the ```docs``` directory.
+### The object outline and RESTful design documents can be found under the ```docs``` directory.
 
