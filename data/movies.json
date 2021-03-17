@@ -31,7 +31,7 @@
             "Awards": "1 win & 1 nomination.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BMTQwMjkwNjE0Ml5BMl5BanBnXkFtZTgwOTU5ODIyMTE@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [1, 2]
         }
     },
     {
@@ -68,7 +68,7 @@
             "Awards": "N/A",
             "Poster": "https://m.media-amazon.com/images/M/MV5BZmUyOTE4YmItN2E0Zi00M2ViLWIxMTctMmZhMDRhMDZhOWZlXkEyXkFqcGdeQXVyNjExODE1MDc@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [2, 3]
         }
     },
     {
@@ -100,7 +100,7 @@
             "Awards": "Nominated for 1 Golden Globe. Another 6 wins & 3 nominations.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BZTNkYmIwYjAtMDcyNy00MGYwLWJkYTAtODAyNDJjZTdmNGYxXkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [3, 4]
         }
     },
     {
@@ -131,7 +131,7 @@
             "Awards": "1 win.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BYjJhOWM3YzMtMzE4Ny00YWE4LWFjZGItYjZkYmRlYTVlMmE5L2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [4, 5]
         }
     },
     {
@@ -163,7 +163,7 @@
             "Awards": "Won 6 Oscars. Another 11 wins & 20 nominations.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjRjMWQ0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [5, 6]
         }
     },
     {
@@ -195,7 +195,7 @@
             "Awards": "3 nominations.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BODc2NDA5YTQtY2ViZi00OTk4LTlmMTgtYjM2YjljOTY5ZmYwXkEyXkFqcGdeQXVyNDE5MTU2MDE@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [6, 7]
         }
     },
     {
@@ -226,7 +226,7 @@
             "Awards": "Won 1 Oscar. Another 19 wins & 18 nominations.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BOGYwYWNjMzgtNGU4ZC00NWQ2LWEwZjUtMzE1Zjc3NjY3YTU1XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [7, 8]
         }
     },
     {
@@ -260,7 +260,7 @@
             "Awards": "Won 1 Oscar. Another 3 wins & 3 nominations.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BZGVmNzc3ODYtYjJlYy00YmQ4LWE3NWQtZTlhYWRjYjI1MTg1XkEyXkFqcGdeQXVyMDI2NDg0NQ@@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [8, 9]
         }
     },
     {
@@ -301,7 +301,7 @@
             "Awards": "1 win.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BMWRkMGFkMWItMDlkNS00MjFkLTkwYzctNWI3MzY1MjE0ZWIwXkEyXkFqcGdeQXVyNzE2NDk3NTY@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [9]
         }
     },
     {
@@ -333,7 +333,7 @@
             "Awards": "Nominated for 1 Oscar. Another 2 wins & 6 nominations.",
             "Poster": "https://m.media-amazon.com/images/M/MV5BZDdmMGNiOGQtOWQzNC00ZDZjLWIxM2ItZTBlNGEwMzM1MGVjXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg",
             "Reviews": [],
-            "SimilarMovies": []
+            "SimilarMovies": [8]
         }
     }
 ]

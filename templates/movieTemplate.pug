@@ -31,26 +31,30 @@ body
             .reviews-background
               | SIMILAR MOVIES
             .scrollable-div
-              each similarMovie in movie.SimilarMovies
-                  li=similarMovie
+              each similarMovieId in movie.SimilarMovies
+                  a(href="/movies/" + similarMovieId) #{movies[similarMovieId]["Title"]}
+                  br
       .main-column
         button(type='button')
           | Watch +
         .people-header
           | DIRECTORS
         .white-textbox
-          each director in movie.Director
-              li=director
+          each directorId in movie.Director
+              a(href="/persons/" + "1") #{director}
+              br
         .people-header
           | WRITERS
         .white-textbox
           each writer in movie.Writer
-              li=writer
+              a(href="/persons/" + "1") #{writer}
+              br
         .people-header
           | ACTORS
         .white-textbox
           each actor in movie.Actors
-              li=actor
+              a(href="/persons/" + "1") #{actor}
+              br
       .main-column
         label(for='rating') Rating (/10):
         input#rating(type='number' step='0.1' min='0' max='10' placeholder='/10')

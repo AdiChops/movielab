@@ -46,7 +46,24 @@ app.get('/createPerson', (req,res)=>{
 
 
 app.get(['/', '/index'], (req,res)=>{
+    currentUser = currentUserData.info;
+    currentUser.dateAccountCreated = new Date(currentUserData.info.dateAccountCreated);
+    console.log(currentUser);
     res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser}));
+});
+
+app.get(['/users/:userId'], (req, res, next)=>{
+    let id = req.params["userId"];
+    currentUser = users[id];
+    currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
+    if(currentUser != undefined){
+        console.log(currentUser);
+        res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser}));
+    }
+    else{
+       next();
+    }
+
 });
 
 app.get(['/index/feed'], (req,res)=>{
@@ -74,11 +91,11 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
     movie = movies[id];
     console.log(movie);
     if(movie != undefined){
-        res.send(pug.renderFile('./templates/movieTemplate.pug', {movie}));
+        res.send(pug.renderFile('./templates/movieTemplate.pug', {movie, movies, persons}));
     }
-   else{
+    else{
        next();
-   }
+    }
 
 });
 
@@ -90,7 +107,7 @@ app.get(['/persons/:personId'], (req, res, next)=> {
     let id = req.params["personId"];
     let person = persons[id];
     if (person != undefined){
-        res.send(pug.renderFile('./templates/personTemplate.pug', {person}));
+        res.send(pug.renderFile('./templates/personTemplate.pug', {person, persons, movies}));
     }
     else{
         next();
