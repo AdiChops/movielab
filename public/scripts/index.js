@@ -28,7 +28,7 @@ let loadFeedAndNotifs = ()=>{
     }).then((notifications)=>{
         document.getElementById('notifs').innerHTML = "";
         for(let i in notifications){
-            document.getElementById('notifs').innerHTML += `<li><a class="dropdown-item" href="#">${notifications[i].message} ${notifications[i].timeAgo}</a></li>`;
+            document.getElementById('notifs').innerHTML += `<li><a class="dropdown-item" href="/movies/1">${notifications[i].message} <span class="ago">${notifications[i].timeAgo}</span></a></li>`;
         }
     }).catch((error)=>{
         console.error('Error:', error);

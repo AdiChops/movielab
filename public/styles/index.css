@@ -25,6 +25,13 @@ h2{
     border:1px solid black;
     outline:none;
 }
+#notifications .btn{
+  background-color: #f4a261;
+}
+.ago{
+  float:right;
+  font-size: 0.75em;
+}
 @media all and (min-width: 1200px){
     #user_div{
         width:50%;

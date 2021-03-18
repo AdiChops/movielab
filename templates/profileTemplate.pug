@@ -35,7 +35,9 @@ html
             if(loggedIn == true)
                 div(id="notifications")
                     div(class="btn-group")
-                        button(type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false") Notifications
+                        button(type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false")
+                            i(class="fas fa-bell")
+                            span Notifications
                         ul(class="dropdown-menu" id="notifs")
 
             div(id="tab-info")
