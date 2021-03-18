@@ -1,4 +1,4 @@
-let loadFeed = ()=>{
+let loadFeedAndNotifs = ()=>{
     fetch('http://localhost:3000/index/feed').
         then((resp)=>{
             return resp.json();
@@ -20,9 +20,21 @@ let loadFeed = ()=>{
             }
         }).catch((error)=>{
             console.error('Error:', error);
-        });
+    });
+
+    fetch('http://localhost:3000/index/notifications').
+    then((resp)=>{
+        return resp.json();
+    }).then((notifications)=>{
+        document.getElementById('notifs').innerHTML = "";
+        for(let i in notifications){
+            document.getElementById('notifs').innerHTML += `<li><a class="dropdown-item" href="#">${notifications[i].message} ${notifications[i].timeAgo}</a></li>`;
+        }
+    }).catch((error)=>{
+        console.error('Error:', error);
+    });
 };
 
 addEventListener('load',()=>{
-    loadFeed();
+    loadFeedAndNotifs();
 });

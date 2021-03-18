@@ -9,7 +9,9 @@
             "dateAccountCreated":"2018-04-06T09:27:13.14Z",
             "contributingUser": "true",
             "reviews": [0, 1, 2],
-            "feedPosts": [0, 1, 2, 3, 4]
+            "feedPosts": [0, 1, 2, 3, 4],
+            "notifications":[],
+            "watchlist":[]
         }
     },
     {
@@ -22,7 +24,9 @@
             "dateAccountCreated":"2019-06-05T12:33:12.14Z",
             "contributingUser": "true",
             "reviews": [],
-            "feedPosts": []
+            "feedPosts": [],
+            "notifications":[],
+            "watchlist":[]
         }
     },
     {
@@ -35,7 +39,9 @@
             "dateAccountCreated":"2017-02-01T21:09:41.14Z",
             "contributingUser": "true",
             "reviews": [],
-            "feedPosts": []
+            "feedPosts": [],
+            "notifications":[],
+            "watchlist":[]
         }
     },
     {
@@ -48,7 +54,9 @@
             "dateAccountCreated":"2017-12-07T13:27:45.14Z",
             "contributingUser": "true",
             "reviews": [],
-            "feedPosts": []
+            "feedPosts": [],
+            "notifications":[],
+            "watchlist":[]
         }
     },
     {
@@ -61,7 +69,9 @@
             "dateAccountCreated":"2020-04-06T14:17:36.14Z",
             "contributingUser": "false",
             "reviews":[],
-            "feedPosts":[]
+            "feedPosts":[],
+            "notifications":[],
+            "watchlist":[]
         }
     }
 ]

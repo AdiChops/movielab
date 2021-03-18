@@ -8,6 +8,8 @@
         "dateAccountCreated":"2018-04-06T09:27:13.14Z",
         "contributingUser": "true",
         "reviews": [0, 1, 2],
-        "feedPosts": [0, 1, 2, 3, 4]
+        "feedPosts": [0, 1, 2, 3, 4],
+        "notifications": [0, 1, 2, 3, 4],
+        "watchlist":[]
     }
 }

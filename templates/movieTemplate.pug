@@ -2,9 +2,8 @@ doctype html
 head
   meta(charset='UTF-8')
   title Movie Page
-  style
-    include ../public/styles/styles.css
-    include ../public/styles/movie.css
+  link(rel="stylesheet", href="/styles/styles.css")
+  link(rel="stylesheet", href="/styles/movie.css")
   
 body  
   main
@@ -26,7 +25,9 @@ body
               | REVIEWS
             .scrollable-div
               each review in movie.Reviews
-                li=review
+                  //h3 Review by #{users[reviews[review]["reviewerId"]]["username"]}}
+                  hr
+                  p #{reviews[review]["review"]}
           .column
             .reviews-background
               | SIMILAR MOVIES
@@ -40,7 +41,7 @@ body
         .people-header
           | DIRECTORS
         .white-textbox
-          each directorId in movie.Director
+          each director in movie.Director
               a(href="/persons/" + "1") #{director}
               br
         .people-header
@@ -66,3 +67,5 @@ body
         label(for='fullReview') Full Review Text:
         input#fullReview(type='text' placeholder='Write your full review...')
         button#submitFullReview(type='button') SUBMIT FULL REVIEW
+
+        

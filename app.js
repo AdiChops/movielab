@@ -1,14 +1,20 @@
 const express = require('express');
 const pug = require('pug');
-const currentUserData = require('./data/loggedInUser.json')
-const movieData = require('./data/movies.json')
-const userData = require('./data/users.json')
-const personData = require('./data/persons.json')
+const currentUserData = require('./data/loggedInUser.json');
+const movieData = require('./data/movies.json');
+const reviewData = require('./data/reviews.json');
+const userData = require('./data/users.json');
+const personData = require('./data/persons.json');
+const feedData = require('./data/feedPosts.json');
+const notifData = require('./data/notifications.json');
 const app = express();
 const port = 3000;
 let movies = {};
 let users = {};
 let persons = {};
+let userFeed = {};
+let notifications = {};
+let reviews = {};
 let currentUser = currentUserData.info;
 currentUser.dateAccountCreated = new Date(currentUserData.info.dateAccountCreated);
 
@@ -24,10 +30,45 @@ personData.forEach(person => {
     persons[person["id"]] = person;
 });
 
+feedData.forEach(post=>{
+    userFeed[post["id"]] = post.info;
+});
+
+notifData.forEach(not=>{
+    notifications[not["id"]] = not.info;
+});
+
+reviewData.forEach(r=>{
+    reviews[r["id"]] = r;
+});
+
 let getMessage = (post) =>{
-    let messages = {"review": `${users[post["subjectId"]]["username"]} reviewed ${movies[post["subjectMovieId"]]["Title"]}`, "starring":`${movies[post["subjectMovieId"]]["Title"]} was added, and it stars ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`, "directing":`${movies[post["subjectMovieId"]]["Title"]} was added, directed by ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`};
-    return messages[post["postType"]];
+        switch(post["postType"]){
+            case "review":{
+                return `${users[post["subjectId"]]["username"]} reviewed ${movies[post["subjectMovieId"]]["Title"]}`;
+            }
+            case "starring":{
+                `${movies[post["subjectMovieId"]]["Title"]} was added, and it stars ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`
+            }
+            case "directing":{
+                return `${movies[post["subjectMovieId"]]["Title"]} was added, directed by ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`;
+            }
+        }
 };
+
+let getNotif = (n) =>{
+    switch(n["notifType"]){
+        case "review":{
+            return `New review by ${users[n["subjectId"]]["username"]}`;
+        }
+        case "starring":{
+            `New movie starring ${persons[n["subjectId"]]["firstName"]} ${persons[n["subjectId"]]["lastName"]}`
+        }
+        case "directing":{
+            return `New movie directed by ${persons[n["subjectId"]]["firstName"]} ${persons[n["subjectId"]]["lastName"]}`;
+        }
+    }
+}
 
 
 app.use(express.static('public'));
@@ -46,19 +87,21 @@ app.get('/createPerson', (req,res)=>{
 
 
 app.get(['/', '/index'], (req,res)=>{
+    let loggedIn = true;
     currentUser = currentUserData.info;
     currentUser.dateAccountCreated = new Date(currentUserData.info.dateAccountCreated);
     console.log(currentUser);
-    res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser}));
+    res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn}));
 });
 
 app.get(['/users/:userId'], (req, res, next)=>{
     let id = req.params["userId"];
+    let loggedIn = false;
     currentUser = users[id];
     currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
     if(currentUser != undefined){
         console.log(currentUser);
-        res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser}));
+        res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn}));
     }
     else{
        next();
@@ -69,14 +112,32 @@ app.get(['/users/:userId'], (req, res, next)=>{
 app.get(['/index/feed'], (req,res)=>{
     let feedPosts = currentUser["feedPosts"];
     let feed = {};
-    for(let i in feedPosts){
-        let d = new Date(feedPosts[i]["date"]);
-        feed[i] = {message: getMessage(feedPosts[i]), date: d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate()};
+    let post = {};
+    for(let i of feedPosts){
+        post = userFeed[i];
+        let d = new Date(post["date"]);
+        feed[i] = {message: getMessage(post), date: d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate()};
     }
     feed = Object.fromEntries(Object.entries(feed).sort(([k1, v1], [k2, v2])=>{
         return v1.date < v2.date;
     }));
     res.send(feed);
+});
+
+app.get(['/index/notifications'], (req,res)=>{
+    let notifs = currentUser["notifications"];
+    let not = {};
+    let n = {};
+    for(let i of notifs){
+        n = notifications[i];
+        let d = new Date(n["date"]);
+        not[i] = {message: getNotif(n), timeAgo: Math.floor((new Date() - d)/(1000*60*60*24)) + "d ago", read: n.read, date: d};
+    }
+    not = Object.fromEntries(Object.entries(not).sort(([k1, v1], [k2, v2])=>{
+        return v1.date < v2.date;
+    }));
+    console.log(not);
+    res.send(not);
 });
 
 app.get(['/movies'], (req, res) => {
@@ -91,7 +152,7 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
     movie = movies[id];
     console.log(movie);
     if(movie != undefined){
-        res.send(pug.renderFile('./templates/movieTemplate.pug', {movie, movies, persons}));
+        res.send(pug.renderFile('./templates/movieTemplate.pug', {movie, movies, persons, reviews, users}));
     }
     else{
        next();
