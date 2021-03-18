@@ -11,7 +11,7 @@ This command will install the node modules and then start the server.
 Once the `Server listening at http://localhost:3000` message appears, then the index page (logged-in user's profile page) can be found by entering http://localhost:3000 in the browser of choice.
 
 To only run the server (once the dependencies are installed), simply enter the `npm start` command.
-
+Use Ctrl-C to stop the server.
 ### Option 2
 To install the dependancies, enter the `npm install` command.
 Once the node modules are installed, enter the `node app.js` command to start the server.
