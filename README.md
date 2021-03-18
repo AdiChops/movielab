@@ -12,10 +12,14 @@ Once the `Server listening at http://localhost:3000` message appears, then the i
 
 To only run the server (once the dependencies are installed), simply enter the `npm start` command.
 
+Use Ctrl-C to stop the server.
 ### Option 2
 To install the dependancies, enter the `npm install` command.
 Once the node modules are installed, enter the `node app.js` command to start the server.
 Once the `Server listening at http://localhost:3000` message appears, then the index page can be found by entering http://localhost:3000 in the browser of choice.
+
+Use Ctrl-C to stop the server.
+
 ## How to Test
 
 **Enter the appropriate URL route into your browser (e.g. http://localhost:3000/movies) to display the corresponding page. All routes are listed below. 
@@ -42,3 +46,6 @@ Many of the pages also have functional links.**
 
 ## Documentation
 The object outline and RESTful design documents can be found under the `docs` directory.
+
+**Please note that some of the objects that are currently being passed into the pug templates will be modified for the final submission in the way that they are passed. We are currently passing in all the arrays for simplicity.**
+
