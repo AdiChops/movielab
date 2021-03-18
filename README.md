@@ -46,3 +46,6 @@ Many of the pages also have functional links.**
 
 ## Documentation
 The object outline and RESTful design documents can be found under the `docs` directory.
+
+**Please note that some of the objects that are currently being passed into the pug templates will be modified for the final submission in the way that they are passed. We are currently passing in all the arrays for simplicity.**
+
