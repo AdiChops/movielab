@@ -1,0 +1,35 @@
+html, body{
+    background-image: url('../images/clapperboard.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+main{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h1{
+    text-transform: uppercase;
+}
+#signup{
+    background-color: white;
+    text-align: center;
+    width: 90%;
+    padding: 3em;
+    display: grid;
+    row-gap: 1em;
+    border-radius: 10px;    
+}
+@media all and (min-width:768px){
+    #signup{
+        width: 60%;
+    }
+}
+
+@media all and (min-width:1024px){
+    #signup{
+        width: 30%;
+    }
+}

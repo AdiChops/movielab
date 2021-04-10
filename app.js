@@ -77,6 +77,10 @@ app.get('/login', (req,res)=>{
     res.sendFile('login.html', {root: './public'});
 });
 
+app.get('/signup', (req,res)=>{
+    res.sendFile('signup.html', {root: './public'});
+});
+
 app.get('/createMovie', (req,res)=>{
     res.sendFile('createMovie.html', {root: './public'});
 });
