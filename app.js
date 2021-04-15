@@ -1,15 +1,17 @@
 const express = require('express');
 const pug = require('pug');
-const currentUserData = require('./data/loggedInUser.json');
+const mongoose = require('mongoose');
+
+/*const currentUserData = require('./data/loggedInUser.json');
 const movieData = require('./data/movies.json');
 const reviewData = require('./data/reviews.json');
 const userData = require('./data/users.json');
 const personData = require('./data/persons.json');
 const feedData = require('./data/feedPosts.json');
-const notifData = require('./data/notifications.json');
+const notifData = require('./data/notifications.json');*/
 const app = express();
 const port = 3000;
-let movies = {};
+/*let movies = {};
 let users = {};
 let persons = {};
 let userFeed = {};
@@ -41,7 +43,7 @@ notifData.forEach(not=>{
 reviewData.forEach(r=>{
     reviews[r["id"]] = r;
 });
-
+*/
 let getMessage = (post) =>{
         switch(post["postType"]){
             case "review":{
@@ -150,7 +152,11 @@ app.get(['/index/notifications'], (req,res)=>{
 });
 
 app.get(['/movies'], (req, res) => {
-    res.send(pug.renderFile('./templates/moviesTemplate.pug', {movieData}));
+    res.send(pug.renderFile('./templates/moviesTemplate.pug'));
+});
+
+app.get(['/movies/results'], (req, res)=>{
+    db.collection("movies")
 });
 
 app.get(['/movies/:movieId'], (req,res, next)=>{
@@ -193,6 +199,54 @@ app.post(['/movies'], function(req, res){
 app.use(function (req, res, next) {
     res.status(404).send("Sorry, we couldn't find that resource!");
 });
+
+mongoose.connect('mongodb://localhost/moviedata', {useNewUrlParser: true});
+
+let db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+
+db.once('open', () => {
+    mongoose.connection.db.dropDatabase(function(err, result){
+		if(err){
+			console.log("Error dropping database:");
+			console.log(err);
+			return;
+		}
+		console.log("Dropped T9 database. Starting re-creation.");
+
+		let books = JSON.parse(fs.readFileSync("books.json"));
+		books = books.filter(book => {return book.isbn.length == 10});
+		let totalBooks = books.length;
+		let finishedBooks = 0;
+		let countFail = 0;
+		let countSuccess = 0;
+		books.forEach(book => {
+			let b = new Book(book);
+			b.save(function(err, callback){
+				finishedBooks++;
+				if(err){
+					countFail++;
+					console.log(err.message);
+				}else{
+					countSuccess++;
+				}
+
+				if(finishedBooks % 500 == 0){
+					console.log("Finished book #" + finishedBooks + "/" + totalBooks);
+				}
+				if(finishedBooks == totalBooks){
+					mongoose.connection.close();
+					console.log("Finished.");
+					console.log("Successfully added: " + countSuccess);
+					console.log("Failed: " + countFail);
+					process.exit(0);
+				}
+			});
+		});
+	});
+});
+
 
 app.listen(port, ()=>{
     console.log(`Server listening at http://localhost:${port}`);
