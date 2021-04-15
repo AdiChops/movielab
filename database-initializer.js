@@ -1,4 +1,4 @@
-const fileName = "./data/movie-data-10.json";
+const fileName = "./data/movie-data-2500.json";
 const mongoose = require("mongoose");
 
 let Movie = require("./models/MovieModel")
