@@ -72,6 +72,7 @@ let getNotif = (n) =>{
 
 
 app.use(express.static('public'));
+app.use(express.json());
 
 app.get('/login', (req,res)=>{
     res.sendFile('login.html', {root: './public'});
@@ -87,6 +88,10 @@ app.get('/createMovie', (req,res)=>{
 
 app.get('/createPerson', (req,res)=>{
     res.sendFile('createPerson.html', {root: './public'});
+});
+
+app.get('/advancedSearch', (req,res)=>{
+    res.sendFile('advancedSearch.html', {root: './public'});
 });
 
 
@@ -178,6 +183,12 @@ app.get(['/persons/:personId'], (req, res, next)=> {
         next();
     }
 });
+
+app.post(['/movies'], function(req, res){
+    console.log(req.body);
+    res.send('POST request to the database')
+
+})
 
 app.use(function (req, res, next) {
     res.status(404).send("Sorry, we couldn't find that resource!");

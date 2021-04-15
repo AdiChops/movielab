@@ -1,0 +1,288 @@
+[
+    {
+        "Title": "The Ballad of Cable Hogue",
+        "Year": "1970",
+        "Rated": "R",
+        "Released": "18 Mar 1970",
+        "Runtime": "121 min",
+        "Genre": [
+            "Comedy",
+            "Drama",
+            "Romance",
+            "Western"
+        ],
+        "Director": [
+            "Sam Peckinpah"
+        ],
+        "Writer": [
+            "John Crawford",
+            "Edmund Penney"
+        ],
+        "Actors": [
+            "Jason Robards",
+            "Stella Stevens",
+            "David Warner",
+            "Strother Martin"
+        ],
+        "Plot": "A hobo accidentally stumbles onto a water spring, and creates a profitable way station in the middle of the desert.",
+        "Awards": "1 win & 1 nomination.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BMTQwMjkwNjE0Ml5BMl5BanBnXkFtZTgwOTU5ODIyMTE@._V1_SX300.jpg"
+    },
+    {
+        "Title": "An American Tail: Fievel Goes West",
+        "Year": "1991",
+        "Rated": "G",
+        "Released": "22 Nov 1991",
+        "Runtime": "75 min",
+        "Genre": [
+            "Animation",
+            "Adventure",
+            "Family",
+            "Musical",
+            "Western"
+        ],
+        "Director": [
+            "Phil Nibbelink",
+            "Simon Wells"
+        ],
+        "Writer": [
+            "Flint Dille",
+            "Charles Swenson",
+            "David Kirschner"
+        ],
+        "Actors": [
+            "Phillip Glasser",
+            "James Stewart",
+            "Erica Yohn",
+            "Cathy Cavadini"
+        ],
+        "Plot": "A family of Emigre mice decide to move out to the West, unaware that they are falling into a trap perpetrated by a smooth-talking cat.",
+        "Awards": "N/A",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BZmUyOTE4YmItN2E0Zi00M2ViLWIxMTctMmZhMDRhMDZhOWZlXkEyXkFqcGdeQXVyNjExODE1MDc@._V1_SX300.jpg"
+    },
+    {
+        "Title": "House of Games",
+        "Year": "1987",
+        "Rated": "R",
+        "Released": "14 Oct 1987",
+        "Runtime": "102 min",
+        "Genre": [
+            "Crime",
+            "Thriller"
+        ],
+        "Director": [
+            "David Mamet"
+        ],
+        "Writer": [
+            "David Mamet",
+            "Jonathan Katz"
+        ],
+        "Actors": [
+            "Lindsay Crouse",
+            "Joe Mantegna",
+            "Mike Nussbaum",
+            "Lilia Skala"
+        ],
+        "Plot": "A psychiatrist comes to the aid of a compulsive gambler and is led by a smooth-talking grifter into the shadowy but compelling world of stings, scams, and con men.",
+        "Awards": "Nominated for 1 Golden Globe. Another 6 wins & 3 nominations.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BZTNkYmIwYjAtMDcyNy00MGYwLWJkYTAtODAyNDJjZTdmNGYxXkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_SX300.jpg"
+    },
+    {
+        "Title": "The Out-of-Towners",
+        "Year": "1999",
+        "Rated": "PG-13",
+        "Released": "02 Apr 1999",
+        "Runtime": "90 min",
+        "Genre": [
+            "Comedy"
+        ],
+        "Director": [
+            "Sam Weisman"
+        ],
+        "Writer": [
+            "Neil Simon",
+            "Marc Lawrence"
+        ],
+        "Actors": [
+            "Steve Martin",
+            "Goldie Hawn",
+            "John Cleese",
+            "Mark McKinney"
+        ],
+        "Plot": "The remake of the 1970 Neil Simon comedy follows the adventures of married couple Henry and Nancy Clark as they are vexed by misfortune while in New York City for a job interview.",
+        "Awards": "1 win.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BYjJhOWM3YzMtMzE4Ny00YWE4LWFjZGItYjZkYmRlYTVlMmE5L2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
+    },
+    {
+        "Title": "The Godfather: Part II",
+        "Year": "1974",
+        "Rated": "R",
+        "Released": "18 Dec 1974",
+        "Runtime": "202 min",
+        "Genre": [
+            "Crime",
+            "Drama"
+        ],
+        "Director": [
+            "Francis Ford Coppola"
+        ],
+        "Writer": [
+            "Francis Ford Coppola",
+            "Mario Puzo"
+        ],
+        "Actors": [
+            "Al Pacino",
+            "Robert Duvall",
+            "Diane Keaton",
+            "Robert De Niro"
+        ],
+        "Plot": "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
+        "Awards": "Won 6 Oscars. Another 11 wins & 20 nominations.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjRjMWQ0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg"
+    },
+    {
+        "Title": "Woman on Top",
+        "Year": "2000",
+        "Rated": "R",
+        "Released": "22 Sep 2000",
+        "Runtime": "92 min",
+        "Genre": [
+            "Comedy",
+            "Fantasy",
+            "Romance"
+        ],
+        "Director": [
+            "Fina Torres"
+        ],
+        "Writer": [
+            "Vera Blasi"
+        ],
+        "Actors": [
+            "Penélope Cruz",
+            "Murilo Benício",
+            "Harold Perrineau",
+            "Mark Feuerstein"
+        ],
+        "Plot": "Brazilian chef Isabella Oliveira moves to San Francisco when her husband, frustrated by her motion sickness, cheats on her.",
+        "Awards": "3 nominations.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BODc2NDA5YTQtY2ViZi00OTk4LTlmMTgtYjM2YjljOTY5ZmYwXkEyXkFqcGdeQXVyNDE5MTU2MDE@._V1_SX300.jpg"
+    },
+    {
+        "Title": "Dead Poets Society",
+        "Year": "1989",
+        "Rated": "PG",
+        "Released": "09 Jun 1989",
+        "Runtime": "128 min",
+        "Genre": [
+            "Comedy",
+            "Drama"
+        ],
+        "Director": [
+            "Peter Weir"
+        ],
+        "Writer": [
+            "Tom Schulman"
+        ],
+        "Actors": [
+            "Robin Williams",
+            "Robert Sean Leonard",
+            "Ethan Hawke",
+            "Josh Charles"
+        ],
+        "Plot": "Maverick teacher John Keating uses poetry to embolden his boarding school students to new heights of self-expression.",
+        "Awards": "Won 1 Oscar. Another 19 wins & 18 nominations.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BOGYwYWNjMzgtNGU4ZC00NWQ2LWEwZjUtMzE1Zjc3NjY3YTU1XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
+    },
+    {
+        "Title": "Little Women",
+        "Year": "1933",
+        "Rated": "Not Rated",
+        "Released": "24 Nov 1933",
+        "Runtime": "115 min",
+        "Genre": [
+            "Drama",
+            "Family",
+            "Romance"
+        ],
+        "Director": [
+            "George Cukor"
+        ],
+        "Writer": [
+            "Louisa May Alcott",
+            "Sarah Y. Mason",
+            "Victor Heerman"
+        ],
+        "Actors": [
+            "Katharine Hepburn",
+            "Joan Bennett",
+            "Paul Lukas",
+            "Edna May Oliver"
+        ],
+        "Plot": "A chronicle of the lives of a group of sisters growing up in nineteenth-century America.",
+        "Awards": "Won 1 Oscar. Another 3 wins & 3 nominations.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BZGVmNzc3ODYtYjJlYy00YmQ4LWE3NWQtZTlhYWRjYjI1MTg1XkEyXkFqcGdeQXVyMDI2NDg0NQ@@._V1_SX300.jpg"
+    },
+    {
+        "Title": "The Incredible Mr. Limpet",
+        "Year": "1964",
+        "Rated": "G",
+        "Released": "28 Mar 1964",
+        "Runtime": "99 min",
+        "Genre": [
+            "Animation",
+            "Comedy",
+            "Family",
+            "War",
+            "Fantasy"
+        ],
+        "Director": [
+            "Arthur Lubin",
+            "Gerry Chiniquy",
+            "Robert McKimson",
+            "Hawley Pratt",
+            "Bill Tytla"
+        ],
+        "Writer": [
+            "Jameson Brewer",
+            "John C. Rose",
+            "Joe DiMona",
+            "Theodore Pratt"
+        ],
+        "Actors": [
+            "Don Knotts",
+            "Carole Cook",
+            "Jack Weston",
+            "Andrew Duggan"
+        ],
+        "Plot": "Meek and mild mannered bookkeeper Henry Limpet has few passions in life. It's mid-1941 and he would love to join the Navy but has been rated 4F. His friend George Stickle is in the Navy and...",
+        "Awards": "1 win.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BMWRkMGFkMWItMDlkNS00MjFkLTkwYzctNWI3MzY1MjE0ZWIwXkEyXkFqcGdeQXVyNzE2NDk3NTY@._V1_SX300.jpg"
+    },
+    {
+        "Title": "The Champ",
+        "Year": "1979",
+        "Rated": "PG",
+        "Released": "04 Apr 1979",
+        "Runtime": "121 min",
+        "Genre": [
+            "Drama",
+            "Sport"
+        ],
+        "Director": [
+            "Franco Zeffirelli"
+        ],
+        "Writer": [
+            "Frances Marion",
+            "Walter Newman"
+        ],
+        "Actors": [
+            "Jon Voight",
+            "Faye Dunaway",
+            "Ricky Schroder",
+            "Jack Warden"
+        ],
+        "Plot": "A former boxer discovers that his biggest battle of all is going to be with his ex-wife, Annie, who returns after abandoning their young son seven years prior.",
+        "Awards": "Nominated for 1 Oscar. Another 2 wins & 6 nominations.",
+        "Poster": "https://m.media-amazon.com/images/M/MV5BZDdmMGNiOGQtOWQzNC00ZDZjLWIxM2ItZTBlNGEwMzM1MGVjXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg"
+    }
+]
