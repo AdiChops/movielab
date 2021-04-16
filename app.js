@@ -2,6 +2,7 @@ const express = require('express');
 const pug = require('pug');
 const mongoose = require('mongoose');
 const Movie = require("./models/MovieModel");
+const Person = require("./models/PersonModel");
 const e = require('express');
 
 const currentUserData = require('./data/loggedInUser.json');
@@ -155,10 +156,21 @@ app.get(['/index/notifications'], (req,res)=>{
 
 app.get(['/movies'], (req, res) => {
     if(req.query && Object.keys(req.query).length > 0){
-        console.log(req.query);
-        Movie.find(req.query, function(err, movieData){
+        let cond = {};
+        if(req.query.title){
+            cond.title = {$regex: `.*${req.query.title}.*`, $options: 'i'};
+        }
+        if(req.query.genres){
+            cond.genre = {$regex: `.*${req.query.genre}.*`, $options: 'i'};
+        }
+        if(req.query.actor){
+            cond.actor = mongoose.Types.ObjectId(req.query.actor);
+        }
+        console.log(cond);
+        Movie.find(cond, function(err, movieData){
             if(err){
-                res.status.send("Error reading database.");
+                console.log(err);
+                res.status(500).send("Error reading database.");
                 return;
             }
             console.log(movieData);
@@ -166,7 +178,7 @@ app.get(['/movies'], (req, res) => {
         })
     }
     else{
-        res.send(pug.renderFile('./templates/moviesTemplate.pug'));
+        res.send(pug.renderFile('./templates/movieSearchTemplate.pug'));
     }
 });
 

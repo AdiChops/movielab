@@ -7,10 +7,12 @@ head
 body
     include navigationTemplate.pug
     main
-        input.search-bar(type='text' placeholder='Search...')
-        h1 MOVIES
-        .column
-        if movieData != undefined
-          each movieObj in movieData
-            a(class="white-background", href="/movies/" + movieObj._id) #{movieObj.title} (#{movieObj.year})
+      form(action="" method="GET") 
+        input.search-bar(type='text' id="title" name="title" placeholder='Search by title...')
+        input(type='submit' value="Search")
+      h1 MOVIES
+      .column
+      if movieData != undefined
+        each movieObj in movieData
+          a(class="white-background", href="/movies/" + movieObj._id) #{movieObj.title} (#{movieObj.year})
     

@@ -14,7 +14,7 @@ let activateNavigation = ()=>{
 let closeNavigation = () => {
     navToggled = false;
     document.querySelector('nav').style.width = "0px";
-    document.querySelector('main').style.marginLeft = "auto";
+    document.querySelector('main').style.margin = "auto";
 
     if(window.innerWidth > 768){
         document.querySelector('main').style.width = "90%";
