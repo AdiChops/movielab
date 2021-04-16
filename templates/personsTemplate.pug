@@ -1,11 +1,11 @@
 doctype html
 head
-  meta(charset='UTF-8')
+  include headTemplate.pug
   title Persons Page
-  link(rel="stylesheet", href="/styles/styles.css")
   link(rel="stylesheet", href="/styles/resultsPage.css")
 
 body
+    include navigationTemplate.pug
     main
         input.search-bar(type='text' placeholder='Search...')
         h1 PERSONS

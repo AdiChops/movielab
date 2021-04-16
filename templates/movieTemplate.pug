@@ -1,11 +1,11 @@
 doctype html
 head
-  meta(charset='UTF-8')
+  include headTemplate.pug
   title Movie Page
-  link(rel="stylesheet", href="/styles/styles.css")
   link(rel="stylesheet", href="/styles/movie.css")
   
-body  
+body
+  include navigationTemplate.pug
   main
     input.search-bar(type='text' placeholder='Search...')
     .row

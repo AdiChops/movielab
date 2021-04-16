@@ -15,7 +15,7 @@ h1 {
     border-radius: 15px;
   }
   
-a{
+main a{
   background-color: white;
   margin: auto; 
   text-align: center;
@@ -50,7 +50,7 @@ main{
   }
 }
 @media all and (hover:hover){
-  a:hover{
+  main a:hover{
     box-shadow: inset 0px 0px 7px #303030;
   }
 }

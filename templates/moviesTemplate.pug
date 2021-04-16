@@ -1,16 +1,16 @@
 doctype html
 head
-  meta(charset='UTF-8')
+  include headTemplate.pug
   title Movies Page
-  link(rel="stylesheet", href="/styles/styles.css")
   link(rel="stylesheet", href="/styles/resultsPage.css")
 
 body
+    include navigationTemplate.pug
     main
         input.search-bar(type='text' placeholder='Search...')
         h1 MOVIES
         .column
-        if movieData != null
-            each movieObj in movieData
-                a(class="white-background", href="/movies/" + movieObj.id) #{movieObj.info.Title} (#{movieObj.info.Year})
+        if movieData != undefined
+          each movieObj in movieData
+            a(class="white-background", href="/movies/" + movieObj._id) #{movieObj.title} (#{movieObj.year})
     
