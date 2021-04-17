@@ -11,19 +11,16 @@ html(lang='en')
         | Advanced Search
       form(method="GET" action="/movies")
         p Search for movies by title, genre keyword, and/or actor name
-        label(for='title') By title:
+        label(for='title') Title:
         br
-        input#title(type='text' name='title')
+        input#title(type='text' name='title' placeholder="Title")
         br
-        label(for='genre') By genre:
+        label(for='genre') Genre keyword:
         br
-        input#genre(type='text' name='genre')
+        input#genre(type='text' name='genre' placeholder="Genre keyword")
         br
-        label(for='actor') By actor:
-        select(class="selectpicker" data-show-subtext="true" data-live-search="true")
-        each actor in actors
-          option(data-subtext="Rep California" value=actor._id) Tom Foolery
+        label(for='actor') Actor name:
         br
-        input#actor(type='text' name='actor')
+        input#actor(type='text' placeholder="Actor Name" name='actor')
         br
         button#submit Search

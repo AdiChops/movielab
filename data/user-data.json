@@ -1,0 +1,14 @@
+[
+    {
+        "username":"poggerUser20",
+        "password":"verysecure",
+        "contributingUser":"true",
+        "dateAccountCreated":"2018-04-06T09:27:13.14Z"
+    },
+    {
+        "username":"userPogging1",
+        "password":"password123",
+        "contributingUser":"false",
+        "dateAccountCreated":"2019-06-05T12:33:12.14Z"
+    }
+]

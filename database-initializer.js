@@ -1,8 +1,10 @@
 const fileName = "./data/movie-data-2500.json";
+const userFile = "./data/user-data.json";
 const mongoose = require("mongoose");
 
 let Movie = require("./models/MovieModel")
 let Person = require("./models/PersonModel");
+let User = require("./models/UserModel")
 
 //Array of all movie documents (no duplicates)
 let allMovies = []; 
@@ -11,6 +13,8 @@ let people = {};
 //Array of all people documents (no duplicates)
 //(this is only used so we don't have to iterate over the people object later)
 let allPeople = [];
+//Array of all user documents
+let allUsers = [];
 
 //Takes a person name, movie document, and position ('actor', 'director', or 'writer' - matches the schema fields)
 //Creates a new person if one with that name doesn't exist already
@@ -45,6 +49,18 @@ function addPersonToMovie(personName, movie, position){
   curPerson[position].push(movie._id);
   movie[position].push(curPerson._id);
 }
+
+let userData = require(userFile);
+userData.forEach(user=>{
+  let newUser = new User();
+  newUser._id = mongoose.Types.ObjectId();
+  newUser.username = user.username;
+  newUser.password = user.password;
+  newUser.contributingUser = user.contributingUser;
+  newUser.dateAccountCreated = user.dateAccountCreated;
+  allUsers.push(newUser);
+
+});
 
 //Read the JSON data provided in the given file
 //This is an array of objects representing movies
@@ -113,6 +129,9 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   //We are connected. Drop the database first so we start fresh each time.
   mongoose.connection.db.dropDatabase(function(err, result){
+    // Add all sample users
+    User.insertMany(allUsers, function(err, results){
+      if(err){console.error(err); return;}
 
     //Add all of the movie documents to the database
     Movie.insertMany(allMovies, function(err, result){
@@ -147,5 +166,6 @@ db.once('open', function() {
         });
       });
     });
+  });
   });
 });

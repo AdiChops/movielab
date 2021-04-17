@@ -1,11 +1,11 @@
 const express = require('express');
+const session = require('express-session');
 const pug = require('pug');
 const mongoose = require('mongoose');
 const Movie = require("./models/MovieModel");
 const Person = require("./models/PersonModel");
-const e = require('express');
+const User = require("./models/UserModel");
 
-const currentUserData = require('./data/loggedInUser.json');
 const movieData = require('./data/movies.json');
 const reviewData = require('./data/reviews.json');
 const userData = require('./data/users.json');
@@ -20,8 +20,6 @@ let persons = {};
 let userFeed = {};
 let notifications = {};
 let reviews = {};
-let currentUser = currentUserData.info;
-currentUser.dateAccountCreated = new Date(currentUserData.info.dateAccountCreated);
 
 movieData.forEach(movie => {
 	movies[movie["id"]] = movie.info;
@@ -75,18 +73,51 @@ let getNotif = (n) =>{
     }
 }
 
-
 app.use(express.static('public'));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(session({secret: 'safe session'}));
 
 app.get('/login', (req,res)=>{
     res.sendFile('login.html', {root: './public'});
 });
 
+app.post('/login', (req, res)=>{
+    console.log(req.body);
+    User.findOne(req.body, function(err, userData){
+        if(err){
+            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+            return;
+        }
+        if(userData && Object.keys(userData).length > 0){
+            req.session.loggedIn = true;
+            req.session.loggedInUser = userData;
+            res.status(200).send(JSON.stringify({status: "200"}));
+        }
+        else{
+            res.status(403).send(JSON.stringify({status: "403", error: "Invalid username/password."}));
+        }
+    });
+});
+
+let auth = (req, res, next)=>{
+    if(!req.session.loggedIn){
+        res.status(401).redirect('/login');
+        return;
+    }
+    next();
+};
+
+
 app.get('/signup', (req,res)=>{
     res.sendFile('signup.html', {root: './public'});
 });
 
+
+// from hereon, ensure that user is authenticated
+app.use(auth);
+
+/*
 app.get('/createMovie', (req,res)=>{
     res.sendFile('createMovie.html', {root: './public'});
 });
@@ -98,12 +129,12 @@ app.get('/createPerson', (req,res)=>{
 app.get('/advancedSearch', (req,res)=>{
     res.sendFile('advancedSearch.html', {root: './public'});
 });
-
+*/
 
 app.get(['/', '/index'], (req,res)=>{
     let loggedIn = true;
-    currentUser = currentUserData.info;
-    currentUser.dateAccountCreated = new Date(currentUserData.info.dateAccountCreated);
+    currentUser = req.session.loggedInUser;
+    currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
     console.log(currentUser);
     res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn}));
 });
@@ -200,6 +231,11 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
 
 app.get(['/persons'], (req, res) => {
     res.send(pug.renderFile('./templates/personsTemplate.pug', {personData}));
+});
+
+app.get('/logout', (req, res)=>{
+    req.session.destroy();
+    res.redirect('/login');
 });
 
 app.get(['/persons/:personId'], (req, res, next)=> {

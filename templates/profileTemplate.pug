@@ -21,11 +21,11 @@ html
                                 span Manage Account 
 
                     p Member since #{currentUser["dateAccountCreated"].getFullYear()}
-                    p #{(currentUser["contributingUser"]=="true")?"Contributing User":"Non-contributing User"}
+                    p #{(currentUser["contributingUser"])?"Contributing User":"Non-contributing User"}
                     p Wrote #{(currentUser["reviews"]==null)?"no": currentUser["reviews"].length} reviews
-                    button(class="btn btn-outline-primary") Followed by #{currentUser["usersFollowedBy"].length} User#{(currentUser["usersFollowedBy"].length > 1 || currentUser["usersFollowing"].length == 0)?"s":""}
+                    button(class="btn btn-outline-primary") Followed by #{currentUser["usersFollowedBy"].length} User#{(currentUser["usersFollowedBy"].length > 1 || currentUser["usersFollowedBy"].length == 0)?"s":""}
                     button(class="btn btn-outline-info") Following #{currentUser["usersFollowing"].length} User#{(currentUser["usersFollowing"].length > 1 || currentUser["usersFollowing"].length == 0)?"s":""}
-                    button(class="btn btn-outline-secondary") Following #{currentUser["peopleFollowing"].length} #{(currentUser["usersFollowing"].length > 1 || currentUser["usersFollowing"].length == 0)?"People":"Person"}
+                    button(class="btn btn-outline-secondary") Following #{currentUser["peopleFollowing"].length} #{(currentUser["peopleFollowing"].length > 1 || currentUser["peopleFollowing"].length == 0)?"People":"Person"}
             
             if(loggedIn == true)
                 div(id="notifications")
