@@ -11,49 +11,49 @@ body
     .row
       .main-column
         .title-background
-          h1 #{movie.Title}
+          h1 #{movie.title}
         .movie-stats
           h3 
-            each genre in movie.Genre
+            each genre in movie.genre
               li=genre
-          h3 #{movie.Year} | #{movie.Rated} | #{movie.Runtime} 
+          h3 #{movie.year} | #{movie.rated} | #{movie.runtime} 
         .plot-summary
-          p #{movie.Plot}
+          p #{movie.plot}
         .row
           .column
             .reviews-background
               | REVIEWS
             .scrollable-div
-              each review in movie.Reviews
-                //h3 Review by #{users[reviews[review]["reviewerId"]]["username"]}}
-                hr
-                p #{reviews[review]["review"]}
-          .column
-            .reviews-background
-              | SIMILAR MOVIES
-            .scrollable-div
-              each similarMovieId in movie.SimilarMovies
-                  a(href="/movies/" + similarMovieId) #{movies[similarMovieId]["Title"]}
-                  br
+          //-     each review in movie.reviews
+          //-       //h3 Review by #{users[reviews[review]["reviewerId"]]["username"]}}
+          //-       hr
+          //-       p #{reviews[review]["review"]}
+          //- .column
+          //-   .reviews-background
+          //-     | SIMILAR MOVIES
+          //-   .scrollable-div
+          //-     each similarMovieId in movie.SimilarMovies
+          //-         a(href="/movies/" + similarMovieId) #{movies[similarMovieId]["Title"]}
+          //-         br
       .main-column
         button(type='button')
           | Watch +
         .people-header
           | DIRECTORS
         .white-textbox
-          each director in movie.Director
+          each director in movie.director
               a(href="/persons/" + "1") #{director}
               br
         .people-header
           | WRITERS
         .white-textbox
-          each writer in movie.Writer
+          each writer in movie.writer
               a(href="/persons/" + "1") #{writer}
               br
         .people-header
           | ACTORS
         .white-textbox
-          each actor in movie.Actors
+          each actor in movie.actor
               a(href="/persons/" + "1") #{actor}
               br
       .main-column

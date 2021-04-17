@@ -63,7 +63,7 @@ h1 {
 
 .column {
   float: left; 
-  width: 40%; 
+ /* width: 40%; */
   margin: auto;
   padding: 1em; 
   margin: 1em; 

@@ -7,7 +7,7 @@ let Person = require("./models/PersonModel");
 let User = require("./models/UserModel")
 
 //Array of all movie documents (no duplicates)
-let allMovies = []; 
+let allMovies = [];
 //Object to find people by name easier than using array (works since people names are assumed unique)
 let people = {};
 //Array of all people documents (no duplicates)
@@ -22,17 +22,17 @@ let allUsers = [];
 //Updates the given movie document to have the person's ID
 //The field that is updated in either document is the one indicated by 'position'
 //This relies on the fact that the fields use the same name in both document types (e.g., Movie.actor and Person.actor)
-function addPersonToMovie(personName, movie, position){
+function addPersonToMovie(personName, movie, position) {
   //If our people object does not contain this name (i.e., this is a new person)
-  if(!people.hasOwnProperty(personName)){
+  if (!people.hasOwnProperty(personName)) {
     //Create a new Person document, set initial state
     let newPerson = new Person();
-    
+
     //This is a key piece of functionality
     //We can use Mongoose to generate ObjectIDs OUTSIDE of the database
     //So we can use these IDs before we have actually inserted anything    
     newPerson._id = mongoose.Types.ObjectId();
-    
+
     newPerson.name = personName;
     newPerson.director = [];
     newPerson.actor = [];
@@ -42,7 +42,7 @@ function addPersonToMovie(personName, movie, position){
     //Update the people object (name -> person document)
     people[newPerson.name] = newPerson;
   }
-  
+
   //At this point, we know the movie and person are defined documents
   //Retrieve the current person using their name, update the movie and person
   let curPerson = people[personName];
@@ -50,8 +50,8 @@ function addPersonToMovie(personName, movie, position){
   movie[position].push(curPerson._id);
 }
 
-let userData = require(userFile);
-userData.forEach(user=>{
+const userData = require(userFile);
+userData.forEach(user => {
   let newUser = new User();
   newUser._id = mongoose.Types.ObjectId();
   newUser.username = user.username;
@@ -65,7 +65,7 @@ userData.forEach(user=>{
 //Read the JSON data provided in the given file
 //This is an array of objects representing movies
 let data = require(fileName);
-data.forEach(movie=>{
+data.forEach(movie => {
   /*
   movie is something like:
     {
@@ -83,7 +83,7 @@ data.forEach(movie=>{
       "Poster":"https://m.media-amazon.com/images/M/MV5BMTQwMjkwNjE0Ml5BMl5BanBnXkFtZTgwOTU5ODIyMTE@._V1_SX300.jpg"
     }
   */
-  
+
   //Create a new movie document using the Mongoose model
   //Copy over the required basic movie data
   let newMovie = new Movie();
@@ -93,24 +93,24 @@ data.forEach(movie=>{
   newMovie.runtime = movie.Runtime;
   newMovie.genre = movie.Genre;
   newMovie.plot = movie.Plot;
-  
+
   //For each actor in this movies Actor array, call the addPersonToMovie function
   //This function will create a new person if one with the given name doesn't exist
   //It will also update that person document and movie document
   movie.Actors.forEach(actorName => {
     addPersonToMovie(actorName, newMovie, "actor");
   })
-  
+
   //Repeat for directors
   movie.Director.forEach(directorName => {
     addPersonToMovie(directorName, newMovie, "director");
   })
-  
+
   //Repeast for writers
   movie.Writer.forEach(directorName => {
     addPersonToMovie(directorName, newMovie, "writer");
   })
-  
+
   //Add the movie to our array of all movies (these are added to the database once we are finished)
   allMovies.push(newMovie)
 })
@@ -123,49 +123,63 @@ These documents have interlinking IDs.
 You could also add users, reviews, etc. to the data in a similar way.
 */
 
-mongoose.connect('mongodb://localhost/moviedata', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/moviedata', { useNewUrlParser: true });
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', function () {
   //We are connected. Drop the database first so we start fresh each time.
-  mongoose.connection.db.dropDatabase(function(err, result){
-    // Add all sample users
-    User.insertMany(allUsers, function(err, results){
-      if(err){console.error(err); return;}
+  mongoose.connection.db.dropDatabase(function (err, result) {
 
-    //Add all of the movie documents to the database
-    Movie.insertMany(allMovies, function(err, result){
-  	  if(err){
-  		  console.log(err);
-  		  return;
-  	  }
-  	  
-      //Add all of the people documents to the database
-      Person.insertMany(allPeople, function(err, result){
-    	  if(err){
-    		  console.log(err);
-    		  return;
-    	  }
-        
-        //Once all movies/people have been added, query for movie Toy Story and person Tom Hanks
-        Movie.findOne({title: "The Ballad of Cable Hogue"}).populate("director actor writer").exec(function(err, result){
-          if(err)throw err;
-          console.log(result);
-          
-          Person.findOne({name: "Joe Mantegna"}).populate("actor director writer").exec(function(err, result){
-            if(err)throw err;
-			console.log(result);
-			
-			Person.find({}).exec(function(err, result){
-				if(err)throw err;
-				console.log(result);
-				mongoose.connection.close();
-			});
-            
-          });
-        });
-      });
+    // Add all sample users
+    User.insertMany(allUsers, function (err, result) {
+      if (err) { console.error(err); return; }
+      userData.forEach(user => {
+        console.log(user);
+        // update usersFollowing lists of each user
+        user.usersFollowing.forEach(uf => {
+          User.findOne({ username: uf }, function (err, following) {
+            User.findOne({ username: user.username }, function (err, follower) {
+              User.updateOne({ username: follower.username }, { $push: { usersFollowing: following._id } }).then(() => {
+                User.updateOne({ username: following.username }, { $push: { usersFollowedBy: follower._id } }).then(() => {
+                  //Add all of the movie documents to the database
+                  Movie.insertMany(allMovies, function (err, result) {
+                    if (err) {
+                      console.log(err);
+                      return;
+                    }
+
+                    //Add all of the people documents to the database
+                    Person.insertMany(allPeople, function (err, result) {
+                      if (err) {
+                        console.log(err);
+                        return;
+                      }
+
+                      //Once all movies/people have been added, query for movie Toy Story and person Tom Hanks
+                      Movie.findOne({ title: "The Ballad of Cable Hogue" }).populate("director actor writer").exec(function (err, result) {
+                        if (err) throw err;
+                        console.log(result);
+
+                        Person.findOne({ name: "Joe Mantegna" }).populate("actor director writer").exec(function (err, result) {
+                          if (err) throw err;
+                          console.log(result);
+
+                          Person.find({}).exec(function (err, result) {
+                            if (err) throw err;
+                            console.log(result);
+                            mongoose.connection.close();
+                          });
+
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            })
+          })
+        })
+      })
     });
-  });
   });
 });

@@ -8,7 +8,6 @@ const User = require("./models/UserModel");
 
 const movieData = require('./data/movies.json');
 const reviewData = require('./data/reviews.json');
-const userData = require('./data/users.json');
 const personData = require('./data/persons.json');
 const feedData = require('./data/feedPosts.json');
 const notifData = require('./data/notifications.json');
@@ -23,10 +22,6 @@ let reviews = {};
 
 movieData.forEach(movie => {
 	movies[movie["id"]] = movie.info;
-});
-
-userData.forEach(user => {
-	users[user["id"]] = user.info;
 });
 
 personData.forEach(person => {
@@ -140,17 +135,22 @@ app.get(['/', '/index'], (req,res)=>{
 });
 
 app.get(['/users/:userId'], (req, res, next)=>{
-    let id = req.params["userId"];
     let loggedIn = false;
-    currentUser = users[id];
-    currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
-    if(currentUser != undefined){
-        console.log(currentUser);
-        res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn}));
-    }
-    else{
-       next();
-    }
+    let contributing = req.session.loggedInUser.contributingUser;
+    User.findById(req.params["userId"], function(err, currentUser){
+        if(err){
+            console.error(err);
+            return;
+        }
+        currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
+        if(currentUser != undefined){
+            console.log(currentUser);
+            res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
+        }
+        else{
+           next();
+        }
+    });
 
 });
 
@@ -214,18 +214,18 @@ app.get(['/movies'], (req, res) => {
 });
 
 app.get(['/movies/:movieId'], (req,res, next)=>{
-    let id = req.params["movieId"];
-    let movie;
-    
-    console.log(id);
-    movie = movies[id];
-    console.log(movie);
-    if(movie != undefined){
-        res.send(pug.renderFile('./templates/movieTemplate.pug', {movie, movies, persons, reviews, users}));
-    }
-    else{
-       next();
-    }
+    Movie.findById(req.params["movieId"], function(err, movie){
+        if(err){
+            console.error(err);
+            return;
+        }
+        if(movie){
+            res.send(pug.renderFile('./templates/movieTemplate.pug', {movie}));
+        }
+        else{
+           next();
+        }
+    })
 
 });
 
