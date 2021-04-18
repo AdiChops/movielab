@@ -168,21 +168,26 @@ app.get(['/', '/index'], (req,res)=>{
 });
 
 app.get(['/users/:userId'], (req, res, next)=>{
-    let loggedIn = false;
-    User.findById(req.params["userId"], function(err, currentUser){
-        if(err){
-            console.error(err);
-            return;
-        }
-        currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
-        if(currentUser != undefined){
-            console.log(currentUser);
-            res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
-        }
-        else{
-           next();
-        }
-    });
+    if(mongoose.Types.ObjectId(req.params.userId) == req.session.loggedInUser._id){
+        res.redirect('/');
+    }
+    else{
+        let loggedIn = false;
+        User.findById(req.params["userId"], function(err, currentUser){
+            if(err){
+                console.error(err);
+                return;
+            }
+            currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
+            if(currentUser != undefined){
+                console.log(currentUser);
+                res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
+            }
+            else{
+            next();
+            }
+        });
+    }
 
 });
 
