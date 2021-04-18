@@ -28,6 +28,7 @@ body
                   a(href=`/users/${review.reviewer._id}`) #{review.reviewer.username}
                 p #{review.reviewSummary} | #{review.rating}/10
                 p #{review.fullReview}
+                h6 Written #{new Intl.DateTimeFormat('en-CA', { dateStyle: 'full', timeStyle: 'long' }).format(review.reviewDate)}
                 hr
           .column
             .reviews-background

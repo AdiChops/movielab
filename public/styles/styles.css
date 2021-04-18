@@ -47,6 +47,10 @@ nav a{
     padding: 8px 8px 8px 32px;
 }
 
+h6{
+    font-size: 0.8em;
+}
+
 #hamburger{
     text-decoration: none;
     width:auto;

@@ -81,7 +81,7 @@ app.get('/login', (req,res)=>{
 
 app.post('/login', (req, res)=>{
     console.log(req.body);
-    User.findOne(req.body, function(err, userData){
+    User.findOne(req.body).exec(function(err, userData){
         if(err){
             res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
             return;
@@ -161,10 +161,22 @@ app.get('/advancedSearch', (req,res)=>{
 
 app.get(['/', '/index'], (req,res)=>{
     let loggedIn = true;
-    currentUser = req.session.loggedInUser;
-    currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
-    console.log(currentUser);
-    res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
+    User.findById(req.session.loggedInUser._id).populate({
+        path: 'reviews',
+        populate: {path: 'movie'}
+    }).populate("usersFollowing").populate("usersFollowedBy").populate("peopleFollowing").exec(
+        function(err, userResult){
+            if(err){
+                console.error(err);
+                res.status(500).send("Error reading database.");
+                return;
+            }
+            currentUser = userResult;
+            currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
+            console.log(currentUser);
+            res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
+        }
+    );
 });
 
 app.get(['/users/:userId'], (req, res, next)=>{
@@ -184,7 +196,7 @@ app.get(['/users/:userId'], (req, res, next)=>{
                 res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
             }
             else{
-            next();
+                next();
             }
         });
     }
@@ -223,10 +235,10 @@ app.get(['/index/notifications'], (req,res)=>{
 });
 
 let movieSearch = (req, res, cond)=>{
-    if(req.query.title){
+    if(req.query.title && req.query.title.trim() != ''){
         cond.title = {$regex: `.*${req.query.title}.*`, $options: 'i'};
     }
-    if(req.query.genres){
+    if(req.query.genres && req.query.genres.trim() != ''){
         cond.genre = {$regex: `.*${req.query.genre}.*`, $options: 'i'};
     }
     Movie.find(cond, function(err, movieData){
@@ -243,7 +255,7 @@ let movieSearch = (req, res, cond)=>{
 app.get(['/movies'], async (req, res) => {
     if(req.query && Object.keys(req.query).length > 0){
         let cond = {};
-        if(req.query.actor){
+        if(req.query.actor && req.query.actor.trim() != ''){
             Person.find({
                 name: {$regex: `.*${req.query.actor}.*`}
             }, function(err, personsResults){
@@ -282,7 +294,10 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
         console.log(movie);
         if(movie){
             if(movie.reviews.length > 0){
-                movie.averageRating = movie.reviews.reduce((rev, rev2)=> (rev.rating + rev2.rating)) / movie.reviews.length;
+                if(movie.reviews.length > 1)
+                    movie.averageRating = movie.reviews.reduce((rev, rev2)=> (rev.rating + rev2.rating)) / movie.reviews.length;
+                else
+                    movie.averageRating = movie.reviews[0].rating;
             }
             else{
                 movie.averageRating = "N/A";
