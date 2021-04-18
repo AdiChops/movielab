@@ -19,7 +19,7 @@ html
                             div(id="manage_account")
                                 i(class="fas fa-cog")
                                 span Manage Account 
-
+                    input(type="hidden" id="userId" value=currentUser._id)
                     p Member since #{currentUser["dateAccountCreated"].getFullYear()}
                     p #{(currentUser["contributingUser"])?"Contributing User":"Non-contributing User"}
                     p Wrote #{(currentUser["reviews"]==null)?"no": currentUser["reviews"].length} reviews
@@ -39,14 +39,21 @@ html
                             each person in currentUser.peopleFollowing 
                                 li
                                     a(class="dropdown-item" href=`/persons/${person._id}`) #{person.name}
-            
-            if(loggedIn == true)
+            br
+            if(loggedIn)
                 div(id="notifications")
                     div(class="btn-group")
                         button(type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false")
                             i(class="fas fa-bell")
                             span Notifications
                         ul(class="dropdown-menu" id="notifs")
+            else
+                button(class="btn btn-outline-success" title="Follow user" style=`${(currentUser.followed)?"display:none;":""}` id="follow" type='button') Follow +
+                button(class="btn btn-success" title="Unfollow user" id="unfollow" style=`${(currentUser.followed)?"":"display:none;"}` type='button') Following 
+                    i(class="fas fa-check")
+                p(id="error" class="error")
+                    span &times;
+                    | Error with following user
 
             div(id="tab-info")
                 ul(class="nav nav-tabs",id="myTab", role="tablist")
@@ -86,5 +93,7 @@ html
                             hr
                         if(currentUser.reviews.length == 0)
                             p Currently written no reviews.
-
-        script(src="./scripts/index.js")
+        if(loggedIn)
+            script(src="/scripts/index.js")
+        else 
+            script(src="/scripts/users.js")

@@ -188,15 +188,56 @@ app.get(['/users/:userId'], (req, res, next)=>{
         }).populate("watchlist").populate("usersFollowing").populate("usersFollowedBy").populate("peopleFollowing").exec(function(err, currentUser){
             if(err){
                 console.error(err);
+                res.status(500).send("Error reading database.");
                 return;
             }
             currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
-            if(currentUser != undefined){
-                console.log(currentUser);
-                res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
+            if(currentUser){
+                User.findOne({_id:req.session.loggedInUser._id, usersFollowing: currentUser._id}).exec(function(err, loggedUser){
+                    if(err){
+                        console.error(err);
+                        res.status(500).send("Error reading database.");
+                        return;
+                    }
+                    currentUser.followed = !!loggedUser;
+                    res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
+                });
             }
             else{
                 next();
+            }
+        });
+    }
+
+});
+
+app.put(['/users/:userId/follow'], (req, res, next)=>{
+    if(mongoose.Types.ObjectId(req.params.userId) == req.session.loggedInUser._id){
+        res.status(400).send(JSON.stringify({status: "400", error: "You can't follow yourself."}));
+    }
+    else{
+        User.findById(req.params["userId"]).exec(function(err, userToFollow){
+            if(err){
+                console.error(err);
+                return;
+            }
+            if(userToFollow){
+                User.updateOne({_id: req.session.loggedInUser._id}, {$push: {usersFollowing: userToFollow._id}}).then(function(result){
+                    User.updateOne({_id: userToFollow._id}, {$push: {usersFollowedBy: req.session.loggedInUser._id}}).then(function(results){
+                        res.status(200).send(JSON.stringify({status: "200"}));
+                    }).catch(function(err){
+                        console.error(err);
+                        res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                        return;
+                    });
+                }).catch(function(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                    return;
+                });
+            }
+            else{
+                res.status(400).send(JSON.stringify({status: "400", error: "That user id is invalid."}));
             }
         });
     }
