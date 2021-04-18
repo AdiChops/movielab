@@ -111,6 +111,36 @@ app.get('/signup', (req,res)=>{
     res.sendFile('signup.html', {root: './public'});
 });
 
+app.post('/signup', (req, res)=>{
+    console.log(req.body);
+    User.findOne({username: req.body.username}, function(err, userData){
+        if(err){
+            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+            return;
+        }
+        if(userData && Object.keys(userData).length > 0){
+            res.status(400).send(JSON.stringify({status: "400", error: "A user with that username already exists, please pick another username."}));
+        }
+        else{
+            let newUser = new User();
+            newUser.username = req.body.username;
+            newUser.password = req.body.password;
+            newUser.contributingUser = req.body.contributingUser;
+            newUser.dateAccountCreated = Date.now();
+
+            User.create(newUser).then(function(result){
+                req.session.loggedIn = true;
+                req.session.loggedInUser = result;
+                contributing = req.session.loggedInUser.contributingUser
+                res.status(200).send(JSON.stringify({status: "200"}));
+            }).catch(function(err){
+                res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                return;
+            });
+        }
+    });
+});
+
 
 // from hereon, ensure that user is authenticated
 app.use(auth);
