@@ -80,7 +80,6 @@ app.get('/login', (req,res)=>{
 });
 
 app.post('/login', (req, res)=>{
-    console.log(req.body);
     User.findOne(req.body).exec(function(err, userData){
         if(err){
             res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
@@ -112,7 +111,6 @@ app.get('/signup', (req,res)=>{
 });
 
 app.post('/signup', (req, res)=>{
-    console.log(req.body);
     User.findOne({username: req.body.username}, function(err, userData){
         if(err){
             res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
@@ -164,7 +162,7 @@ app.get(['/', '/index'], (req,res)=>{
     User.findById(req.session.loggedInUser._id).populate({
         path: 'reviews',
         populate: {path: 'movie'}
-    }).populate("usersFollowing").populate("usersFollowedBy").populate("peopleFollowing").exec(
+    }).populate("usersFollowing").populate("watchlist").populate("usersFollowedBy").populate("peopleFollowing").exec(
         function(err, userResult){
             if(err){
                 console.error(err);
@@ -173,7 +171,6 @@ app.get(['/', '/index'], (req,res)=>{
             }
             currentUser = userResult;
             currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
-            console.log(currentUser);
             res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
         }
     );
@@ -185,7 +182,10 @@ app.get(['/users/:userId'], (req, res, next)=>{
     }
     else{
         let loggedIn = false;
-        User.findById(req.params["userId"], function(err, currentUser){
+        User.findById(req.params["userId"]).populate({
+            path: 'reviews',
+            populate: {path: 'movie'}
+        }).populate("watchlist").populate("usersFollowing").populate("usersFollowedBy").populate("peopleFollowing").exec(function(err, currentUser){
             if(err){
                 console.error(err);
                 return;
@@ -202,6 +202,7 @@ app.get(['/users/:userId'], (req, res, next)=>{
     }
 
 });
+
 
 app.get(['/index/feed'], (req,res)=>{
     let feedPosts = currentUser["feedPosts"];
@@ -259,8 +260,6 @@ app.get(['/movies'], async (req, res) => {
             Person.find({
                 name: {$regex: `.*${req.query.actor}.*`}
             }, function(err, personsResults){
-                console.log(req.query.actor);
-                console.log(personsResults);
                 if(err){
                     console.error(err);
                     res.status(500).send("Error reading database.");
@@ -286,18 +285,25 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
     Movie.findById(req.params["movieId"]).populate({
         path: 'reviews',
         populate: {path: 'reviewer'}
-    }).populate('actor').populate('writer').populate('director').exec(function(err, movie){
+    }).populate('actor').populate('writer').populate('director').exec(async function(err, movie){
         if(err){
             console.error(err);
             return;
         }
-        console.log(movie);
         if(movie){
             if(movie.reviews.length > 0){
                 if(movie.reviews.length > 1)
                     movie.averageRating = movie.reviews.reduce((rev, rev2)=> (rev.rating + rev2.rating)) / movie.reviews.length;
                 else
                     movie.averageRating = movie.reviews[0].rating;
+                await User.findOne({_id: req.session.loggedInUser._id, watchlist: movie._id}, function(err, user){
+                    if(err){
+                        console.error(err);
+                        res.status(500).send("Error reading database");
+                        return;
+                    }
+                    movie.watched = !!user;
+                });
             }
             else{
                 movie.averageRating = "N/A";
@@ -309,6 +315,68 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
         }
     });
 
+});
+
+app.put(['/movies/:movieId/watch'], (req, res)=>{
+    Movie.findById(req.params.movieId, function(err, result){
+        if(err){
+            console.error(err);
+            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+            return;
+        }
+        if(!result){
+            res.status(400).send(JSON.stringify({status: "400", error: "Invalid movie id."}));
+        }
+        else{
+            User.findOne({_id: req.session.loggedInUser._id, watchlist: result._id}, function(err, user){
+                if(user){
+                    res.status(400).send(JSON.stringify({status: "400", error: "This movie is already in your watchlist."}));
+                }
+                else{
+                    User.updateOne({_id: req.session.loggedInUser._id}, {$push: {watchlist: result._id}}).then(function(userRes){
+                        res.status(200).send(JSON.stringify({status: "200"}));
+                    }).catch(function(err){
+                        if(err){
+                            console.error(err);
+                            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                            return;
+                        }
+                    });
+                }
+            });
+        }
+    })
+});
+
+app.put(['/movies/:movieId/unwatch'], (req, res)=>{
+    Movie.findById(req.params.movieId, function(err, result){
+        if(err){
+            console.error(err);
+            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+            return;
+        }
+        if(!result){
+            res.status(400).send(JSON.stringify({status: "400", error: "Invalid movie id."}));
+        }
+        else{
+            User.findOne({_id: req.session.loggedInUser._id, watchlist: result._id}, function(err, user){
+                if(!user){
+                    res.status(400).send(JSON.stringify({status: "400", error: "This movie is not in your watchlist."}));
+                }
+                else{
+                    User.updateOne({_id: req.session.loggedInUser._id}, {$pull: {watchlist: result._id}}).then(function(userRes){
+                        res.status(200).send(JSON.stringify({status: "200"}));
+                    }).catch(function(err){
+                        if(err){
+                            console.error(err);
+                            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                            return;
+                        }
+                    });
+                }
+            });
+        }
+    })
 });
 
 app.get(['/persons'], (req, res) => {

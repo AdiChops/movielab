@@ -98,13 +98,14 @@ h1 {
   color: white;
 }
 
-button{
-  background-color: #2a9d8f;
-  color: white;
+.btn{
   padding: 1em;
-  margin: 1em;
+  margin: auto;
   width: 50%;
-  border-radius: 15px;
+}
+
+.btn-outline-success{
+  background-color: white;
 }
 /* 
 main {

@@ -9,6 +9,7 @@ body
   main
     .row
       .main-column
+        input(id="movieId" type="hidden" value=movie._id)
         .title-background
           h1 #{movie.title}
         .movie-stats
@@ -38,8 +39,13 @@ body
               //-     a(href="/movies/" + similarMovieId) #{movies[similarMovieId]["Title"]}
               //-     br
       .main-column
-        button(type='button')
+        p(id="errorWatch" class="error")
+          span &times;
+          | Error with adding to watchlist
+        button(class="btn btn-outline-success" title="Add to watchlist" style=`${(movie.watched)?"display:none;":""}` id="watch" type='button')
           | Watch +
+        button(class="btn btn-success" title="Remove from watchlist" id="unwatch" style=`${(movie.watched)?"":"display:none;"}` type='button') Watched 
+          i(class="fas fa-check")
         .people-header
           | DIRECTORS
         .white-textbox
@@ -60,7 +66,6 @@ body
               br
       .main-column
         if contributing
-          input#movieId(type="hidden" value=movie._id)
           p(id="error")
             span &times;
             | All fields are required and rating must be a number between 0 and 10
@@ -75,10 +80,11 @@ body
           textArea#fullReview(required)
           br
           button#submitFullReview(type='button') SUBMIT FULL REVIEW
+          script(src="/scripts/addReview.js")
         else 
           div(class="white-textbox")
             p Switch your account type to a contributing user to add a review.
         
-        script(src="/scripts/addReview.js")
+        script(src="/scripts/movies.js")
 
         
