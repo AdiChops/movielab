@@ -24,8 +24,9 @@ body
               | REVIEWS
             .scrollable-div
               each review in movie.reviews
-                //h3 Review by #{users[reviews[review]["reviewerId"]]["username"]}}
-                p #{review.reviewer.username} | #{review.reviewSummary} | #{review.rating}/10
+                h3 Review by 
+                  a(href=`/users/${review.reviewer._id}`) #{review.reviewer.username}
+                p #{review.reviewSummary} | #{review.rating}/10
                 p #{review.fullReview}
                 hr
           .column
