@@ -15,7 +15,8 @@ body
         .movie-stats
           h3 
             each genre in movie.genre
-              li=genre
+              li
+                a(href=`/movies?genre=${genre}`) #{genre}
           h3 #{movie.year} | #{movie.averageRating}/10 | #{movie.runtime} 
         .plot-summary
           p #{movie.plot}

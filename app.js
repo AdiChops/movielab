@@ -239,7 +239,7 @@ let movieSearch = (req, res, cond)=>{
     if(req.query.title && req.query.title.trim() != ''){
         cond.title = {$regex: `.*${req.query.title}.*`, $options: 'i'};
     }
-    if(req.query.genres && req.query.genres.trim() != ''){
+    if(req.query.genre && req.query.genre.trim() != ''){
         cond.genre = {$regex: `.*${req.query.genre}.*`, $options: 'i'};
     }
     Movie.find(cond, function(err, movieData){
@@ -296,22 +296,22 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
                     movie.averageRating = movie.reviews.reduce((rev, rev2)=> (rev.rating + rev2.rating)) / movie.reviews.length;
                 else
                     movie.averageRating = movie.reviews[0].rating;
-                await User.findOne({_id: req.session.loggedInUser._id, watchlist: movie._id}, function(err, user){
-                    if(err){
-                        console.error(err);
-                        res.status(500).send("Error reading database");
-                        return;
-                    }
-                    movie.watched = !!user;
-                });
             }
             else{
                 movie.averageRating = "N/A";
             }
+            await User.findOne({_id: req.session.loggedInUser._id, watchlist: movie._id}, function(err, user){
+                if(err){
+                    console.error(err);
+                    res.status(500).send("Error reading database");
+                    return;
+                }
+                movie.watched = !!user;
+            });
             res.send(pug.renderFile('./templates/movieTemplate.pug', {movie, contributing}));
         }
         else{
-           next();
+           res.status(404).send('Movie not found!');
         }
     });
 
