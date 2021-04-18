@@ -5,6 +5,26 @@ html, body{
     font-family: Calibri, sans-serif;
     background-color: #264653;
 }
+
+#error{
+    display:none;
+    color:red;
+    animation-duration: 0.5s;
+    animation-name: slide;
+}
+@keyframes slide{
+    from{
+        margin-left: -100em;
+    }
+    to{
+        margin-right: 0em;
+    }
+}
+#error > span{
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
 /* code snippet inspired from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav_push*/
 nav{
    height: 100%;

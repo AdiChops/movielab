@@ -22,24 +22,6 @@ h1{
     row-gap: 1em;
     border-radius: 10px;    
 }
-#error{
-    display:none;
-    color:red;
-    animation-duration: 0.5s;
-    animation-name: slide;
-}
-@keyframes slide{
-    from{
-        margin-left: -100em;
-    }
-    to{
-        margin-right: 0em;
-    }
-}
-#error > span{
-    font-weight: bold;
-    font-size: 1.5em;
-}
 
 @media all and (min-width:768px){
     #login{

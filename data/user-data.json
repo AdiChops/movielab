@@ -4,13 +4,29 @@
         "password":"verysecure",
         "contributingUser":"true",
         "dateAccountCreated":"2018-04-06T09:27:13.14Z",
-        "usersFollowing": []
+        "usersFollowing": [],
+        "reviews":[            
+            {"title":"Die Hard 2", 
+            "rating": "10", 
+            "summary": "Great movie.", 
+            "full":"Amazing movie. I had a great time.", 
+            "date":"2018-10-12T11:08:13.14Z"
+        }]
     },
     {
         "username":"userPogging1",
         "password":"password123",
         "contributingUser":"false",
         "dateAccountCreated":"2019-06-05T12:33:12.14Z",
-        "usersFollowing": ["poggerUser20"]
+        "usersFollowing": ["poggerUser20"],
+        "reviews":[
+            {
+                "title":"Die Hard", 
+                "rating": "7.5", 
+                "summary": "Pretty good movie.", 
+                "full":"This movie was pretty good. I really liked the plot and loved the actors, but some things could've been improved.", 
+                "date":"2019-08-10T08:35:14.14Z"
+            }
+        ]
     }
 ]

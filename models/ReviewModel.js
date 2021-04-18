@@ -6,7 +6,8 @@ let reviewSchema = Schema({
     reviewer: {type:Schema.Types.ObjectId, ref: 'User'},
     rating: {type: Number, required: true},
     reviewSummary: String,
-    fullReview: String
+    fullReview: String,
+    reviewDate: Date
   });
 
 module.exports = mongoose.model("Review", reviewSchema);

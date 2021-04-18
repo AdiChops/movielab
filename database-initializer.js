@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 let Movie = require("./models/MovieModel")
 let Person = require("./models/PersonModel");
+let Review = require("./models/ReviewModel");
 let User = require("./models/UserModel")
 
 //Array of all movie documents (no duplicates)
@@ -131,55 +132,86 @@ db.once('open', function () {
   mongoose.connection.db.dropDatabase(function (err, result) {
 
     // Add all sample users
-    User.insertMany(allUsers, function (err, result) {
+    User.insertMany(allUsers, async function (err, result) {
       if (err) { console.error(err); return; }
-      userData.forEach(user => {
+      await userData.forEach(user => {
         console.log(user);
         // update usersFollowing lists of each user
         user.usersFollowing.forEach(uf => {
           User.findOne({ username: uf }, function (err, following) {
             User.findOne({ username: user.username }, function (err, follower) {
-              User.updateOne({ username: follower.username }, { $push: { usersFollowing: following._id } }).then(() => {
-                User.updateOne({ username: following.username }, { $push: { usersFollowedBy: follower._id } }).then(() => {
-                  //Add all of the movie documents to the database
-                  Movie.insertMany(allMovies, function (err, result) {
-                    if (err) {
-                      console.log(err);
-                      return;
-                    }
+              User.updateOne({ username: follower.username }, { $push: { usersFollowing: following._id } }).then(async () => {
+                await User.updateOne({ username: following.username }, { $push: { usersFollowedBy: follower._id } });
+              });
+            });
+          });
+        });
+      });
 
-                    //Add all of the people documents to the database
-                    Person.insertMany(allPeople, function (err, result) {
-                      if (err) {
-                        console.log(err);
+      //Add all of the movie documents to the database
+      Movie.insertMany(allMovies, function (err, result) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+
+        //Add all of the people documents to the database
+        Person.insertMany(allPeople, async function (err, result) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+
+          await userData.forEach(user =>
+            {
+              user.reviews.forEach(rev => {
+                Movie.findOne({"title":rev.title}, function(err, movieRes){
+                  if(err){
+                    console.error(err);
+                    return;
+                  }
+                  User.findOne({"username": user.username}, function(err, userRes){
+                    let review = new Review();
+                    review.rating = rev.rating;
+                    review.movie = movieRes._id;
+                    review.reviewer = userRes._id;
+                    review.reviewSummary = rev.summary;
+                    review.fullReview = rev.full;
+                    review.reviewDate = rev.date;
+                    Review.create(review, function(error, revResult){
+                      if(error){
+                        console.error(error);
                         return;
                       }
-
-                      //Once all movies/people have been added, query for movie Toy Story and person Tom Hanks
-                      Movie.findOne({ title: "The Ballad of Cable Hogue" }).populate("director actor writer").exec(function (err, result) {
-                        if (err) throw err;
-                        console.log(result);
-
-                        Person.findOne({ name: "Joe Mantegna" }).populate("actor director writer").exec(function (err, result) {
-                          if (err) throw err;
-                          console.log(result);
-
-                          Person.find({}).exec(function (err, result) {
-                            if (err) throw err;
-                            console.log(result);
-                            mongoose.connection.close();
-                          });
-
-                        });
-                      });
+                      User.updateOne({ username: user.username }, { $push: { reviews: revResult._id } });
+                      Movie.findByIdAndUpdate(movieRes._id, { $push: { reviews: revResult._id } });
                     });
                   });
-                });
+                 
+                })
+              })
+            }
+          );
+          //Once all movies/people have been added, query for movie Toy Story and person Tom Hanks
+          Movie.findOne({ title: "The Ballad of Cable Hogue" }).populate("director actor writer").exec(function (err, result) {
+            if (err) throw err;
+            console.log(result);
+
+            Person.findOne({ name: "Joe Mantegna" }).populate("actor director writer").exec(function (err, result) {
+              if (err) throw err;
+              console.log(result);
+
+              Person.find({}).exec(function (err, result) {
+                if (err) throw err;
+                console.log(result);
+                mongoose.connection.close();
               });
-            })
-          })
-        })
-      })
+
+            });
+          });
+        });
+      });
+
     });
   });
 });

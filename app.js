@@ -20,6 +20,7 @@ let persons = {};
 let userFeed = {};
 let notifications = {};
 let reviews = {};
+let contributing;
 
 movieData.forEach(movie => {
 	movies[movie["id"]] = movie.info;
@@ -88,6 +89,7 @@ app.post('/login', (req, res)=>{
         if(userData && Object.keys(userData).length > 0){
             req.session.loggedIn = true;
             req.session.loggedInUser = userData;
+            contributing = req.session.loggedInUser.contributingUser
             res.status(200).send(JSON.stringify({status: "200"}));
         }
         else{
@@ -132,12 +134,11 @@ app.get(['/', '/index'], (req,res)=>{
     currentUser = req.session.loggedInUser;
     currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
     console.log(currentUser);
-    res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn}));
+    res.send(pug.renderFile('./templates/profileTemplate.pug', {currentUser, loggedIn, contributing}));
 });
 
 app.get(['/users/:userId'], (req, res, next)=>{
     let loggedIn = false;
-    let contributing = req.session.loggedInUser.contributingUser;
     User.findById(req.params["userId"], function(err, currentUser){
         if(err){
             console.error(err);
@@ -199,7 +200,7 @@ let movieSearch = (req, res, cond)=>{
             res.status(500).send("Error reading database.");
             return;
         }
-        res.status(200).send(pug.renderFile('./templates/moviesTemplate.pug', {movieData}));
+        res.status(200).send(pug.renderFile('./templates/moviesTemplate.pug', {movieData, contributing}));
     });
 }
 
@@ -230,12 +231,15 @@ app.get(['/movies'], async (req, res) => {
         }
     }
     else{
-        res.send(pug.renderFile('./templates/movieSearchTemplate.pug'));
+        res.send(pug.renderFile('./templates/movieSearchTemplate.pug', {contributing}));
     }
 });
 
 app.get(['/movies/:movieId'], (req,res, next)=>{
-    Movie.findById(req.params["movieId"]).populate('reviews').populate("reviews.user").populate('actor').populate('writer').populate('director').exec(function(err, movie){
+    Movie.findById(req.params["movieId"]).populate({
+        path: 'reviews',
+        populate: {path: 'reviewer'}
+    }).populate('actor').populate('writer').populate('director').exec(function(err, movie){
         if(err){
             console.error(err);
             return;
@@ -243,12 +247,12 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
         console.log(movie);
         if(movie){
             if(movie.reviews.length > 0){
-                movie.averageRating = movie.reveiws.reduce((rev, rev2)=> (rev + rev2)) / movie.reviews.length;
+                movie.averageRating = movie.reviews.reduce((rev, rev2)=> (rev.rating + rev2.rating)) / movie.reviews.length;
             }
             else{
                 movie.averageRating = "N/A";
             }
-            res.send(pug.renderFile('./templates/movieTemplate.pug', {movie}));
+            res.send(pug.renderFile('./templates/movieTemplate.pug', {movie, contributing}));
         }
         else{
            next();
@@ -258,7 +262,7 @@ app.get(['/movies/:movieId'], (req,res, next)=>{
 });
 
 app.get(['/persons'], (req, res) => {
-    res.send(pug.renderFile('./templates/personsTemplate.pug', {personData}));
+    res.send(pug.renderFile('./templates/personsTemplate.pug', {personData, contributing}));
 });
 
 app.get('/logout', (req, res)=>{
@@ -273,7 +277,7 @@ app.get(['/persons/:personId'], (req, res, next)=> {
             return;
         }
         if (person != undefined){
-            res.send(pug.renderFile('./templates/personTemplate.pug', {person}));
+            res.send(pug.renderFile('./templates/personTemplate.pug', {person, contributing}));
         }
         else{
             next();
@@ -286,6 +290,45 @@ app.post(['/movies'], function(req, res){
     res.send('POST request to the database')
 
 })
+
+app.post(['/movies/:movieId/reviews'], function(req, res){
+    if(!contributing){
+        res.status(403).send("Unauthorized");
+    }
+    let review = new Review();
+    review.reviewDate = Date.now();
+    review.rating = req.body.rating;
+    review.reviewSummary = req.body.summary;
+    review.fullReview = req.body.fullReview;
+    review.reviewer = req.session.loggedInUser._id;
+    review.movie = req.params.movieId;
+    Review.create(review).then(function(result){
+        Movie.updateOne({_id: req.params.movieId}, { $push: { reviews: result._id }}).then(function(resulted){
+            User.updateOne({_id: req.session.loggedInUser._id}, { $push: { reviews: result._id }}).then(function(userRes){
+                res.status(200).send(JSON.stringify({status: "200"}));
+            }).catch(function(err){
+                if(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                    return;
+                }
+            });
+        }).catch(function(err){
+            if(err){
+                console.error(err);
+                res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                return;
+            }
+        });
+    })
+    .catch(function(err){
+        if(err){
+            console.error(err);
+            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+            return;
+        }
+    })
+});
 
 app.use(function (req, res, next) {
     res.status(404).send("Sorry, we couldn't find that resource!");

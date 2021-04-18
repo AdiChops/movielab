@@ -23,17 +23,18 @@ body
             .reviews-background
               | REVIEWS
             .scrollable-div
-          //-     each review in movie.reviews
-          //-       //h3 Review by #{users[reviews[review]["reviewerId"]]["username"]}}
-          //-       hr
-          //-       p #{reviews[review]["review"]}
-          //- .column
-          //-   .reviews-background
-          //-     | SIMILAR MOVIES
-          //-   .scrollable-div
-          //-     each similarMovieId in movie.SimilarMovies
-          //-         a(href="/movies/" + similarMovieId) #{movies[similarMovieId]["Title"]}
-          //-         br
+              each review in movie.reviews
+                //h3 Review by #{users[reviews[review]["reviewerId"]]["username"]}}
+                p #{review.reviewer.username} | #{review.reviewSummary} | #{review.rating}/10
+                p #{review.fullReview}
+                hr
+          .column
+            .reviews-background
+              | SIMILAR MOVIES
+            .scrollable-div
+              //- each similarMovieId in movie.SimilarMovies
+              //-     a(href="/movies/" + similarMovieId) #{movies[similarMovieId]["Title"]}
+              //-     br
       .main-column
         button(type='button')
           | Watch +
@@ -56,15 +57,26 @@ body
               a(href=`/persons/${actor._id}`) #{actor.name}
               br
       .main-column
-        label(for='rating') Rating (/10):
-        input#rating(type='number' step='0.1' min='0' max='10' placeholder='/10')
-        br
-        label(for='reviewSummary') Review Summary: 
-        input#reviewSummary(type='text' placeholder='Write your review summary...')
-        button#submitBasicReview(type='button') SUBMIT BASIC REVIEW
-        br
-        label(for='fullReview') Full Review Text:
-        input#fullReview(type='text' placeholder='Write your full review...')
-        button#submitFullReview(type='button') SUBMIT FULL REVIEW
+        if contributing
+          input#movieId(type="hidden" value=movie._id)
+          p(id="error")
+            span &times;
+            | All fields are required and rating must be a number between 0 and 10
+          label(for='rating') Rating (/10):
+          input#rating(type='number' step='0.1' min='0' max='10' required placeholder='/10')
+          br
+          label(for='reviewSummary') Review Summary: 
+          input#reviewSummary(type='text' required placeholder='Write your review summary...')
+          br
+          label(for='fullReview') Full Review Text:
+          br 
+          textArea#fullReview(required)
+          br
+          button#submitFullReview(type='button') SUBMIT FULL REVIEW
+        else 
+          div(class="white-textbox")
+            p Switch your account type to a contributing user to add a review.
+        
+        script(src="/scripts/addReview.js")
 
         
