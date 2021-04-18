@@ -7,13 +7,12 @@ head
 body
   include navigationTemplate.pug
   main
-    input.search-bar(type='text' placeholder='Search...')
     .row
       .left-div
         .row
           .name-background
             h1
-              | #{person.firstName} #{person.lastName} 
+              | #{person.name}
           button(type='button')
             | FOLLOW +
         .row
@@ -21,31 +20,28 @@ body
             .orange-background
               | DIRECTED
             .scrollable-div
-              each movie in person.directed
-                //li=movie
-                a(href="/movies/" + "0") #{movie}
+              each movie in person.director
+                a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
                 br
           .column
             .orange-background
               | WRITTEN
             .scrollable-div
-              each movie in person.written
-                a(href="/movies/" + "0") #{movie}
+              each movie in person.writer
+                a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
                 br
-                //li=movie
           .column
             .orange-background
               | ACTED IN
             .scrollable-div
-              each movie in person.actedIn
-                a(href="/movies/" + "0") #{movie}
+              each movie in person.actor
+                a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
                 br
-                //li=movie
       .right-div
         .orange-background
           | TOP 5 COLLABORATORS
-        each collaborator in person.top5
-          .white-background
-            a(href="/persons/" + "1") #{collaborator}
-            br
+        //- each collaborator in person.top5
+        //-   .white-background
+        //-     a(href="/persons/" + "1") #{collaborator}
+        //-     br
         

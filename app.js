@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const Movie = require("./models/MovieModel");
 const Person = require("./models/PersonModel");
 const User = require("./models/UserModel");
+const Review = require("./models/ReviewModel");
 
 const movieData = require('./data/movies.json');
 const reviewData = require('./data/reviews.json');
@@ -185,28 +186,48 @@ app.get(['/index/notifications'], (req,res)=>{
     res.send(not);
 });
 
-app.get(['/movies'], (req, res) => {
+let movieSearch = (req, res, cond)=>{
+    if(req.query.title){
+        cond.title = {$regex: `.*${req.query.title}.*`, $options: 'i'};
+    }
+    if(req.query.genres){
+        cond.genre = {$regex: `.*${req.query.genre}.*`, $options: 'i'};
+    }
+    Movie.find(cond, function(err, movieData){
+        if(err){
+            console.log(err);
+            res.status(500).send("Error reading database.");
+            return;
+        }
+        res.status(200).send(pug.renderFile('./templates/moviesTemplate.pug', {movieData}));
+    });
+}
+
+
+app.get(['/movies'], async (req, res) => {
     if(req.query && Object.keys(req.query).length > 0){
         let cond = {};
-        if(req.query.title){
-            cond.title = {$regex: `.*${req.query.title}.*`, $options: 'i'};
-        }
-        if(req.query.genres){
-            cond.genre = {$regex: `.*${req.query.genre}.*`, $options: 'i'};
-        }
         if(req.query.actor){
-            cond.actor = mongoose.Types.ObjectId(req.query.actor);
+            Person.find({
+                name: {$regex: `.*${req.query.actor}.*`}
+            }, function(err, personsResults){
+                console.log(req.query.actor);
+                console.log(personsResults);
+                if(err){
+                    console.error(err);
+                    res.status(500).send("Error reading database.");
+                    return;
+                }
+                let persons = personsResults.map(function(person){
+                    return person._id;
+                });
+                cond.actor = {$in: persons};
+                movieSearch(req, res, cond);
+            });
         }
-        console.log(cond);
-        Movie.find(cond, function(err, movieData){
-            if(err){
-                console.log(err);
-                res.status(500).send("Error reading database.");
-                return;
-            }
-            console.log(movieData);
-            res.status(200).send(pug.renderFile('./templates/moviesTemplate.pug', {movieData}));
-        })
+        else{
+            movieSearch(req, res, cond);
+        }
     }
     else{
         res.send(pug.renderFile('./templates/movieSearchTemplate.pug'));
@@ -214,18 +235,25 @@ app.get(['/movies'], (req, res) => {
 });
 
 app.get(['/movies/:movieId'], (req,res, next)=>{
-    Movie.findById(req.params["movieId"], function(err, movie){
+    Movie.findById(req.params["movieId"]).populate('reviews').populate("reviews.user").populate('actor').populate('writer').populate('director').exec(function(err, movie){
         if(err){
             console.error(err);
             return;
         }
+        console.log(movie);
         if(movie){
+            if(movie.reviews.length > 0){
+                movie.averageRating = movie.reveiws.reduce((rev, rev2)=> (rev + rev2)) / movie.reviews.length;
+            }
+            else{
+                movie.averageRating = "N/A";
+            }
             res.send(pug.renderFile('./templates/movieTemplate.pug', {movie}));
         }
         else{
            next();
         }
-    })
+    });
 
 });
 
@@ -239,14 +267,18 @@ app.get('/logout', (req, res)=>{
 });
 
 app.get(['/persons/:personId'], (req, res, next)=> {
-    let id = req.params["personId"];
-    let person = persons[id];
-    if (person != undefined){
-        res.send(pug.renderFile('./templates/personTemplate.pug', {person, persons, movies}));
-    }
-    else{
-        next();
-    }
+    Person.findById(req.params.personId).populate("actor").populate("writer").populate("director").exec(function(err, person){
+        if(err){
+            console.error(err);
+            return;
+        }
+        if (person != undefined){
+            res.send(pug.renderFile('./templates/personTemplate.pug', {person}));
+        }
+        else{
+            next();
+        }
+    })
 });
 
 app.post(['/movies'], function(req, res){

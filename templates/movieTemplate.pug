@@ -7,7 +7,6 @@ head
 body
   include navigationTemplate.pug
   main
-    input.search-bar(type='text' placeholder='Search...')
     .row
       .main-column
         .title-background
@@ -16,7 +15,7 @@ body
           h3 
             each genre in movie.genre
               li=genre
-          h3 #{movie.year} | #{movie.rated} | #{movie.runtime} 
+          h3 #{movie.year} | #{movie.averageRating}/10 | #{movie.runtime} 
         .plot-summary
           p #{movie.plot}
         .row
@@ -42,19 +41,19 @@ body
           | DIRECTORS
         .white-textbox
           each director in movie.director
-              a(href="/persons/" + "1") #{director}
+              a(href=`/persons/${director._id}`) #{director.name}
               br
         .people-header
           | WRITERS
         .white-textbox
           each writer in movie.writer
-              a(href="/persons/" + "1") #{writer}
+              a(href=`/persons/${writer._id}`) #{writer.name}
               br
         .people-header
           | ACTORS
         .white-textbox
           each actor in movie.actor
-              a(href="/persons/" + "1") #{actor}
+              a(href=`/persons/${actor._id}`) #{actor.name}
               br
       .main-column
         label(for='rating') Rating (/10):

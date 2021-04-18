@@ -10,8 +10,7 @@ let movieSchema = Schema({
   actor: [{type: Schema.Types.ObjectId, ref: 'Person'}],
   writer: [{type: Schema.Types.ObjectId, ref: 'Person'}],
   plot: {type: String},
-  reviews: [{type:Schema.Types.ObjectId, ref: 'Review'}],
-  similarMovies: [{type:Schema.Types.ObjectId, ref: 'Movie'}]
+  reviews: [{type:Schema.Types.ObjectId, ref: 'Review'}]
 });
 
 module.exports = mongoose.model("Movie", movieSchema);

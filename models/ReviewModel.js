@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 let reviewSchema = Schema({
     movie: {type:Schema.Types.ObjectId, ref: 'Movie'},
     reviewer: {type:Schema.Types.ObjectId, ref: 'User'},
-    rating: {Number, required: true},
+    rating: {type: Number, required: true},
     reviewSummary: String,
     fullReview: String
   });
