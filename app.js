@@ -16,7 +16,6 @@ let users = {};
 let persons = {};
 let userFeed = {};
 let notifications = {};
-let reviews = {};
 let contributing;
 
 
@@ -56,32 +55,9 @@ let getNotif = (n) => {
     }
 }
 
-app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({ secret: 'safe session' }));
-
-app.get('/login', (req, res) => {
-    res.sendFile('login.html', { root: './public' });
-});
-
-app.post('/login', (req, res) => {
-    User.findOne(req.body).exec(function (err, userData) {
-        if (err) {
-            res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
-            return;
-        }
-        if (userData && Object.keys(userData).length > 0) {
-            req.session.loggedIn = true;
-            req.session.loggedInUser = userData;
-            contributing = req.session.loggedInUser.contributingUser
-            res.status(200).send(JSON.stringify({ status: "200" }));
-        }
-        else {
-            res.status(403).send(JSON.stringify({ status: "403", error: "Invalid username/password." }));
-        }
-    });
-});
 
 let auth = (req, res, next) => {
     if (!req.session.loggedIn) {
@@ -91,40 +67,76 @@ let auth = (req, res, next) => {
     next();
 };
 
-
-app.get('/signup', (req, res) => {
-    res.sendFile('signup.html', { root: './public' });
+app.get(['/login', '/login.html'], (req, res) => {
+    if(!req.session.loggedIn)
+        res.sendFile('login.html', { root: './public' });
+    else
+        res.redirect("/");
 });
 
-app.post('/signup', (req, res) => {
-    User.findOne({ username: req.body.username }, function (err, userData) {
-        if (err) {
-            res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
-            return;
-        }
-        if (userData && Object.keys(userData).length > 0) {
-            res.status(400).send(JSON.stringify({ status: "400", error: "A user with that username already exists, please pick another username." }));
-        }
-        else {
-            let newUser = new User();
-            newUser.username = req.body.username;
-            newUser.password = req.body.password;
-            newUser.contributingUser = req.body.contributingUser;
-            newUser.dateAccountCreated = Date.now();
-
-            User.create(newUser).then(function (result) {
-                req.session.loggedIn = true;
-                req.session.loggedInUser = result;
-                contributing = req.session.loggedInUser.contributingUser
-                res.status(200).send(JSON.stringify({ status: "200" }));
-            }).catch(function (err) {
+app.post(['/login', '/login.html'], (req, res) => {
+    if(req.session.loggedIn)
+        res.redirect("/");
+    else{
+        User.findOne(req.body).exec(function (err, userData) {
+            if (err) {
                 res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
                 return;
-            });
-        }
-    });
+            }
+            if (userData && Object.keys(userData).length > 0) {
+                req.session.loggedIn = true;
+                req.session.loggedInUser = userData;
+                contributing = req.session.loggedInUser.contributingUser
+                res.status(200).send(JSON.stringify({ status: "200" }));
+            }
+            else {
+                res.status(403).send(JSON.stringify({ status: "403", error: "Invalid username/password." }));
+            }
+        });
+    }
 });
 
+app.get(['/signup', '/signup.html'], (req, res) => {
+    if(req.session.loggedIn)
+        res.redirect("/");
+    else
+        res.sendFile('signup.html', { root: './public' });
+});
+
+app.post(['/signup', '/signup.html'], (req, res) => {
+    if(req.session.loggedIn)
+        res.redirect("/");
+    else{
+        User.findOne({ username: req.body.username }, function (err, userData) {
+            if (err) {
+                res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                return;
+            }
+            if (userData && Object.keys(userData).length > 0) {
+                res.status(400).send(JSON.stringify({ status: "400", error: "A user with that username already exists, please pick another username." }));
+            }
+            else {
+                let newUser = new User();
+                newUser.username = req.body.username;
+                newUser.password = req.body.password;
+                newUser.contributingUser = req.body.contributingUser;
+                newUser.dateAccountCreated = Date.now();
+
+                User.create(newUser).then(function (result) {
+                    req.session.loggedIn = true;
+                    req.session.loggedInUser = result;
+                    contributing = req.session.loggedInUser.contributingUser
+                    res.status(200).send(JSON.stringify({ status: "200" }));
+                }).catch(function (err) {
+                    res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                    return;
+                });
+            }
+        });
+    }
+});
+
+app.use(express.static('public'));
 
 // from hereon, ensure that user is authenticated
 app.use(auth);
