@@ -31,7 +31,7 @@ document.getElementById("submitReview").addEventListener("click", ()=>{
             return response.json();
         }).then((data)=>{
             console.log(data);
-            if(data.status != 200){
+            if(data.status != 201){
                 document.getElementById("error").innerHTML = `<span>&times;</span> ${data.error}`;
                 document.getElementById("error").style.display = "block";
             }

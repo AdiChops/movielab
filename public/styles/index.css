@@ -32,9 +32,9 @@ h2 {
   display: grid;
   grid-template-columns: auto;
 }
-@media all and (min-width: 1200px) {
+@media all and (min-width: 1300px) {
   #user_div {
-    width: 50%;
+    width: 60%;
   }
 }
 @media all and (hover: hover) {

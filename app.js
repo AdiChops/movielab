@@ -412,28 +412,200 @@ app.get(['/movies'], async (req, res) => {
     }
 });
 
-app.get(['/movies/add'], async (req, res) => {
-    if (req.query && Object.keys(req.query).length > 0) {
-        let cond = {};
-        if (req.query.actor && req.query.actor.trim() != '') {
-            Person.find({
-                name: { $regex: `.*${req.query.actor}.*`, $options: 'i'}
-            }, function (err, personsResults) {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send("Error reading database.");
+app.post(['/movies'], async function (req, res) {
+    if(!contributing){
+        res.status(403).send(JSON.stringify({status: "403", error: "Unauthorized: You must be a contributing user to add a movie."}));
+        return;
+    }
+    if(!req.body.title || req.body.title == "" || !req.body.year || isNaN(req.body.year) || parseInt(req.body.year) < 0){
+        res.status(400).send(JSON.stringify({status: "400", error: "Bad request: Invalid fields."}));
+        return;
+    }
+    let invalid = false;
+    let movie = new Movie();
+    movie.title = req.body.title;
+    movie.year = req.body.year;
+    movie.runtime = req.body.runtime;
+    movie.plot = req.body.plot;
+    if(req.body.genres && req.body.genres.length > 0){
+        movie.genre = req.body.genres;
+    }
+    else{
+        movie.genre = ["N/A"];
+    }
+    if(req.body.actor && req.body.actor.length > 0){
+        for(a of req.body.actor){
+            await Person.findOne({_id:a}).then(function(result){
+                if(!result){
+                    res.status(400).send(JSON.stringify({status:"400", error:"Bad request: Invalid actor id."}));
+                    invalid = true;
                     return;
                 }
-                let persons = personsResults.map(function (person) {
-                    return person._id;
-                });
-                cond.actor = { $in: persons };
-                movieSearch(req, res, cond);
+            }).catch(function(err){
+                console.error(err);
+                res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                invalid = true;
+                return;
             });
         }
-        else {
-            movieSearch(req, res, cond);
+        if(!invalid)
+            movie.actor = req.body.actor;
+    }
+    else if(!invalid){
+        await Person.findOne({name: "N/A"}).then(async function(result){
+            if(!result){
+                let p = new Person();
+                p.name = "N/A";
+                await Person.create(p).then(function(cResult){
+                    movie.actor = [cResult._id];
+                }).catch(function(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                    invalid = true;
+                    return;
+                });
+            }
+            else{
+                movie.actor = [result._id];
+            }
+        }).catch(function(err){
+            console.error(err);
+            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+            invalid = true;
+            return;
+        })
+    }
+    if(!invalid && req.body.director && req.body.director.length > 0){
+        for(a of req.body.director){
+            await Person.findOne({_id:a}).then(function(result){
+                if(!result){
+                    res.status(400).send(JSON.stringify({status:"400", error:"Bad request: Invalid actor id."}));
+                    invalid = true;
+                    return;
+                }
+            }).catch(function(err){
+                console.error(err);
+                res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                invalid = true;
+                return;
+            });
         }
+        movie.director = req.body.director;
+    }
+    else if(!invalid){
+        await Person.findOne({name: "N/A"}).then(async function(result){
+            if(!result){
+                let p = new Person();
+                p.name = "N/A";
+                await Person.create(p).then(function( cResult){
+                    movie.director = [cResult._id];
+                }).catch(function(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                    invalid = true;
+                    return;
+                })
+            }
+            else{
+                movie.director = [result._id];
+            }
+        }).catch(function(err){
+            console.error(err);
+            res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+            invalid = true;
+            return;
+        })
+    }
+
+    if(!invalid && req.body.writer && req.body.writer.length > 0){
+        for(a of req.body.writer){
+            await Person.findOne({_id:a}).then(function(result){
+                if(!result){
+                    res.status(400).send(JSON.stringify({status:"400", error:"Bad request: Invalid actor id."}));
+                    return;
+                }
+            }).catch(function(err){
+                console.error(err);
+                res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                invalid = true;
+                return;
+            });
+        }
+        movie.writer = req.body.writer;
+    }
+    else if(!invalid){
+        await Person.findOne({name: "N/A"}).then(async function(result){
+            if(!result){
+                let p = new Person();
+                p.name = "N/A";
+                await Person.create(p).then(function(cResult){
+                    movie.writer = [cResult._id];
+                }).catch(function(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({status: "500", error: "Error reading database."}));
+                    invalid = true;
+                    return;
+                })
+            }
+            else{
+                movie.writer = [result._id];
+            }
+        })
+    }
+    if(!invalid){
+        await Movie.create(movie).then(function(result){
+            res.status(201).send(JSON.stringify({status:"201", movie: result}));
+        }).catch(function(err){
+            console.error(err);
+            res.status(500).send(JSON.stringify({status: "500", error: "Error writing movie to database."}));
+            return;
+        });
+    }
+})
+
+app.post(['/movies/:movieId/reviews'], function (req, res) {
+    if (!contributing) {
+        res.status(403).send(JSON.stringify({status: "403", error: "Unauthorized: You must be a contributing user to add a review"}));
+        return;
+    }
+    let review = new Review();
+    review.reviewDate = Date.now();
+    review.rating = req.body.rating;
+    review.reviewSummary = req.body.summary;
+    review.fullReview = req.body.fullReview;
+    review.reviewer = req.session.loggedInUser._id;
+    review.movie = req.params.movieId;
+    Review.create(review).then(function (result) {
+        Movie.updateOne({ _id: req.params.movieId }, { $push: { reviews: result._id } }).then(function (resulted) {
+            User.updateOne({ _id: req.session.loggedInUser._id }, { $push: { reviews: result._id } }).then(function (userRes) {
+                res.status(201).send(JSON.stringify({ status: "201" }));
+            }).catch(function (err) {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                    return;
+                }
+            });
+        }).catch(function (err) {
+            if (err) {
+                console.error(err);
+                res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                return;
+            }
+        });
+    })
+        .catch(function (err) {
+            if (err) {
+                console.error(err);
+                res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                return;
+            }
+        })
+});
+
+app.get(['/movies/add'], async (req, res) => {
+    if(!contributing){
+        res.status(403).send("Unauthorized: You can't access this page as a non-contributing user.");
     }
     else {
         res.send(pug.renderFile('./templates/movieCreationTemplate.pug', { contributing }));
@@ -680,52 +852,6 @@ app.put(['/persons/:personId/unfollow'], (req, res) => {
             });
         }
     })
-});
-
-
-app.post(['/movies'], function (req, res) {
-    console.log(req.body);
-    res.send('POST request to the database')
-
-})
-
-app.post(['/movies/:movieId/reviews'], function (req, res) {
-    if (!contributing) {
-        res.status(403).send("Unauthorized: You must be a contributing user to add a review");
-    }
-    let review = new Review();
-    review.reviewDate = Date.now();
-    review.rating = req.body.rating;
-    review.reviewSummary = req.body.summary;
-    review.fullReview = req.body.fullReview;
-    review.reviewer = req.session.loggedInUser._id;
-    review.movie = req.params.movieId;
-    Review.create(review).then(function (result) {
-        Movie.updateOne({ _id: req.params.movieId }, { $push: { reviews: result._id } }).then(function (resulted) {
-            User.updateOne({ _id: req.session.loggedInUser._id }, { $push: { reviews: result._id } }).then(function (userRes) {
-                res.status(200).send(JSON.stringify({ status: "200" }));
-            }).catch(function (err) {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
-                    return;
-                }
-            });
-        }).catch(function (err) {
-            if (err) {
-                console.error(err);
-                res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
-                return;
-            }
-        });
-    })
-        .catch(function (err) {
-            if (err) {
-                console.error(err);
-                res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
-                return;
-            }
-        })
 });
 
 app.get('/logout', (req, res) => {

@@ -13,21 +13,33 @@ html(lang='en')
       br
       input#title(type='text' name='title')
       br
-      label(for='director') Director(s):
+      label(for='year') Year Released:
+      br
+      input#year(step="1" min="0" type='number' name='year')
+      br
+      label(for='runtime') Runtime (in mins):
+      br
+      input#runtime(step="1" min="0" type='number' name='runtime')
+      br
+      label(for='plot') Plot:
+      br
+      textarea#plot(type='text' name='plot')
+      br
+      label(for='director') Director(s) - Hit enter to view up-to-date results:
       br
       input#director.dropdown-toggle(type='text' name='director' data-bs-toggle="dropdown" autocomplete="off" aria-haspopup="true" aria-expanded="false")
       div(class="dropdown-menu" id="director-dropdown" aria-labelledby="director")
       br
       div(id="director-list" class="grey-textbox")
       br
-      label(for='writer') Writer(s):
+      label(for='writer') Writer(s) - Hit enter to view up-to-date results:
       br
       input#writer.dropdown-toggle(type='text' name='writer' data-bs-toggle="dropdown" autocomplete="off" aria-haspopup="true" aria-expanded="false")
       div(class="dropdown-menu" id="writer-dropdown" aria-labelledby="writer")
       br
       div(id="writer-list" class="grey-textbox")
       br
-      label(for='actor') Actor(s):
+      label(for='actor') Actor(s) - Hit enter to view up-to-date results:
       br
       input#actor.dropdown-toggle(type='text' name='actor' data-bs-toggle="dropdown" autocomplete="off" aria-haspopup="true" aria-expanded="false")
       div(class="dropdown-menu" id="actor-dropdown" aria-labelledby="actor")
@@ -42,17 +54,8 @@ html(lang='en')
       br
       div(id="genre-list" class="grey-textbox")
       br
-      label(for='title') Plot:
-      br
-      textarea#plot(type='text' name='plot')
-      br
-      label(for='year') Year Released:
-      br
-      input#year(step="1" min="0" type='number' name='year')
-      br
-      label(for='runtime') Runtime (in mins):
-      br
-      input#runtime(step="1" min="0" type='number' name='runtime')
-      br
+      p(id="error" class="error")
+        span &times;
+        | The title and year are required.
       button#addMovie(class="btn btn-primary") Add Movie
     script(src='/scripts/addMovie.js')
