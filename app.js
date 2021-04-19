@@ -149,10 +149,6 @@ app.get('/createMovie', (req,res)=>{
 app.get('/createPerson', (req,res)=>{
     res.sendFile('createPerson.html', {root: './public'});
 });
-
-app.get('/advancedSearch', (req,res)=>{
-    res.sendFile('advancedSearch.html', {root: './public'});
-});
 */
 
 app.get(['/', '/index'], (req, res) => {
@@ -170,6 +166,20 @@ app.get(['/', '/index'], (req, res) => {
             currentUser = userResult;
             currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
             res.send(pug.renderFile('./templates/profileTemplate.pug', { currentUser, loggedIn, contributing }));
+        }
+    );
+});
+
+app.put('/users/switchType', (req, res)=>{
+    User.updateOne({_id:req.session.loggedInUser._id}, {contributingUser: !contributing}).exec(
+        function(err, result){
+            if (err) {
+                console.error(err);
+                res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                return;
+            }
+            contributing = !contributing;
+            res.status(200).send(JSON.stringify({ status: "200" }));
         }
     );
 });

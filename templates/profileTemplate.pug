@@ -15,15 +15,19 @@ html
                 div(id="user_info")
                     div
                         h2 #{currentUser["username"]}
-                        if(loggedIn == true)
-                            div(id="manage_account")
+                        if(loggedIn)
+                            div(id="switch-account")
                                 i(class="fas fa-cog")
-                                span Manage Account 
+                                span Switch to #{(contributing)?"Non-":""}Contributing User
+                            p(id="error" class="error")
+                                span &times;
+                                | Error with switching account
+                                
                     input(type="hidden" id="userId" value=currentUser._id)
                     p Member since #{currentUser["dateAccountCreated"].getFullYear()}
                     p #{(currentUser["contributingUser"])?"Contributing User":"Non-contributing User"}
                     p Wrote #{(currentUser["reviews"]==null)?"no": currentUser["reviews"].length} reviews
-                    div(class="btn-group")
+                    div(class="btn-group" role="group")
                         button(type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false") Followed by #{currentUser["usersFollowedBy"].length} User#{(currentUser["usersFollowedBy"].length > 1 || currentUser["usersFollowedBy"].length == 0)?"s":""}
                         ul(class="dropdown-menu")
                             each followed in currentUser.usersFollowedBy 
@@ -42,7 +46,7 @@ html
             br
             if(loggedIn)
                 div(id="notifications")
-                    div(class="btn-group")
+                    div
                         button(type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false")
                             i(class="fas fa-bell")
                             span Notifications

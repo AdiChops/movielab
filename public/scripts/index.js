@@ -38,3 +38,23 @@ let loadFeedAndNotifs = ()=>{
 addEventListener('load',()=>{
     loadFeedAndNotifs();
 });
+
+document.getElementById("switch-account").addEventListener('click', ()=>{
+    fetch(`http://localhost:3000/users/switchType`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((response)=>{
+        return response.json();
+    }).then((data)=>{
+        console.log(data);
+        if(data.status != 200){
+            document.getElementById("error").innerHTML = `<span>&times;</span> ${data.error}`;
+            document.getElementById("error").style.display = "block";
+        }
+        else{
+            location.reload();
+        }
+    });
+});
