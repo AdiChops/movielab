@@ -21,27 +21,33 @@ body
             span &times;
             | Error with following user
         .row
-          .column
-            .orange-background
-              | DIRECTED
-            .scrollable-div
-              each movie in person.director
-                a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
-                br
-          .column
-            .orange-background
-              | WRITTEN
-            .scrollable-div
-              each movie in person.writer
-                a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
-                br
-          .column
-            .orange-background
-              | ACTED IN
-            .scrollable-div
-              each movie in person.actor
-                a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
-                br
+          if person.director.length > 0
+            .column
+              .orange-background
+                | DIRECTED
+              .scrollable-div
+                each movie in person.director
+                  a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
+                  br
+          
+          if person.writer.length > 0
+            .column
+              .orange-background
+                | WROTE
+              .scrollable-div
+                each movie in person.writer
+                  a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
+                  br
+          
+          if person.actor.length > 0
+            .column
+              .orange-background
+                | ACTED IN
+              .scrollable-div
+                each movie in person.actor
+                  a(href=`/movies/${movie._id}`) #{movie.title} (#{movie.year})
+                  br
+
       .right-div
         .orange-background
           | TOP 5 COLLABORATORS
