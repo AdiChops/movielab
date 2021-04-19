@@ -6,54 +6,12 @@ const Movie = require("./models/MovieModel");
 const Person = require("./models/PersonModel");
 const User = require("./models/UserModel");
 const Review = require("./models/ReviewModel");
+const Notification = require("./models/NotificationModel");
 
-const feedData = require('./data/feedPosts.json');
-const notifData = require('./data/notifications.json');
 const app = express();
 const port = 3000;
-let movies = {};
-let users = {};
-let persons = {};
-let userFeed = {};
-let notifications = {};
 let contributing;
 
-
-feedData.forEach(post => {
-    userFeed[post["id"]] = post.info;
-});
-
-notifData.forEach(not => {
-    notifications[not["id"]] = not.info;
-});
-
-let getMessage = (post) => {
-    switch (post["postType"]) {
-        case "review": {
-            return `${users[post["subjectId"]]["username"]} reviewed ${movies[post["subjectMovieId"]]["Title"]}`;
-        }
-        case "starring": {
-            `${movies[post["subjectMovieId"]]["Title"]} was added, and it stars ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`
-        }
-        case "directing": {
-            return `${movies[post["subjectMovieId"]]["Title"]} was added, directed by ${persons[post["subjectId"]]["firstName"]} ${persons[post["subjectId"]]["lastName"]}`;
-        }
-    }
-};
-
-let getNotif = (n) => {
-    switch (n["notifType"]) {
-        case "review": {
-            return `New review by ${users[n["subjectId"]]["username"]}`;
-        }
-        case "starring": {
-            `New movie starring ${persons[n["subjectId"]]["firstName"]} ${persons[n["subjectId"]]["lastName"]}`
-        }
-        case "directing": {
-            return `New movie directed by ${persons[n["subjectId"]]["firstName"]} ${persons[n["subjectId"]]["lastName"]}`;
-        }
-    }
-}
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -66,6 +24,77 @@ let auth = (req, res, next) => {
     }
     next();
 };
+
+let generateNotifications = async (res, type, movie, subject)=>{
+    let invalid = false;
+    switch(type){
+        case "Person":{
+            for(let person of subject){
+                let notification = new Notification();
+                notification.movie = movie._id;
+                notification.subjectType = type;
+                notification.subject = mongoose.Types.ObjectId(person);
+                notification.date = Date.now();
+                await Person.findById(mongoose.Types.ObjectId(person)).then(function(result){
+                    notification.notificationText = `'${movie.title}' was added, and it credits ${result.name}`;
+                }).catch(function(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                    return;
+                })
+                await Notification.create(notification).then(async function(result){
+                    let toPush = {notification: result._id, read:false};
+                    await User.updateMany({personsFollowing: mongoose.Types.ObjectId(person)}, { $push: { notifications: toPush} }).then(function(results){
+
+                    }).catch(function(err){
+                        console.error(err);
+                        res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                        invalid = true;
+                        return;
+                    });
+                }).catch(function(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                    invalid = true;
+                    return;
+                });
+            }
+            if(!invalid){
+                res.status(201).send(JSON.stringify({ status: "201", movie: movie }));
+            }
+            break;
+        }
+        default:{
+            let notification = new Notification();
+            notification.movie = mongoose.Types.ObjectId(movie);
+            notification.subjectType = "User";
+            await Movie.findById(notification.movie).then(function(result){
+                notification.notificationText = `${subject.username} just reviewed '${result.title}'`;
+            }).catch(function(err){
+                console.error(err);
+                res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                return;
+            });
+            notification.subject = subject._id;
+            notification.date = Date.now();
+            await Notification.create(notification).then(async function(result){
+                let toPush = {notification: result._id, read:false};
+                await User.updateMany({usersFollowing: subject._id}, { $push: { notifications: toPush} }).then(function(results){
+                    res.status(201).send(JSON.stringify({ status: "201" }));
+                    return;
+                }).catch(function(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                    return;
+                });
+            }).catch(function(err){
+                console.error(err);
+                res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                return;
+            });
+        }
+    }
+}
 
 app.get(['/login', '/login.html'], (req, res) => {
     if(!req.session.loggedIn)
@@ -190,6 +219,33 @@ app.get(['/', '/index'], (req, res) => {
             });
         }
     );
+});
+
+app.get(['/index/notifications'], (req, res) => {
+    User.findById(req.session.loggedInUser._id).populate({
+        path:"notifications.notification",
+        populate:{
+            path: "subjectId"
+        }
+    }).exec(function(err, results){
+        if(err){
+            res.status(500).send(JSON.stringify({status: "500", error:"Error reading database."}));
+            return;
+        }
+        res.status(200).send(JSON.stringify({status:"200", data: results.notifications}));
+    });
+   /* let not = {};
+    let n = {};
+    for (let i of notifs) {
+        n = notifications[i];
+        let d = new Date(n["date"]);
+        not[i] = { message: getNotif(n), timeAgo: Math.floor((new Date() - d) / (1000 * 60 * 60 * 24)) + "d ago", read: n.read, date: d };
+    }
+    not = Object.fromEntries(Object.entries(not).sort(([k1, v1], [k2, v2]) => {
+        return v1.date < v2.date;
+    }));
+    console.log(not);
+    res.send(not);*/
 });
 
 app.put('/users/switchType', (req, res)=>{
@@ -332,38 +388,6 @@ app.put(['/users/:userId/unfollow'], (req, res) => {
             }
         });
     }
-});
-
-
-app.get(['/index/feed'], (req, res) => {
-    let feedPosts = currentUser["feedPosts"];
-    let feed = {};
-    let post = {};
-    for (let i of feedPosts) {
-        post = userFeed[i];
-        let d = new Date(post["date"]);
-        feed[i] = { message: getMessage(post), date: d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() };
-    }
-    feed = Object.fromEntries(Object.entries(feed).sort(([k1, v1], [k2, v2]) => {
-        return v1.date < v2.date;
-    }));
-    res.send(feed);
-});
-
-app.get(['/index/notifications'], (req, res) => {
-    let notifs = currentUser["notifications"];
-    let not = {};
-    let n = {};
-    for (let i of notifs) {
-        n = notifications[i];
-        let d = new Date(n["date"]);
-        not[i] = { message: getNotif(n), timeAgo: Math.floor((new Date() - d) / (1000 * 60 * 60 * 24)) + "d ago", read: n.read, date: d };
-    }
-    not = Object.fromEntries(Object.entries(not).sort(([k1, v1], [k2, v2]) => {
-        return v1.date < v2.date;
-    }));
-    console.log(not);
-    res.send(not);
 });
 
 let movieSearch = (req, res, cond) => {
@@ -554,7 +578,16 @@ app.post(['/movies'], async function (req, res) {
     }
     if(!invalid){
         await Movie.create(movie).then(function(result){
-            res.status(201).send(JSON.stringify({status:"201", movie: result}));
+            // combine into one persons array and remove duplicates
+            let persons = [];
+            let temp = result.actor;
+            temp = temp.concat(result.writer, result.director)
+            temp.forEach(p=>{
+                if(persons.indexOf(`${p}`) == -1){
+                    persons.push(`${p}`);
+                }
+            })
+            generateNotifications(res, "Person", result, persons);
         }).catch(function(err){
             console.error(err);
             res.status(500).send(JSON.stringify({status: "500", error: "Error writing movie to database."}));
@@ -576,9 +609,9 @@ app.post(['/movies/:movieId/reviews'], function (req, res) {
     review.reviewer = req.session.loggedInUser._id;
     review.movie = req.params.movieId;
     Review.create(review).then(function (result) {
-        Movie.updateOne({ _id: req.params.movieId }, { $push: { reviews: result._id } }).then(function (resulted) {
-            User.updateOne({ _id: req.session.loggedInUser._id }, { $push: { reviews: result._id } }).then(function (userRes) {
-                res.status(201).send(JSON.stringify({ status: "201" }));
+        Movie.updateOne({ _id: req.params.movieId }, { $push: { reviews: result._id } }).then(function (movieRes) {
+            User.updateOne({ _id: req.session.loggedInUser._id }, { $push: { reviews: result._id } }).then(async function (userRes) {
+                await generateNotifications(res, "User", req.params.movieId, req.session.loggedInUser);
             }).catch(function (err) {
                 if (err) {
                     console.error(err);
