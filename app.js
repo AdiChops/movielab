@@ -409,6 +409,7 @@ app.get(['/movies/:movieId'], (req, res, next) => {
             else {
                 movie.averageRating = "N/A";
             }
+
             await User.findOne({ _id: req.session.loggedInUser._id, watchlist: movie._id }, function (err, user) {
                 if (err) {
                     console.error(err);
@@ -417,7 +418,22 @@ app.get(['/movies/:movieId'], (req, res, next) => {
                 }
                 movie.watched = !!user;
             });
-            res.send(pug.renderFile('./templates/movieTemplate.pug', { movie, contributing }));
+
+            // find similar movies, which are simply 5 movies with the top genre
+            Movie.find({_id: {$ne: movie._id}, genre: movie.genre[0]}, function(err, results){
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Error reading database");
+                    return;
+                }
+                if(results.length > 5){
+                    movie.similarMovies = results.slice(0, 5);
+                }
+                else{
+                    movie.similarMovies = results;
+                }
+                res.send(pug.renderFile('./templates/movieTemplate.pug', { movie, contributing }));
+            });
         }
         else {
             res.status(404).send('Movie not found!');

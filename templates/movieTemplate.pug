@@ -43,9 +43,10 @@ body
             .reviews-background
               | SIMILAR MOVIES
             .scrollable-div
-              //- each similarMovieId in movie.SimilarMovies
-              //-     a(href="/movies/" + similarMovieId) #{movies[similarMovieId]["Title"]}
-              //-     br
+               each similarMovie in movie.similarMovies
+                h3
+                  a(href="/movies/" + similarMovie._id) #{similarMovie.title}
+                hr
       .main-column
         .people-header
           | DIRECTORS

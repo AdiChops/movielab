@@ -61,6 +61,10 @@ h1 {
   background-color: white;
 }
 
+.row{
+  flex-wrap: nowrap;
+}
+
 .column {
   float: left; 
  /* width: 40%; */
