@@ -69,18 +69,18 @@ body
         if contributing
           p(id="error")
             span &times;
-            | All fields are required and rating must be a number between 0 and 10
+            | The rating is required
           label(for='rating') Rating (/10):
           input#rating(type='number' step='0.1' min='0' max='10' required placeholder='/10')
           br
           label(for='reviewSummary') Review Summary: 
-          input#reviewSummary(type='text' required placeholder='Write your review summary...')
+          input#reviewSummary(type='text' placeholder='Write your review summary...')
           br
           label(for='fullReview') Full Review Text:
           br 
-          textArea#fullReview(required)
+          textArea#fullReview
           br
-          button#submitFullReview(type='button') SUBMIT FULL REVIEW
+          button#submitReview(type='button') SUBMIT REVIEW
           script(src="/scripts/addReview.js")
         else 
           div(class="white-textbox")

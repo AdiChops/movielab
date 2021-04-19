@@ -1,13 +1,21 @@
-document.getElementById("submitFullReview").addEventListener("click", ()=>{
-    let ratingV = document.getElementById("rating").value;
-    let summaryV = document.getElementById("reviewSummary").value;
-    let fullV = document.getElementById("fullReview").value;
+document.getElementById("submitReview").addEventListener("click", ()=>{
+    let ratingV = document.getElementById("rating").value.trim();
+    let summaryV = document.getElementById("reviewSummary").value.trim();
+    let fullV = document.getElementById("fullReview").value.trim();
     let movId = document.getElementById("movieId").value;
-    if(!ratingV || !summaryV || !fullV || ratingV == "" || summaryV == "" || fullV == "" || isNaN(ratingV) || parseFloat(ratingV) > 10 || parseFloat(ratingV) < 0){
+    if(!ratingV  || ratingV == "" || isNaN(ratingV) || parseFloat(ratingV) > 10 || parseFloat(ratingV) < 0){
+        document.getElementById("error").style.display = "block";
+    }
+    else if((fullV == "" && summaryV != "") || (fullV != "" && summaryV == "")){
+        document.getElementById("error").innerHTML = '<span>&times;</span> If one of review summary or full review is filled out, other one must also be filled';
         document.getElementById("error").style.display = "block";
     }
     else{
         document.getElementById("error").style.display = "none";
+        if(summaryV == "" && fullV == ""){
+            summaryV = "N/A";
+            fullV = "N/A";
+        }
         let review = {
             rating: ratingV,
             summary: summaryV,
