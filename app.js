@@ -148,7 +148,7 @@ app.get(['/', '/index'], (req, res) => {
     User.findById(req.session.loggedInUser._id).populate({
         path: 'reviews',
         populate: { path: 'movie' }
-    }).populate("usersFollowing").populate("watchlist").populate("usersFollowedBy").populate("peopleFollowing").exec(
+    }).populate("usersFollowing").populate("watchlist").populate("usersFollowedBy").populate("personsFollowing").exec(
         function (err, userResult) {
             if (err) {
                 console.error(err);
@@ -171,7 +171,7 @@ app.get(['/users/:userId'], (req, res, next) => {
         User.findById(req.params["userId"]).populate({
             path: 'reviews',
             populate: { path: 'movie' }
-        }).populate("watchlist").populate("usersFollowing").populate("usersFollowedBy").populate("peopleFollowing").exec(function (err, currentUser) {
+        }).populate("watchlist").populate("usersFollowing").populate("usersFollowedBy").populate("personsFollowing").exec(function (err, currentUser) {
             if (err) {
                 console.error(err);
                 res.status(500).send("Error reading database.");
@@ -466,29 +466,91 @@ app.put(['/movies/:movieId/unwatch'], (req, res) => {
     })
 });
 
-app.get(['/persons'], (req, res) => {
-    res.send(pug.renderFile('./templates/personsTemplate.pug', { personData, contributing }));
-});
-
-app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/login');
-});
-
 app.get(['/persons/:personId'], (req, res, next) => {
     Person.findById(req.params.personId).populate("actor").populate("writer").populate("director").exec(function (err, person) {
         if (err) {
             console.error(err);
             return;
         }
-        if (person != undefined) {
-            res.send(pug.renderFile('./templates/personTemplate.pug', { person, contributing }));
+        if (person) {
+            User.findOne({_id:req.session.loggedInUser._id, personsFollowing: person._id}).exec(function(err, result){
+                if(err){
+                    console.error(err);
+                    res.status(500).send("Error reading database");
+                    return;
+                }
+                let following = !!result;
+                res.send(pug.renderFile('./templates/personTemplate.pug', { person, contributing, following }));
+            });
         }
         else {
             next();
         }
     })
 });
+
+app.put(['/persons/:personId/follow'], (req, res) => {
+    Person.findById(req.params.personId, function (err, result) {
+        if (err) {
+            console.error(err);
+            res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+            return;
+        }
+        if (!result) {
+            res.status(400).send(JSON.stringify({ status: "400", error: "Invalid person id." }));
+        }
+        else {
+            User.findOne({ _id: req.session.loggedInUser._id, personsFollowing: result._id }, function (err, user) {
+                if (user) {
+                    res.status(400).send(JSON.stringify({ status: "400", error: "You are already following this person." }));
+                }
+                else {
+                    User.updateOne({ _id: req.session.loggedInUser._id }, { $push: { personsFollowing: result._id } }).then(function (userRes) {
+                        res.status(200).send(JSON.stringify({ status: "200" }));
+                    }).catch(function (err) {
+                        if (err) {
+                            console.error(err);
+                            res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                            return;
+                        }
+                    });
+                }
+            });
+        }
+    })
+});
+
+app.put(['/persons/:personId/unfollow'], (req, res) => {
+    Person.findById(req.params.personId, function (err, result) {
+        if (err) {
+            console.error(err);
+            res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+            return;
+        }
+        if (!result) {
+            res.status(400).send(JSON.stringify({ status: "400", error: "Invalid person id." }));
+        }
+        else {
+            User.findOne({ _id: req.session.loggedInUser._id, personsFollowing: result._id }, function (err, user) {
+                if (!user) {
+                    res.status(400).send(JSON.stringify({ status: "400", error: "You are currently not following this person" }));
+                }
+                else {
+                    User.updateOne({ _id: req.session.loggedInUser._id }, { $pull: { personsFollowing: result._id } }).then(function (userRes) {
+                        res.status(200).send(JSON.stringify({ status: "200" }));
+                    }).catch(function (err) {
+                        if (err) {
+                            console.error(err);
+                            res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+                            return;
+                        }
+                    });
+                }
+            });
+        }
+    })
+});
+
 
 app.post(['/movies'], function (req, res) {
     console.log(req.body);
@@ -535,8 +597,13 @@ app.post(['/movies/:movieId/reviews'], function (req, res) {
         })
 });
 
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/login');
+});
+
 app.use(function (req, res, next) {
-    res.status(404).send("Sorry, we couldn't find that resource!");
+    res.status(404).send(JSON.stringify({status: "404", error:"Sorry, we couldn't find that resource!"}));
 });
 
 mongoose.connect('mongodb://localhost/moviedata', { useNewUrlParser: true });

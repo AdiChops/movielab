@@ -8,7 +8,7 @@ let userSchema = Schema({
   dateAccountCreated: {type: Date},
   usersFollowing: [{type:Schema.Types.ObjectId, ref: 'User'}],
   usersFollowedBy: [{type:Schema.Types.ObjectId, ref: 'User'}],
-  peopleFollowing: [{type:Schema.Types.ObjectId, ref: 'Person'}],
+  personsFollowing: [{type:Schema.Types.ObjectId, ref: 'Person'}],
   watchlist: [{type:Schema.Types.ObjectId, ref: 'Movie'}],
   notifications: [{type:Schema.Types.ObjectId, ref: 'Notification'}],
   reviews: [{type:Schema.Types.ObjectId, ref: 'Review'}],

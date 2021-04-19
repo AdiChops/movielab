@@ -34,9 +34,9 @@ html
                             each following in currentUser.usersFollowing 
                                 li
                                     a(class="dropdown-item" href=`/users/${following._id}`) #{following.username}
-                        button(type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false") Following #{currentUser["peopleFollowing"].length} #{(currentUser["peopleFollowing"].length > 1 || currentUser["peopleFollowing"].length == 0)?"People":"Person"}
+                        button(type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false") Following #{currentUser["personsFollowing"].length} #{(currentUser["personsFollowing"].length > 1 || currentUser["personsFollowing"].length == 0)?"People":"Person"}
                         ul(class="dropdown-menu")
-                            each person in currentUser.peopleFollowing 
+                            each person in currentUser.personsFollowing 
                                 li
                                     a(class="dropdown-item" href=`/persons/${person._id}`) #{person.name}
             br

@@ -11,10 +11,15 @@ body
       .left-div
         .row
           .name-background
+            input(type="hidden" id="personId" value=person._id)
             h1
               | #{person.name}
-          button(type='button')
-            | FOLLOW +
+          button(class="btn btn-outline-success" title="Follow person" style=`${(following)?"display:none;":""}` id="follow" type='button') Follow +
+          button(class="btn btn-success" title="Unfollow person" id="unfollow" style=`${(following)?"":"display:none;"}` type='button') Following 
+            i(class="fas fa-check")
+          p(id="error" class="error")
+            span &times;
+            | Error with following user
         .row
           .column
             .orange-background
@@ -40,8 +45,4 @@ body
       .right-div
         .orange-background
           | TOP 5 COLLABORATORS
-        //- each collaborator in person.top5
-        //-   .white-background
-        //-     a(href="/persons/" + "1") #{collaborator}
-        //-     br
-        
+  script(src="/scripts/person.js")

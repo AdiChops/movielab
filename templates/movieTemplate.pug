@@ -10,6 +10,13 @@ body
     .row
       .main-column
         input(id="movieId" type="hidden" value=movie._id)
+        p(id="errorWatch" class="error")
+          span &times;
+          | Error with adding to watchlist
+        button(class="btn btn-outline-success" title="Add to watchlist" style=`${(movie.watched)?"display:none;":""}` id="watch" type='button')
+          | Watch +
+        button(class="btn btn-success" title="Remove from watchlist" id="unwatch" style=`${(movie.watched)?"":"display:none;"}` type='button') Watched 
+          i(class="fas fa-check")
         .title-background
           h1 #{movie.title}
         .movie-stats
@@ -40,13 +47,6 @@ body
               //-     a(href="/movies/" + similarMovieId) #{movies[similarMovieId]["Title"]}
               //-     br
       .main-column
-        p(id="errorWatch" class="error")
-          span &times;
-          | Error with adding to watchlist
-        button(class="btn btn-outline-success" title="Add to watchlist" style=`${(movie.watched)?"display:none;":""}` id="watch" type='button')
-          | Watch +
-        button(class="btn btn-success" title="Remove from watchlist" id="unwatch" style=`${(movie.watched)?"":"display:none;"}` type='button') Watched 
-          i(class="fas fa-check")
         .people-header
           | DIRECTORS
         .white-textbox
