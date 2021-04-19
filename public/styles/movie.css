@@ -1,31 +1,29 @@
 .title-background {
-    background-color: #f4a261;
-    width: 95%;
-    padding: 1em; 
-    
-    text-align: center;
-    margin: 1em;
-    border-radius: 15px;
-    
-  }
+  background-color: #f4a261;
+  width: 95%;
+  padding: 1em;
+
+  text-align: center;
+  margin: 1em;
+  border-radius: 15px;
+}
 
 h1 {
-    text-transform: uppercase; 
-    color: white;
- }
+  text-transform: uppercase;
+  color: white;
+}
 
 .search-bar {
-    padding: 1em; 
-    width: 33.33%;
-    margin: 1em;
+  padding: 1em;
+  width: 33.33%;
+  margin: 1em;
 }
 
 .plot-summary {
-    width: 100%;
-    margin: 1em;
-    text-align: left;
-    color: white;
-
+  width: 100%;
+  margin: 1em;
+  text-align: left;
+  color: white;
 }
 
 .movie-stats {
@@ -36,63 +34,60 @@ h1 {
 }
 
 .row::after {
-  content: ""; 
-  clear: both; 
+  content: "";
+  clear: both;
   display: table;
 }
 
 .reviews-background {
   background-color: #e76f51;
   width: 100%;
-  padding: 1em; 
+  padding: 1em;
   float: left;
   text-align: center;
   border-radius: 15px;
   color: white;
-  margin-bottom: 1em; 
+  margin-bottom: 1em;
 }
 
-.scrollable-div{
-  padding: 1em; 
+.scrollable-div {
+  padding: 1em;
   margin-right: 5em;
-  width:100%;
-  overflow-y: scroll; 
-  height:400px;
+  width: 100%;
+  overflow-y: scroll;
+  height: 400px;
   background-color: white;
 }
 
-.row{
+.row {
   flex-wrap: nowrap;
 }
 
 .column {
-  float: left; 
- /* width: 40%; */
+  float: left;
+  /* width: 40%; */
   margin: auto;
-  padding: 1em; 
-  margin: 1em; 
-  
+  padding: 1em;
+  margin: 1em;
 }
 
-.main-column{
-  float: left; 
-  width: 33.33%; 
+.main-column {
+  float: left;
+  width: 33.33%;
   text-align: center;
-  
 }
-.white-textbox{
+.white-textbox {
   background-color: white;
-  margin: auto; 
+  margin: auto;
   margin-top: 1em;
   padding: 1em;
   text-align: center;
-  width: 50%
-  
+  width: 50%;
 }
 
-.people-header{
+.people-header {
   background-color: #e76f51;
-  margin: auto; 
+  margin: auto;
   margin-top: 1em;
   padding: 1em;
   text-align: center;
@@ -102,7 +97,7 @@ h1 {
   color: white;
 }
 
-.btn{
+.btn {
   padding: 1em;
   margin: auto;
   width: 50%;
@@ -118,4 +113,3 @@ input {
 label {
   color: white;
 }
-

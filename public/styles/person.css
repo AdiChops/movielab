@@ -1,31 +1,30 @@
 .name-background {
-    background-color: #f4a261;
-    width: 50%;
-    padding: 1em; 
-    float: left;
-    text-align: center;
-    margin: 1em;
-    border-radius: 15px;
-    
-  }
-
-h1 {
-    text-transform: uppercase; 
-    color: white;
- }
-
-.search-bar {
-    padding: 1em; 
-    width: 33.33%;
-    margin: 1em;
+  background-color: #f4a261;
+  width: 50%;
+  padding: 1em;
+  float: left;
+  text-align: center;
+  margin: 1em;
+  border-radius: 15px;
 }
 
-.left-div{
+h1 {
+  text-transform: uppercase;
+  color: white;
+}
+
+.search-bar {
+  padding: 1em;
+  width: 33.33%;
+  margin: 1em;
+}
+
+.left-div {
   width: 60%;
   float: left;
 }
 
-.right-div{
+.right-div {
   width: 35%;
   float: left;
   margin: auto;
@@ -33,74 +32,68 @@ h1 {
 }
 
 .row::after {
-  content: ""; 
-  clear: both; 
+  content: "";
+  clear: both;
   display: table;
 }
 
-button{
-    background-color: #2a9d8f;
-    color: white;
-    padding: 1em;
-    margin: 1em;
-    width: 20%;
-    border-radius: 15px;
-    float: left;
-  }
+button {
+  background-color: #2a9d8f;
+  color: white;
+  padding: 1em;
+  margin: 1em;
+  width: 20%;
+  border-radius: 15px;
+  float: left;
+}
 
 .orange-background {
-    background-color: #e76f51;
-    width: 100%;
-    padding: 1em; 
-    float: left;
-    text-align: center;
-    border-radius: 15px;
-    color: white;
-    margin-bottom: 1em;
-    
-  }
+  background-color: #e76f51;
+  width: 100%;
+  padding: 1em;
+  float: left;
+  text-align: center;
+  border-radius: 15px;
+  color: white;
+  margin-bottom: 1em;
+}
 
-.scrollable-div{
-    padding: 1em; 
-    margin-right: 5em;
-    width:100%;
-    overflow-y: scroll; 
-    height:400px;
-    background-color: white;
-  }
+.scrollable-div {
+  padding: 1em;
+  margin-right: 5em;
+  width: 100%;
+  overflow-y: scroll;
+  height: 400px;
+  background-color: white;
+}
 
 .column {
-    float: left; 
-    width: 26%; 
-    margin: auto;
-    padding: 1em; 
-    margin: 1em; 
-    
-  }
-/* 
-main {
-    margin: auto;
-  }
-   */
+  float: left;
+  width: 26%;
+  margin: auto;
+  padding: 1em;
+  margin: 1em;
+}
+
 input {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-  }
-  
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
 label {
-    color: white;
-  }
+  color: white;
+}
 
 .white-background {
-    background-color: white;
-    width: 100%;
-    padding: 1em; 
-    float: left;
-    text-align: center;
-    border-radius: 15px;
-    color: black;
-    margin-bottom: 1em; 
-    margin-top: 1em;
-  }
+  background-color: white;
+  width: 100%;
+  padding: 1em;
+  float: left;
+  text-align: center;
+  border-radius: 15px;
+  color: black;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}

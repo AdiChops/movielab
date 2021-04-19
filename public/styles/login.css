@@ -1,36 +1,37 @@
-html, body{
-    background-image: url('../images/clapperboard.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+html,
+body {
+  background-image: url("../images/clapperboard.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-main{
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+main {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-h1{
-    text-transform: uppercase;
+h1 {
+  text-transform: uppercase;
 }
-#login{
-    background-color: white;
-    text-align: center;
-    width: 90%;
-    padding: 3em;
-    display: grid;
-    row-gap: 1em;
-    border-radius: 10px;    
-}
-
-@media all and (min-width:768px){
-    #login{
-        width: 60%;
-    }
+#login {
+  background-color: white;
+  text-align: center;
+  width: 90%;
+  padding: 3em;
+  display: grid;
+  row-gap: 1em;
+  border-radius: 10px;
 }
 
-@media all and (min-width:1024px){
-    #login{
-        width: 30%;
-    }
+@media all and (min-width: 768px) {
+  #login {
+    width: 60%;
+  }
+}
+
+@media all and (min-width: 1024px) {
+  #login {
+    width: 30%;
+  }
 }
