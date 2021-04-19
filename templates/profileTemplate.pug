@@ -86,7 +86,13 @@ html
                             h2 
                                 a(href=`/movies/${movie._id}`) #{movie.title}
                             hr
-                    div(class="tab-pane fade", id="recommended", role="tabpanel", aria-labelledby="recommended-tab") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In massa tempor nec feugiat nisl. Vitae purus faucibus ornare suspendisse sed nisi lacus sed. Augue ut lectus arcu bibendum at varius vel pharetra vel. Placerat orci nulla pellentesque dignissim enim. Arcu felis bibendum ut tristique et. Proin libero nunc consequat interdum varius sit. Justo eget magna fermentum iaculis eu non diam phasellus. Integer vitae justo eget magna fermentum. Non nisi est sit amet facilisis. Cras ornare arcu dui vivamus arcu felis. Tellus integer feugiat scelerisque varius morbi enim nunc faucibus. Nec nam aliquam sem et tortor consequat id porta. Lectus vestibulum mattis ullamcorper velit sed. Pretium fusce id velit ut tortor pretium viverra suspendisse potenti. Enim sit amet venenatis urna cursus eget nunc. Lacus sed viverra tellus in hac habitasse platea. Posuere urna nec tincidunt praesent semper feugiat. Amet consectetur adipiscing elit pellentesque. Nisi porta lorem mollis aliquam ut porttitor leo a. Est sit amet facilisis magna. Gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Turpis massa tincidunt dui ut ornare lectus sit amet est. Lacinia at quis risus sed. A diam maecenas sed enim ut sem viverra aliquet. Arcu cursus vitae congue mauris rhoncus aenean vel elit. In egestas erat imperdiet sed euismod.
+                    div(class="tab-pane fade", id="recommended", role="tabpanel", aria-labelledby="recommended-tab")
+                        each movie in currentUser.recommendedMovies 
+                            h2
+                                a(href=`/movies/${movie._id}`) #{movie.title}
+                            hr
+                        if(currentUser.recommendedMovies.length == 0)
+                            p Not enough data to recommend movies.
                     div(class="tab-pane fade", id="reviews", role="tabpanel", aria-labelledby="reviews-tab")
                         each review in currentUser.reviews 
                             h2 Review for 

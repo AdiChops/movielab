@@ -165,7 +165,29 @@ app.get(['/', '/index'], (req, res) => {
             }
             currentUser = userResult;
             currentUser.dateAccountCreated = new Date(currentUser.dateAccountCreated);
-            res.send(pug.renderFile('./templates/profileTemplate.pug', { currentUser, loggedIn, contributing }));
+            let genres = [];
+            for(let review of currentUser.reviews){
+                if(review.rating > 6){
+                    genres.push(review.movie.genre[0]);
+                }
+            }
+            for(let movie of currentUser.watchlist){
+                genres.push(movie.genre[0]);
+            }
+            Movie.find({genre: {$in: genres}}).exec(function(err, results){
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Error reading database.");
+                    return;
+                }
+                if(results.length > 10){
+                    currentUser.recommendedMovies = results.slice(0, 10);
+                }
+                else{
+                    currentUser.recommendedMovies = results;
+                }
+                res.send(pug.renderFile('./templates/profileTemplate.pug', { currentUser, loggedIn, contributing }));
+            });
         }
     );
 });
