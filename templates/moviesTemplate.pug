@@ -9,7 +9,7 @@ body
     main
       h1 MOVIES SEARCH RESULTS
       .column
-      if movieData != undefined
-        each movieObj in movieData
-          a(class="white-background", href="/movies/" + movieObj._id) #{movieObj.title} (#{movieObj.year})
+        if movieData != undefined
+          each movieObj in movieData
+            a(class="white-background", href="/movies/" + movieObj._id) #{movieObj.title} (#{movieObj.year})
     

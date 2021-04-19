@@ -7,6 +7,11 @@ body {
   background-color: #264653;
 }
 
+main{
+    width: 90%;
+    margin: auto;
+}
+
 #error,
 .error {
   display: none;

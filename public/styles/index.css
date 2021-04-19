@@ -1,7 +1,3 @@
-main {
-  width: 90%;
-  margin: auto;
-}
 #user_div {
   display: grid;
   grid-template-columns: auto auto;

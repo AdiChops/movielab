@@ -65,7 +65,6 @@ h1 {
 
 .column {
   float: left;
-  /* width: 40%; */
   margin: auto;
   padding: 1em;
   margin: 1em;
@@ -103,7 +102,7 @@ h1 {
   width: 50%;
 }
 
-input {
+input, textarea {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;

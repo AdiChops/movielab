@@ -389,7 +389,7 @@ app.get(['/movies'], async (req, res) => {
         let cond = {};
         if (req.query.actor && req.query.actor.trim() != '') {
             Person.find({
-                name: { $regex: `.*${req.query.actor}.*` }
+                name: { $regex: `.*${req.query.actor.trim()}.*`, $options:'i'}
             }, function (err, personsResults) {
                 if (err) {
                     console.error(err);
@@ -409,6 +409,34 @@ app.get(['/movies'], async (req, res) => {
     }
     else {
         res.send(pug.renderFile('./templates/movieSearchTemplate.pug', { contributing }));
+    }
+});
+
+app.get(['/movies/add'], async (req, res) => {
+    if (req.query && Object.keys(req.query).length > 0) {
+        let cond = {};
+        if (req.query.actor && req.query.actor.trim() != '') {
+            Person.find({
+                name: { $regex: `.*${req.query.actor}.*`, $options: 'i'}
+            }, function (err, personsResults) {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Error reading database.");
+                    return;
+                }
+                let persons = personsResults.map(function (person) {
+                    return person._id;
+                });
+                cond.actor = { $in: persons };
+                movieSearch(req, res, cond);
+            });
+        }
+        else {
+            movieSearch(req, res, cond);
+        }
+    }
+    else {
+        res.send(pug.renderFile('./templates/movieCreationTemplate.pug', { contributing }));
     }
 });
 
@@ -524,6 +552,20 @@ app.put(['/movies/:movieId/unwatch'], (req, res) => {
             });
         }
     })
+});
+
+app.get('/persons', function(req, res){
+    let cond = {};
+    if(req.query.name)
+        cond.name = { $regex: `.*${req.query.name}.*`, $options: 'i' }
+    Person.find(cond).exec(function(err, results){
+        if(err){
+            console.error(err);
+            res.status(500).send(JSON.stringify({ status: "500", error: "Error reading database." }));
+            return;
+        }
+        res.status(200).send(results);
+    });
 });
 
 app.get('/persons/add', function(req, res){
