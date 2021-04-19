@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+    head
+        include headTemplate.pug
+        meta(charset='UTF-8')
+        title Person Creation Page
+        link(rel='stylesheet' href='/styles/creationPage.css')
+    body  
+        include navigationTemplate.pug
+        main
+            h1 SUBMIT A NEW PERSON
+            label(for='name') Name:
+            br
+            input#name(type='text' required placeholder="Name" name='name')
+            button(id="addPerson") Add Person
+            br
+            p(id="error" class="error")
+                span &times;
+                | The person's name is required
+        script(src="/scripts/addPerson.js")

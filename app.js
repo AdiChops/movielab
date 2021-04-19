@@ -504,6 +504,35 @@ app.put(['/movies/:movieId/unwatch'], (req, res) => {
     })
 });
 
+app.get('/persons/add', function(req, res){
+    if(!contributing){
+        res.status(403).send("Unauthorized: You must be a contributing user to access this.");
+    }
+    else{
+        res.status(200).send(pug.renderFile('./templates/personCreationTemplate.pug', {contributing}));
+    }
+});
+
+app.post('/persons', function(req, res){
+    if(!contributing){
+        res.status(403).send(JSON.stringify({status: "403", error:"Unauthorized: You must be a contributing user to add a person."}));
+    }
+    else{
+        let person = new Person();
+        person.name = req.body.name;
+        Person.create(person, function(err, result){
+            if(err){
+                console.error(err);
+                res.status(500).send(JSON.stringify({status: "500", error:"An error occured. Possible duplicate: Please ensure the person's name is unique."}));
+                return;
+            }
+            else{
+                res.status(201).send(JSON.stringify({status: "201"}));
+            }
+        });
+    }
+});
+
 app.get(['/persons/:personId'], (req, res, next) => {
     Person.findById(req.params.personId).populate("actor").populate("writer").populate("director").exec(function (err, person) {
         if (err) {
@@ -598,7 +627,7 @@ app.post(['/movies'], function (req, res) {
 
 app.post(['/movies/:movieId/reviews'], function (req, res) {
     if (!contributing) {
-        res.status(403).send("Unauthorized");
+        res.status(403).send("Unauthorized: You must be a contributing user to add a review");
     }
     let review = new Review();
     review.reviewDate = Date.now();
