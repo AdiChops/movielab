@@ -792,7 +792,7 @@ app.post('/persons', function(req, res){
         Person.create(person, function(err, result){
             if(err){
                 console.error(err);
-                res.status(500).send(JSON.stringify({status: "500", error:"An error occured. Possible duplicate: Please ensure the person's name is unique."}));
+                res.status(500).send(JSON.stringify({status: "500", error:"An error occured. Possible duplicate: Please ensure the person's name is unique, that it doesn't already exist."}));
                 return;
             }
             else{
@@ -816,7 +816,77 @@ app.get(['/persons/:personId'], (req, res, next) => {
                     return;
                 }
                 let following = !!result;
-                res.send(pug.renderFile('./templates/personTemplate.pug', { person, contributing, following }));
+
+                // combine into one movies array and remove duplicates
+                let movies = [];
+                let movieIds = [];
+                let temp = person.actor;
+                temp = temp.concat(person.writer, person.director)
+                temp.forEach(m=>{
+                    if(movieIds.indexOf(`${m._id}`) == -1){
+                        movies.push(m);
+                        movieIds.push(`${m._id}`);
+                    }
+                });
+
+                let collaborators = {};
+                movies.forEach(movie =>{
+                    let personCounted = [];
+                    for(let actor of movie.actor){
+                        if(`${actor}` != `${req.params.personId}`){
+                            if(!collaborators[`${actor}`]){
+                                collaborators[`${actor}`] = 1;
+                            }
+                            else{
+                                collaborators[`${actor}`] += 1;
+                            }
+                            personCounted.push(`${actor}`);
+                        }
+                    }
+                    for(let writer of movie.writer){
+                        if(`${writer}` != `${req.params.personId}`){
+                            if(personCounted.indexOf(`${writer}`) == -1){
+                                if(!collaborators[`${writer}`]){
+                                    collaborators[`${writer}`] = 1;
+                                }
+                                else{
+                                    collaborators[`${writer}`] += 1;
+                                }
+                                personCounted.push(`${writer}`);
+                            }
+                        }
+                    }
+                    for(let director of movie.director){
+                        if(`${director}` != `${req.params.personId}`){
+                            if(personCounted.indexOf(`${director}`) == -1){
+                                if(!collaborators[`${director}`]){
+                                    collaborators[`${director}`] = 1;
+                                }
+                                else{
+                                    collaborators[`${director}`] += 1;
+                                }
+                                personCounted.push(`${director}`);
+                            }
+                        }
+                    }
+                });
+                collaborators = Object.fromEntries(Object.entries(collaborators).sort(([k1, v1], [k2, v2]) => {
+                    return v1 > v2; // sort in descending order
+                }));
+
+                let collab = Object.keys(collaborators);
+                if(collab.length > 5){
+                    collab = collab.slice(0, 5);
+                }
+                Person.find({_id: {$in: collab}}).exec(function(err, results){
+                    if(err){
+                        console.error(err);
+                        res.status(500).send("Error reading database");
+                        return;
+                    }
+                    person.collaborators = results;
+                    res.send(pug.renderFile('./templates/personTemplate.pug', { person, contributing, following }));
+                })
             });
         }
         else {

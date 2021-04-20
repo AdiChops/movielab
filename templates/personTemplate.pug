@@ -19,7 +19,7 @@ body
             i(class="fas fa-check")
           p(id="error" class="error")
             span &times;
-            | Error with following user
+            | Error with following person
         .row
           if person.director.length > 0
             .column
@@ -50,5 +50,12 @@ body
 
       .right-div
         .orange-background
-          | TOP 5 COLLABORATORS
+          | TOP COLLABORATORS (UP TO 5)
+        .scrollable-div
+          if(person.collaborators.length > 0)
+            each collaborator in person.collaborators 
+              a(href=`/persons/${collaborator._id}`) #{collaborator.name}
+              br
+          else 
+            p Not enough data to find frequent collaborators
   script(src="/scripts/person.js")
