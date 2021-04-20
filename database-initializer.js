@@ -162,36 +162,6 @@ db.once('open', function () {
             return;
           }
 
-          await userData.forEach(user =>
-            {
-              user.reviews.forEach(rev => {
-                Movie.findOne({"title":rev.title}, function(err, movieRes){
-                  if(err){
-                    console.error(err);
-                    return;
-                  }
-                  User.findOne({"username": user.username}, function(err, userRes){
-                    let review = new Review();
-                    review.rating = rev.rating;
-                    review.movie = movieRes._id;
-                    review.reviewer = userRes._id;
-                    review.reviewSummary = rev.summary;
-                    review.fullReview = rev.full;
-                    review.reviewDate = rev.date;
-                    Review.create(review, function(error, revResult){
-                      if(error){
-                        console.error(error);
-                        return;
-                      }
-                      User.updateOne({ username: user.username }, { $push: { reviews: revResult._id } });
-                      Movie.findByIdAndUpdate(movieRes._id, { $push: { reviews: revResult._id } });
-                    });
-                  });
-                 
-                })
-              })
-            }
-          );
           //Once all movies/people have been added, query for movie Toy Story and person Tom Hanks
           Movie.findOne({ title: "The Ballad of Cable Hogue" }).populate("director actor writer").exec(function (err, result) {
             if (err) throw err;
