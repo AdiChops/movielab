@@ -8,8 +8,14 @@ body
     include navigationTemplate.pug
     main
       h1 MOVIES SEARCH RESULTS
+      if(prevUrl)
+        a.page(href=prevUrl) < Prev
+      if(nextUrl)
+        a.page(href=nextUrl) Next >
       .column
-        if movieData != undefined
+        if movieData 
           each movieObj in movieData
             a(class="white-background", href="/movies/" + movieObj._id) #{movieObj.title} (#{movieObj.year})
-    
+        else 
+          p No results found!
+      script(src="/scripts/search.js")

@@ -234,18 +234,6 @@ app.get(['/index/notifications'], (req, res) => {
         }
         res.status(200).send(JSON.stringify({status:"200", data: results.notifications}));
     });
-   /* let not = {};
-    let n = {};
-    for (let i of notifs) {
-        n = notifications[i];
-        let d = new Date(n["date"]);
-        not[i] = { message: getNotif(n), timeAgo: Math.floor((new Date() - d) / (1000 * 60 * 60 * 24)) + "d ago", read: n.read, date: d };
-    }
-    not = Object.fromEntries(Object.entries(not).sort(([k1, v1], [k2, v2]) => {
-        return v1.date < v2.date;
-    }));
-    console.log(not);
-    res.send(not);*/
 });
 
 app.put('/users/switchType', (req, res)=>{
@@ -391,19 +379,50 @@ app.put(['/users/:userId/unfollow'], (req, res) => {
 });
 
 let movieSearch = (req, res, cond) => {
+    const RESULTS_PER_PAGE = 10;
+    let title = undefined;
+    let genre = undefined;
+    let actor = undefined;
     if (req.query.title && req.query.title.trim() != '') {
-        cond.title = { $regex: `.*${req.query.title}.*`, $options: 'i' };
+        cond.title = { $regex: `.*${req.query.title.trim()}.*`, $options: 'i' };
+        title = req.query.title.trim();
     }
     if (req.query.genre && req.query.genre.trim() != '') {
-        cond.genre = { $regex: `.*${req.query.genre}.*`, $options: 'i' };
+        cond.genre = { $regex: `.*${req.query.genre.trim()}.*`, $options: 'i' };
+        genre = req.query.genre.trim();
     }
-    Movie.find(cond, function (err, movieData) {
+    if(req.query.actor && req.query.actor.trim() != ''){
+        actor = req.query.actor.trim();
+    }
+    let pageNum = 0;
+    if(req.query.page && !isNaN(req.query.page)){
+        pageNum = parseInt(req.query.page)-1;
+    }
+    Movie.find(cond).limit(RESULTS_PER_PAGE).skip(pageNum*RESULTS_PER_PAGE).exec(function (err, movieData) {
         if (err) {
             console.log(err);
             res.status(500).send("Error reading database.");
             return;
         }
-        res.status(200).send(pug.renderFile('./templates/moviesTemplate.pug', { movieData, contributing }));
+        let qs = "?";
+        if(title){
+            qs += "title=" + title + "&";
+        }
+        if(genre){
+            qs += "genre="+genre+"&";
+        }
+        if(actor){
+            qs += "actor="+actor+"&";
+        }
+        let nextUrl = "http://localhost:3000/movies/" + qs + "page=" + (pageNum+2);
+        if(movieData.length < 10){
+            nextUrl = undefined;
+        }
+        let prevUrl = undefined;
+        if(pageNum > 0){
+            prevUrl = "http://localhost:3000/movies/" + qs + "page=" + pageNum;
+        }
+        res.status(200).send(pug.renderFile('./templates/moviesTemplate.pug', { movieData, contributing, prevUrl, nextUrl }));
     });
 }
 
@@ -577,17 +596,35 @@ app.post(['/movies'], async function (req, res) {
         })
     }
     if(!invalid){
-        await Movie.create(movie).then(function(result){
-            // combine into one persons array and remove duplicates
-            let persons = [];
-            let temp = result.actor;
-            temp = temp.concat(result.writer, result.director)
-            temp.forEach(p=>{
-                if(persons.indexOf(`${p}`) == -1){
-                    persons.push(`${p}`);
-                }
-            })
-            generateNotifications(res, "Person", result, persons);
+        await Movie.create(movie).then(function(movieResult){
+            Person.updateMany({_id: {$in: movie.actor}}, { $push: { actor: movieResult._id }}).then(function(actorResult){
+                Person.updateMany({_id: {$in: movie.writer}}, { $push: { writer: movieResult._id }}).then(function(writerResult){
+                    Person.updateMany({_id: {$in: movie.director}}, { $push: { director: movieResult._id }}).then(function(directorResult){
+                        // combine into one persons array and remove duplicates
+                        let persons = [];
+                        let temp = movieResult.actor;
+                        temp = temp.concat(movieResult.writer, movieResult.director)
+                        temp.forEach(p=>{
+                            if(persons.indexOf(`${p}`) == -1){
+                                persons.push(`${p}`);
+                            }
+                        })
+                        generateNotifications(res, "Person", movieResult, persons);
+                    }).catch(function(err){
+                        console.error(err);
+                        res.status(500).send(JSON.stringify({status: "500", error: "Error writing movie to database."}));
+                        return;
+                    });
+                }).catch(function(err){
+                    console.error(err);
+                    res.status(500).send(JSON.stringify({status: "500", error: "Error writing movie to database."}));
+                    return;
+                });
+            }).catch(function(err){
+                console.error(err);
+                res.status(500).send(JSON.stringify({status: "500", error: "Error writing movie to database."}));
+                return;
+            });
         }).catch(function(err){
             console.error(err);
             res.status(500).send(JSON.stringify({status: "500", error: "Error writing movie to database."}));
@@ -656,10 +693,11 @@ app.get(['/movies/:movieId'], (req, res, next) => {
         }
         if (movie) {
             if (movie.reviews.length > 0) {
-                if (movie.reviews.length > 1)
-                    movie.averageRating = movie.reviews.reduce((rev, rev2) => (rev.rating + rev2.rating)) / movie.reviews.length;
-                else
-                    movie.averageRating = movie.reviews[0].rating;
+                let avg = 0;
+                for(let r of movie.reviews){
+                    avg+=r.rating;
+                }
+                movie.averageRating = (avg/movie.reviews.length).toFixed(2);
             }
             else {
                 movie.averageRating = "N/A";

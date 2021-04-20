@@ -33,6 +33,11 @@ main{
   font-size: 1.5em;
 }
 
+.btn-outline-success{
+  color: #2ad841;
+  border-color: #2ad841;
+}
+
 /* code snippet inspired from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav_push*/
 nav {
   height: 100%;
