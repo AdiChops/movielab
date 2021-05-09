@@ -1004,14 +1004,14 @@ app.use(function (req, res, next) {
     res.status(404).send(JSON.stringify({status: "404", error:"Sorry, we couldn't find that resource!"}));
 });
 
-mongoose.connect('mongodb://localhost/moviedata', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://admin:O0Nkzffqzhr9SVSf@cluster0.zjfr9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', () => {
-    app.listen(port, () => {
-        console.log(`Server listening at http://localhost:${port}`);
+    app.listen(process.env.PORT || port, () => {
+        console.log(`Server listening`);
     });
 });

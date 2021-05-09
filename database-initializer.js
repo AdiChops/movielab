@@ -124,7 +124,7 @@ These documents have interlinking IDs.
 You could also add users, reviews, etc. to the data in a similar way.
 */
 
-mongoose.connect('mongodb://localhost/moviedata', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://admin:O0Nkzffqzhr9SVSf@cluster0.zjfr9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true });
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
