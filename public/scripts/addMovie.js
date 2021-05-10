@@ -5,6 +5,8 @@ let movie = {
     "genres": []
 }
 
+let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+
 let containsGenre = (genre)=>{
     let regex = new RegExp(movie["genres"].join('|'), "i");
     return regex.test(genre);
@@ -23,7 +25,7 @@ document.getElementById('add-genre').addEventListener('click', ()=>{
 });
 
 let personSearch = (personType)=>{
-    fetch(`http://localhost:3000/persons?name=${document.getElementById(personType).value.trim()}`).then((response)=>{
+    fetch(`http://${place}/persons?name=${document.getElementById(personType).value.trim()}`).then((response)=>{
             return response.json();
         }).then((data)=>{
             document.getElementById(`${personType}-dropdown`).innerHTML = '';
@@ -104,7 +106,7 @@ document.getElementById('addMovie').addEventListener('click', ()=>{
             movie.year = year;
             movie.plot = plot;
 
-            fetch(`http://localhost:3000/movies`, {
+            fetch(`http://${place}/movies`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

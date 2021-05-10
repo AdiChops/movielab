@@ -1,4 +1,7 @@
+let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+
 document.getElementById('login-button').addEventListener('click', ()=>{
+    console.log(location.hostname);
     let usernameV = document.getElementById('username').value;
     let passwordV = document.getElementById('password').value;
     if(!usernameV || !passwordV || usernameV == "" || passwordV == ""){
@@ -10,7 +13,7 @@ document.getElementById('login-button').addEventListener('click', ()=>{
             username: usernameV,
             password: passwordV
         };
-        fetch('http://localhost:3000/login', {
+        fetch(`http://${place}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

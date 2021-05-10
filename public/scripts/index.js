@@ -1,6 +1,8 @@
+let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+
 let loadFeedAndNotifs = ()=>{
 
-    fetch('http://localhost:3000/index/notifications').
+    fetch(`http://${place}/index/notifications`).
     then((resp)=>{
         return resp.json();
     }).then((data)=>{

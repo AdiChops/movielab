@@ -1,3 +1,5 @@
+let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+
 document.getElementById('addPerson').addEventListener('click', ()=>{
     let nameV = document.getElementById('name').value.trim();
     if(!nameV || nameV == "" ){
@@ -8,7 +10,7 @@ document.getElementById('addPerson').addEventListener('click', ()=>{
         let person = {
             name: nameV
         };
-        fetch('http://localhost:3000/persons', {
+        fetch(`http://${place}/persons`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

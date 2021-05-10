@@ -1,3 +1,5 @@
+let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+
 document.getElementById('signup-button').addEventListener('click', ()=>{
     let usernameV = document.getElementById('username').value;
     let passwordV = document.getElementById('password').value;
@@ -11,7 +13,7 @@ document.getElementById('signup-button').addEventListener('click', ()=>{
             password: passwordV,
             contributingUser: document.getElementById("contributing").checked
         };
-        fetch('http://localhost:3000/signup', {
+        fetch(`http://${place}/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

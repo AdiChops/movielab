@@ -1,6 +1,8 @@
 let userId = document.getElementById("userId").value;
+let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+
 document.getElementById("follow").addEventListener("click", ()=>{
-    fetch(`http://localhost:3000/users/${userId}/follow`, {
+    fetch(`http://${place}/users/${userId}/follow`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -20,7 +22,7 @@ document.getElementById("follow").addEventListener("click", ()=>{
 });
 
 document.getElementById("unfollow").addEventListener("click", ()=>{
-    fetch(`http://localhost:3000/users/${userId}/unfollow`, {
+    fetch(`http://${place}/users/${userId}/unfollow`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

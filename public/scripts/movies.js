@@ -1,6 +1,8 @@
 let movId = document.getElementById("movieId").value;
+let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+
 document.getElementById("watch").addEventListener("click", ()=>{
-    fetch(`http://localhost:3000/movies/${movId}/watch`, {
+    fetch(`http://${place}/movies/${movId}/watch`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -22,7 +24,7 @@ document.getElementById("watch").addEventListener("click", ()=>{
 });
 
 document.getElementById("unwatch").addEventListener("click", ()=>{
-    fetch(`http://localhost:3000/movies/${movId}/unwatch`, {
+    fetch(`http://${place}/movies/${movId}/unwatch`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
