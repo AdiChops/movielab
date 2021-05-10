@@ -1004,7 +1004,7 @@ app.use(function (req, res, next) {
     res.status(404).send(JSON.stringify({status: "404", error:"Sorry, we couldn't find that resource!"}));
 });
 
-mongoose.connect('mongodb+srv://admin:O0Nkzffqzhr9SVSf@cluster0.zjfr9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 let db = mongoose.connection;
 
