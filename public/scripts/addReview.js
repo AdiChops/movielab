@@ -1,4 +1,4 @@
-let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+let place = `${location.protocol}//${location.hostname}${(location.port)?`:${location.port}`:''}`;
 
 document.getElementById("submitReview").addEventListener("click", ()=>{
     let ratingV = document.getElementById("rating").value.trim();
@@ -23,7 +23,7 @@ document.getElementById("submitReview").addEventListener("click", ()=>{
             summary: summaryV,
             fullReview: fullV
         };
-        fetch(`http://${place}/movies/${movId}/reviews`, {
+        fetch(`${place}/movies/${movId}/reviews`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

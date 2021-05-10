@@ -1,4 +1,4 @@
-let place = `${location.hostname}${(location.port)?`:${location.port}`:''}`;
+let place = `${location.protocol}//${location.hostname}${(location.port)?`:${location.port}`:''}`;
 
 document.getElementById('signup-button').addEventListener('click', ()=>{
     let usernameV = document.getElementById('username').value;
@@ -13,7 +13,7 @@ document.getElementById('signup-button').addEventListener('click', ()=>{
             password: passwordV,
             contributingUser: document.getElementById("contributing").checked
         };
-        fetch(`http://${place}/signup`, {
+        fetch(`${place}/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
