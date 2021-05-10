@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean-start": "npm install && node database-initializer.js && node app.js",
-    "start": "node app.js"
+    "start": "npm install && node app.js"
   },
   "repository": {
     "type": "git",
