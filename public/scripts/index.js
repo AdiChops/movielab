@@ -35,7 +35,7 @@ addEventListener('load',()=>{
 });
 
 document.getElementById("switch-account").addEventListener('click', ()=>{
-    fetch(`http://localhost:3000/users/switchType`, {
+    fetch(`${place}/users/switchType`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
