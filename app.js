@@ -414,13 +414,13 @@ let movieSearch = (req, res, cond) => {
         if(actor){
             qs += "actor="+actor+"&";
         }
-        let nextUrl = "http://localhost:3000/movies/" + qs + "page=" + (pageNum+2);
+        let nextUrl = "/movies/" + qs + "page=" + (pageNum+2);
         if(movieData.length < 10){
             nextUrl = undefined;
         }
         let prevUrl = undefined;
         if(pageNum > 0){
-            prevUrl = "http://localhost:3000/movies/" + qs + "page=" + pageNum;
+            prevUrl = "/movies/" + qs + "page=" + pageNum;
         }
         res.status(200).send(pug.renderFile('./templates/moviesTemplate.pug', { movieData, contributing, prevUrl, nextUrl }));
     });

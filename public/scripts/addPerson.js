@@ -1,4 +1,4 @@
-let place = `${location.protocol}//${location.hostname}${(location.port)?`:${location.port}`:''}`;
+let placeHere = `${location.protocol}//${location.hostname}${(location.port)?`:${location.port}`:''}`;
 
 document.getElementById('addPerson').addEventListener('click', ()=>{
     let nameV = document.getElementById('name').value.trim();
@@ -10,7 +10,7 @@ document.getElementById('addPerson').addEventListener('click', ()=>{
         let person = {
             name: nameV
         };
-        fetch(`${place}/persons`, {
+        fetch(`${placeHere}/persons`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
