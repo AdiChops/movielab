@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/AdiChops/achopra_eli_2406FinalProject#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.1",
     "mongoose": "^5.12.3",
     "pug": "^3.0.2"
